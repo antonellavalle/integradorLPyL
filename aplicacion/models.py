@@ -9,7 +9,7 @@ class Usuario(models.Model):
     apellido = models.CharField(max_length=100)
     correo = models.EmailField()
     seguidos = models.ManyToManyField('self', symmetrical=False, related_name='seguidores')
-    grupos = models.ManyToManyField('Grupo', related_name='miembros')
+    '''grupos = models.ManyToManyField('Grupo', related_name='miembros')'''
 
     def __str__(self):
         return f'{self.nombre} {self.apellido}'
@@ -46,7 +46,7 @@ class ValoracionCancion(models.Model):
 
 class Grupo(models.Model):
     nombre = models.CharField(max_length=100)
-    miembros = models.ManyToManyField(User, related_name='grupos')
+    '''miembros = models.ManyToManyField(User, related_name='grupos')'''
     canciones = models.ManyToManyField('Cancion', related_name='grupos')
     descripcion = models.TextField(blank=True)
 
