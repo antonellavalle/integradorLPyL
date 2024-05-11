@@ -11,7 +11,7 @@ def  home(request):
 def  signup(request):
      
      if request.method == 'GET':
-              return render(request,'signup.html',{
+              return render(request,'registro.html',{
          'form': UserCreationForm
          
      })
@@ -22,12 +22,12 @@ def  signup(request):
              user.save()
              return HttpResponse('Usuario creado con exito')         
            except:  
-              return render(request,'signup.html',{
+              return render(request,'registro.html',{
                 'form': UserCreationForm,
                 'error': 'El nombre de usuario ya existe'
          
                      })
-          return render(request,'signup.html',{
+          return render(request,'registro.html',{
                 'form': UserCreationForm,
                 'error': 'Las contraseñas no coinciden'
          

@@ -1,0 +1,124 @@
+* {
+    font-family: "Roboto Mono", monospace;
+    font-style: italic;
+    text-transform: uppercase;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #ffffff;
+    background: -moz-radial-gradient(center, ellipse cover, #ffffff 0%, #ffffff 72%, #f2a7a7 95%, #fc0000 99%);
+    background: -webkit-radial-gradient(center, ellipse cover, #ffffff 0%, #ffffff 72%, #ff0000 95%, #d87979 99%);
+    background: radial-gradient(ellipse at center, #ffffff 0%, #ffffff 72%, #f2a7a7 95%, #fc0000 99%);
+    height: 100vh;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 2;
+    padding: 3rem;
+}
+
+header .logo img {
+    height: 5rem;
+}
+
+.formulario {
+    width: 400px;
+    background: white;
+    border-radius: 10px;
+    margin: 0 auto;
+    padding: 30px 40px; /* Aumentamos el padding para dar más espacio */
+}
+
+.formulario h1 {
+    text-align: center;
+    padding: 0 0 20px 0;
+    border-bottom: 1px solid silver;
+}
+
+.formulario form {
+    box-sizing: border-box;
+}
+
+.formulario .username,
+.formulario .contrasena {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.username input,
+.contrasena input {
+    width: 100%;
+    padding: 0 5px;
+    height: 40px;
+    font-size: 16px;
+    border: none;
+    background: none;
+    outline: none;
+}
+
+.username label,
+.contrasena label {
+    position: absolute;
+    top: -20px; /* Mantenemos las etiquetas arriba */
+    left: 5px;
+  /*  color: #adadad;*/
+    color: #fc0000; /* Cambiamos el color a rojo */
+    font-size: 16px;
+}
+
+.recordar {
+    margin-bottom: 20px; /* Reducimos el margen inferior */
+    color: blue;
+    cursor: pointer;
+}
+
+.recordar:hover {
+    text-decoration: underline;
+}
+
+input[type="submit"] {
+    width: 100px;
+    height: 50px;
+    border: 1px solid #fc0000;
+    background: #fc0000;
+    border-radius: 25px;
+    font-size: 18px;
+    color: white;
+    cursor: pointer;
+    outline: none;
+    transition: border-color 0.5s, background-color 0.5s, color 0.5s;
+    margin-top: 20px; /* Añadimos margen superior */
+}
+
+input[type="submit"]:hover {
+    background-color: #ff3333;
+    border-color: #ff3333;
+}
+
+.container .image {
+    margin-top: -2rem;
+}
+
+.container .image img {
+    width: 45vw;
+}
+
+.registrarse {
+    margin-top: 20px; /* Añadimos margen superior al enlace */
+    margin-left: 10px; /* Movemos el enlace un poco más a la izquierda */
+    text-align: center;
+    font-size: 16px;
+    color: black;
+}
