@@ -1,0 +1,126 @@
+/* Establece el color de fondo y el ancho mínimo para el cuerpo del documento */
+body {
+    background-color: #7d0b0b;
+    min-width: 350px;
+}
+
+/* Elimina el subrayado de los enlaces */
+body a {
+    text-decoration: none;
+}
+
+/* Define el color del texto para los enlaces de navegación dentro de la barra de navegación principal */
+.mainNavbar .navbar-nav .nav-link {
+    color: white !important;
+}
+
+/* Define el color del texto para el enlace de navegación activo dentro de la barra de navegación principal */
+.mainNavbar .nav-link.active {
+    color: white !important;
+}
+
+/* Agrega un pseudo-elemento después del enlace de navegación activo en la barra principal, que actúa como una línea subrayada */
+.mainNavbar .nav-link.active::after {
+    content: '';
+    background-color: white !important;
+    height: 2px;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Define el color del texto para el enlace de navegación activo en la sección de héroe  es la zona central de la pagina*/
+.hero-nav .nav-link.active {
+    color: black;
+    background-color: transparent !important;
+}
+
+/* Agrega un pseudo-elemento después del enlace de navegación activo en la sección de héroe, que actúa como una línea subrayada */
+.hero-nav .nav-link.active::after {
+    content: '';
+    background-color: red;
+    height: 2px;
+    display: block;
+    margin-top: 5px;
+}
+
+/* Ajusta el margen derecho entre los elementos de navegación en la barra principal */
+.mainNavbar .navbar-nav .nav-item {
+    margin-right: 10px;
+}
+
+/* Define el estilo de las canciones pequeñas cuando se pasa el mouse sobre ellas */
+.cancion-pequeña:hover {
+    border: solid thin grey;
+    cursor: pointer;
+    transform: translate(-10px);
+}
+
+/* Define el estilo de las canciones pequeñas en general, incluido un fondo gradiente */
+.cancion-pequeña {
+    background-color: #7d0b0b;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(160,11,13,1) 25%, rgba(170,12,12,1) 67%, rgba(0,212,255,0) 100%);
+    transition: all 0.3s ease;
+}
+
+/* Define el tamaño y el comportamiento de las imágenes de las canciones pequeñas */
+.cancion-pequeña-img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}
+
+/* Establece el estilo del título de categoría, como el color del texto */
+.titulo-categoria {
+    color: white;
+}
+
+/* Agrega un pseudo-elemento después del título de categoría, que actúa como una línea decorativa */
+.titulo-categoria::after {
+    content: '';
+    background: linear-gradient(90deg, rgba(2,0,36,0.4318102240896359) 0%, rgba(255,255,255,1) 25%, rgba(255,255,255,1) 67%, rgba(0,212,255,0) 100%);
+    height: 1px;
+    display: block;
+    margin-top: 15px;
+    width: 50%;
+}
+
+/* Define el estilo de la visualización de categoría de canción al pasar el mouse sobre ellas */
+.cancion-categoria-hover {
+    position: absolute;
+    background-color: #000000bb;
+    left: 0;
+    top: 0;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all .8s ease;
+}
+
+/* Define el comportamiento al pasar el mouse sobre la visualización de categoría de canción */
+.cancion-categoria-hover:hover {
+    opacity: 1;
+}
+
+/* Define el tamaño y el comportamiento de las imágenes de categoría de canción */
+.imagen-cancion-categoria {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Establece reglas de estilo específicas cuando el ancho de la ventana es igual o menor a 602px */
+@media (max-width: 602px) {
+    .nav-spacer {
+        height: 50px;
+    }
+}
+
+/* Establece reglas de estilo específicas cuando el ancho de la ventana es igual o menor a 435px */
+@media (max-width: 435px) {
+    .nav-spacer {
+        height: 80px;
+    }
+}

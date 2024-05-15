@@ -32,4 +32,7 @@ def  signup(request):
                 'error': 'Las contraseñas no coinciden'
          
                      })
-                              
+          
+def  principal(request):
+     imagen_url = "{% static 'img/03.jpg' %}"
+     return render(request,'principal.html')

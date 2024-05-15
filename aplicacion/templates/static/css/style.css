@@ -6,9 +6,9 @@
 
 body {
     background: #ffffff;
-    background: -moz-radial-gradient(center, ellipse cover, #ffffff 0%, #ffffff 72%, #f2a7a7 95%, #fc0000 99%);
-    background: -webkit-radial-gradient(center, ellipse cover, #ffffff 0%, #ffffff 72%, #ff0000 95%, #d87979 99%);
-    background: radial-gradient(ellipse at center, #ffffff 0%, #ffffff 72%, #f2a7a7 95%, #fc0000 99%);
+    background: -moz-radial-gradient(center, ellipse cover, #ffffff 0%, #ffffff 72%, #f2a7a7 95%, #7d0b0b 99%) !important;
+    background: -webkit-radial-gradient(center, ellipse cover, #ffffff 0%, #ffffff 72%, #7d0b0b 95%, #d87979 99%) !important;
+    background: radial-gradient(ellipse at center, #ffffff 0%, #ffffff 72%, #f2a7a7 95%, #7d0b0b 99%) !important;
 }
 
 header {
@@ -46,7 +46,7 @@ header nav a {
 
 
 header a:hover {
-    color: red;
+    color: #7d0b0b;
 }
 
 /* fin del la cabecera*/
@@ -101,6 +101,6 @@ header a:hover {
 
 .container .content .buttons button:hover {
     background: #ffffff;
-    color: #dd0000;
+    color: #7d0b0b  !important;
 }
 
