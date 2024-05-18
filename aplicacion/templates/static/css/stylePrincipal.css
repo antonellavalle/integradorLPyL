@@ -1,8 +1,9 @@
 /* Establece el color de fondo y el ancho mínimo para el cuerpo del documento */
 body {
-    background-color: #7d0b0b;
-    min-width: 350px;
+    background-color: #7d0b0b !important;
+    min-width: 350px !important;
 }
+
 
 /* Elimina el subrayado de los enlaces */
 body a {
@@ -123,4 +124,8 @@ body a {
     .nav-spacer {
         height: 80px;
     }
+}
+
+.artist-name {
+    font-size: 0.8em !important; /* Puedes ajustar este valor según lo necesites */
 }
