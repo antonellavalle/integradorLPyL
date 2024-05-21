@@ -1,49 +1,125 @@
-<!DOCTYPE html>
-<html lang ="es">
-<head>
-    {% load static %}
-  <meta charset = "UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE-edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Iniciar Sesion</title>
-  <link href="https://fonts.googleapis.com/css2?family=Otomanopee+One&family=Roboto+Mono:ital,wght@0,200;0,300;1,700&family=Tourney;wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3zcuHt0A93W35dYTsvhLPVnYs9e5tHfGjvOvKxVfElGroGKvsg+p" crossorigin="anonymous">
+<!doctype html>
+<html lang="es">
+  <head>
+    {% load static %} <!-- Carga la etiqueta de plantilla 'static' de Django para manejar archivos estáticos -->
+    <meta charset="utf-8"> <!-- Establece la codificación de caracteres a UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Configura la vista para dispositivos móviles -->
+    <title>Iniciar Sesion</title> <!-- Título de la página -->
 
-  <link rel="stylesheet" href="{% static 'css/styleRegistro.css' %}">
-</head>
- <body>
-    <header>
-        <div class="logo">
-            <img src="{% static 'img/PinClipart.com_dj-clipart_5274674.png' %}">
-        </div>
-    </header>
+    <!-- Enlaces a archivos CSS para estilizar la página -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}"> <!-- Bootstrap CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.min.css' %}"> <!-- Bootstrap Icons CSS -->
+    <link rel="stylesheet" href="{% static 'css/styleRegistro.css' %}"> <!-- Estilos personalizados para el registro -->
+  </head>
 
-    <div class="container">
-        <div class="image">
-            <img src="{% static 'img/Headphone-bro.svg' %}" alt="">
+  <body>
+
+    <main class="text-white"> <!-- Contenedor principal con texto blanco -->
+      <h1 class="h2 text-center pt-3 pb-2"><i class="bi bi-soundwave"></i> Project Managers</h1> <!-- Título principal de la página con ícono de Bootstrap -->
+
+      <div class="content row mx-auto"> <!-- Contenedor principal para el contenido, centrado horizontalmente -->
+        <div class="img-container p-0 col-md-6 bg-white"> <!-- Contenedor para la imagen, ocupando la mitad del ancho en pantallas medianas o más grandes -->
+          <img src="{% static 'img/03.jpg' %}"> <!-- Imagen estática -->
         </div>
-    </div>
-    <div class = "formulario">
-      <h1>Inicio de sesion</h1>
-      <form method="post">
-         <div class="username">
-            <input type"text" required>
-            <label>Nombre de usuario</label>
-         </div>
-         <div class="contrasena">
-            <input type="password" required>
-            <label>Contraseña</label>
-         </div>
-         <div class="recordar">¿Olvido su contraseña?</div>
-         <input type="submit" value="Iniciar">
-         <div class="registrarse">
-            Quiero  <a href="#">registrarme</a>
-         </div>
-      </form>
-    </div>
- </body>
+        <div class="form-container col-md-6 mx-auto" style="margin-right: 20px;"> <!-- Contenedor para los formularios, ocupando la mitad del ancho en pantallas medianas o más grandes -->
+          
+          <!-- Botones para cambiar entre iniciar sesión y registrarse -->
+          <div onclick="show_login()" class="login-button button-selected" style="background-color: #cccccc; color: #a52424; margin-right: 20px;">Iniciar Sesión</div>
+          <div onclick="show_signup()" class="signup-button" style="background-color: white; color: #a52424; margin-right: 20px;">Registrarse</div>
+          
+          <div class="">
+            <!-- Formulario de inicio de sesión -->
+            <form class="js-login-form pt-4 p-4">
+              <h2 class="fx-animate-1">Iniciar Sesion</h2>
+              <h5 class="fx-animate-3">Por favor ingrese sus datos</h5>
+              
+              <!-- Campo para el email -->
+              <div class="input-group mb-4 fx-animate-1">
+                <input type="text" class="form-control p-3" placeholder="Email">
+                <span class="input-group-text" id="basic-addon2"><i class="bi bi-envelope"></i></span>
+              </div>
+
+              <!-- Campo para la contraseña -->
+              <div class="input-group mb-4 fx-animate-2">
+                <input type="password" class="form-control p-3" placeholder="Contraseña">
+                <span class="input-group-text" id="basic-addon2"><i class="bi bi-key"></i></span>
+              </div>
+
+              <!-- Botón para iniciar sesión -->
+              <div class="mb-4 fx-animate-3">
+                <button class="btn btn-lg btn-outline-light">Iniciar Sesión</button>
+              </div>
+
+              <!-- Enlaces para recuperar contraseña o registrarse -->
+              <div class="mb-4 fx-animate-5">
+                <a class="text-white" href="#">¿Olvidó su contraseña?</a> o <a onclick="show_signup()" class="text-white" href="#">Registrate</a>
+              </div>
+              <hr>
+            </form>
+
+            <!-- Formulario de registro -->
+            <form class="js-signup-form hide pt-4 p-4">
+              <h2 class="fx-animate-1">Registrarse</h2>
+              <h5 class="fx-animate-3">Crear una cuenta</h5>
+
+              <!-- Campo para el nombre -->
+              <div class="input-group mb-3 fx-animate-1">
+                <input type="text" class="form-control p-2" placeholder="Nombre">
+                <span class="input-group-text" id="basic-addon2"><i class="bi bi-person"></i></span>
+              </div>
+
+              <!-- Campo para el apellido -->
+              <div class="input-group mb-3 fx-animate-2">
+                <input type="text" class="form-control p-2" placeholder="Apellido">
+                <span class="input-group-text" id="basic-addon2"><i class="bi bi-person-fill"></i></span>
+              </div>
+
+              <!-- Campo para el email -->
+              <div class="input-group mb-3 fx-animate-4">
+                <input type="text" class="form-control p-2" placeholder="Email">
+                <span class="input-group-text" id="basic-addon2"><i class="bi bi-envelope"></i></span>
+              </div>
+
+              <!-- Campo para la contraseña -->
+              <div class="input-group mb-3 fx-animate-5">
+                <input type="password" class="form-control p-2" placeholder="Contraseña">
+                <span class="input-group-text" id="basic-addon2"><i class="bi bi-key"></i></span>
+              </div>
+
+              <!-- Botón para crear cuenta -->
+              <div class="mb-3 fx-animate-3">
+                <button class="btn btn-lg btn-outline-light">Crear cuenta</button>
+              </div>
+
+              <!-- Enlaces para recuperar contraseña o iniciar sesión -->
+              <div class="mb-3 fx-animate-5">
+                <a class="text-white" href="#">¿Olvidó su contraseña?</a> o <a onclick="show_login()" class="text-white" href="#">Iniciar Sesión</a>
+              </div>
+              <hr>
+            </form>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      // Función para mostrar el formulario de inicio de sesión y ocultar el de registro
+      function show_login() {
+        document.querySelector(".js-signup-form").classList.add("hide");
+        document.querySelector(".js-login-form").classList.remove("hide");
+
+        document.querySelector(".login-button").classList.add("button-selected");
+        document.querySelector(".signup-button").classList.remove("button-selected");
+      }
+
+      // Función para mostrar el formulario de registro y ocultar el de inicio de sesión
+      function show_signup() {
+        document.querySelector(".js-login-form").classList.add("hide");
+        document.querySelector(".js-signup-form").classList.remove("hide");
+
+        document.querySelector(".signup-button").classList.add("button-selected");
+        document.querySelector(".login-button").classList.remove("button-selected");
+      }
+    </script>
+  </body>
 </html>
-
-
-
-

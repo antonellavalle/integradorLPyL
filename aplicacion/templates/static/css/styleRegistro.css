@@ -1,124 +1,167 @@
-* {
-    font-family: "Roboto Mono", monospace;
-    font-style: italic;
-    text-transform: uppercase;
+/* Animación de rotación y escala de entrada */
+@keyframes rotate_in {
+    0% {
+        opacity: 0;
+        transform: rotate(30deg) scale(1.5);
+    }
+    100% {
+        opacity: 1;
+        transform: rotate(0deg) scale(1);
+    }
 }
 
+/* Animación de movimiento de entrada desde abajo */
+@keyframes move_in {
+    0% {
+        opacity: 0;
+        transform: translateY(100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+/* Estilo base del cuerpo del documento */
 body {
-    margin: 0;
-    padding: 0;
-    background: #ffffff;
-    background: -moz-radial-gradient(center, ellipse cover, #ffffff 0%, #ffffff 72%, #f2a7a7 95%, #fc0000 99%);
-    background: -webkit-radial-gradient(center, ellipse cover, #ffffff 0%, #ffffff 72%, #ff0000 95%, #d87979 99%);
-    background: radial-gradient(ellipse at center, #ffffff 0%, #ffffff 72%, #f2a7a7 95%, #fc0000 99%);
-    height: 100vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    background-color: #7d0b0b; /* Color de fondo rojo oscuro */
+    min-width: 350px; /* Ancho mínimo del cuerpo */
 }
 
-header {
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    z-index: 2;
-    padding: 3rem;
+/* Estilo de los enlaces dentro del cuerpo */
+body a {
+    text-decoration: none; /* Quita el subrayado de los enlaces */
 }
 
-header .logo img {
-    height: 5rem;
+/* Aplicación del modelo de caja a todos los elementos */
+* {
+    box-sizing: border-box; /* Incluye el padding y el borde dentro del tamaño total de los elementos */
 }
 
-.formulario {
-    width: 400px;
-    background: white;
-    border-radius: 10px;
-    margin: 0 auto;
-    padding: 30px 40px; /* Aumentamos el padding para dar más espacio */
+/* Estilo de las imágenes dentro del contenedor de imágenes */
+.img-container img {
+    width: 100%; /* Ancho completo del contenedor */
+    height: 100%; /* Altura completa del contenedor */
+    object-fit: cover; /* Escala la imagen para cubrir el contenedor */
+    animation: rotate_in 1s ease; /* Aplica la animación de entrada */
 }
 
-.formulario h1 {
-    text-align: center;
-    padding: 0 0 20px 0;
-    border-bottom: 1px solid silver;
+/* Estilo del contenedor de imágenes */
+.img-container {
+    height: 100%; /* Altura completa del contenedor */
+    position: relative; /* Posicionamiento relativo para elementos hijos */
+    overflow: hidden; /* Oculta el desbordamiento del contenido */
 }
 
-.formulario form {
-    box-sizing: border-box;
+/* Pseudo-elemento después del contenedor de imágenes */
+.img-container::after {
+    content: ''; /* Contenido vacío */
+    width: 60px; /* Ancho del pseudo-elemento */
+    height: 100%; /* Altura completa del contenedor */
+    position: absolute; /* Posicionamiento absoluto */
+    transform: skew(5deg); /* Aplica un sesgo de 5 grados */
+    top: 0px; /* Posicionamiento superior */
+    right: -30px; /* Posicionamiento a la derecha */
+    background-color: #a52424; /* Color de fondo rojo oscuro */
 }
 
-.formulario .username,
-.formulario .contrasena {
-    position: relative;
-    margin-bottom: 30px;
+/* Estilo del contenedor de formularios */
+.form-container {
+    position: relative; /* Posicionamiento relativo */
+    height: 100%; /* Altura completa */
+    background-color: #a52424; /* Color de fondo rojo oscuro */
 }
 
-.username input,
-.contrasena input {
-    width: 100%;
-    padding: 0 5px;
-    height: 40px;
-    font-size: 16px;
-    border: none;
-    background: none;
-    outline: none;
+/* Estilo del botón de inicio de sesión */
+.login-button {
+    position: absolute; /* Posicionamiento absoluto */
+    left: -100px; /* Desplazamiento a la izquierda */
+    top: 30px; /* Desplazamiento hacia abajo */
+    background-color: white; /* Color de fondo blanco */
+    padding: 10px 20px; /* Relleno del botón */
+    border-radius: 20px; /* Bordes redondeados */
+    color: #203349; /* Color del texto */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
 }
 
-.username label,
-.contrasena label {
-    position: absolute;
-    top: -20px; /* Mantenemos las etiquetas arriba */
-    left: 5px;
-  /*  color: #adadad;*/
-    color: #fc0000; /* Cambiamos el color a rojo */
-    font-size: 16px;
+/* Estilo del botón de registro */
+.signup-button {
+    position: absolute; /* Posicionamiento absoluto */
+    left: -100px; /* Desplazamiento a la izquierda */
+    top: 80px; /* Desplazamiento hacia abajo */
+    background-color: white; /* Color de fondo blanco */
+    padding: 10px 20px; /* Relleno del botón */
+    border-radius: 20px; /* Bordes redondeados */
+    color: #7d0b0b; /* Color del texto */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
 }
 
-.recordar {
-    margin-bottom: 20px; /* Reducimos el margen inferior */
-    color: blue;
-    cursor: pointer;
+/* Estilo para el botón seleccionado */
+.button-selected {
+    background-color: #203349; /* Color de fondo azul oscuro */
+    color: white; /* Color del texto blanco */
 }
 
-.recordar:hover {
-    text-decoration: underline;
+/* Estilo del contenedor principal */
+.content {
+    height: 600px; /* Altura del contenedor */
+    width: 100%; /* Ancho completo */
+    max-width: 900px; /* Ancho máximo */
 }
 
-input[type="submit"] {
-    width: 100px;
-    height: 50px;
-    border: 1px solid #fc0000;
-    background: #fc0000;
-    border-radius: 25px;
-    font-size: 18px;
-    color: white;
-    cursor: pointer;
-    outline: none;
-    transition: border-color 0.5s, background-color 0.5s, color 0.5s;
-    margin-top: 20px; /* Añadimos margen superior */
+/* Animación aplicada con diferentes retardos */
+.fx-animate-1 {
+    animation: move_in 0.4s ease; /* Animación con 0.4s de duración */
 }
 
-input[type="submit"]:hover {
-    background-color: #ff3333;
-    border-color: #ff3333;
+.fx-animate-2 {
+    animation: move_in 0.8s ease; /* Animación con 0.8s de duración */
 }
 
-.container .image {
-    margin-top: -2rem;
+.fx-animate-3 {
+    animation: move_in 1.2s ease; /* Animación con 1.2s de duración */
 }
 
-.container .image img {
-    width: 45vw;
+.fx-animate-4 {
+    animation: move_in 1.6s ease; /* Animación con 1.6s de duración */
 }
 
-.registrarse {
-    margin-top: 20px; /* Añadimos margen superior al enlace */
-    margin-left: 10px; /* Movemos el enlace un poco más a la izquierda */
-    text-align: center;
-    font-size: 16px;
-    color: black;
+.fx-animate-5 {
+    animation: move_in 2s ease; /* Animación con 2s de duración */
+}
+
+.fx-animate-6 {
+    animation: move_in 2.4s ease; /* Animación con 2.4s de duración */
+}
+
+/* Estilo general para formularios */
+form {
+    z-index: 10; /* Nivel de apilamiento */
+    position: relative; /* Posicionamiento relativo */
+}
+
+/* Clase para ocultar elementos */
+.hide {
+    display: none; /* Oculta el elemento */
+}
+
+/* Estilos específicos para pantallas pequeñas */
+@media (max-width: 767px) {
+    .login-button {
+        left: 100px; /* Desplazamiento a la izquierda */
+        top: -30px; /* Desplazamiento hacia arriba */
+    }
+
+    .signup-button {
+        left: 190px; /* Desplazamiento a la izquierda */
+        top: -30px; /* Desplazamiento hacia arriba */
+    }
+
+    .img-container::after {
+        display: none; /* Oculta el pseudo-elemento */
+    }
+
+    .content {
+        height: 300px; /* Altura del contenedor */
+    }
 }
