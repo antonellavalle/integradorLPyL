@@ -1,0 +1,63 @@
+body {
+    background: #7d0b0b;
+    background: -moz-radial-gradient(center, ellipse cover, #7d0b0b 0%, #7d0b0b 72%, black 95%, black 99%);
+    background: -webkit-radial-gradient(center, ellipse cover, #7d0b0b 0%, #7d0b0b 72%, black 95%, black 99%);
+    background: radial-gradient(ellipse at center, #7d0b0b 0%, #7d0b0b 72%, black 95%, black 99%);
+}
+
+.container {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Alineado al centro */
+    justify-content: flex-start; /* Justificar contenido al inicio */
+    margin-top: 2rem; /* Margen superior para separar del contenido superior */
+}
+
+.container .content {
+    width: 70%; /* Se aumenta el ancho del contenido */
+    padding: 3rem 2rem; /* Se añade más relleno arriba y abajo */
+    margin-bottom: 1rem; /* Se reduce el margen inferior */
+    text-align: center; /* Se centra el texto */
+}
+
+.container .img {
+    width: 25vw; 
+    margin-bottom: -2rem; 
+}
+
+.container .bi-soundwave {
+    font-size: 2rem; 
+    margin-bottom: 1rem; 
+}
+
+
+.container .content p {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    color: white;
+    margin-bottom: 2rem; 
+}
+
+.container .buttons {
+    margin-top: 1rem; 
+}
+
+.container .buttons button {
+    height: 4rem;
+    width: 14rem;
+    background: white;
+    color: #7d0b0b;
+    border-radius: 5rem;
+    outline: none;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-right: 1rem;
+}
+
+.container .content .buttons button:hover {
+    background: #7d0b0b;
+    color: white;
+}

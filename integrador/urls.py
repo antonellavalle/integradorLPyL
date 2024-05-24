@@ -21,7 +21,9 @@ from aplicacion import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home),
-    path('registro/', views.signup),
-    path('principal/',views.principal),
+    path('', views.inicio),
+    path('registro/', views.signup,name='registro'),
+    path('principal/',views.principal,name='principal'),
+    path('buscar/', views.buscar_artista,name='buscar_artista'),
+    path('canciones/<str:artista_id>/', views.obtener_canciones, name='obtener_canciones'),
 ]

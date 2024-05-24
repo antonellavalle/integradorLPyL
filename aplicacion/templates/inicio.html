@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styleInicio.css' %}">
+    <title>Inicio</title>
+</head>
+<body>
+    <div class="container text-white">
+        <div class="text-center">
+            <i class="bi bi-soundwave"></i>
+            <h1 class="h2 pt-3 pb-2">Project Managers</h1>
+            <!-- Título principal de la página con ícono de Bootstrap -->
+       
+            <div class="img">
+                <img src="{% static 'img/Headphone-bro.svg' %}" alt=""> 
+            </div>
+        </div>
+
+        <div class="content">
+            <p>Somos un grupo de personas que queremos permitir a los usuarios explorar, buscar y descargar su música favorita. Los usuarios pueden registrarse, crear perfiles personales y personalizar listas de reproducción. La plataforma ofrece información detallada sobre las canciones y permite a los usuarios valorarlas. Además, cuenta con un sistema de recomendaciones que sugiere música basada en los gustos y hábitos de escucha del usuario. También permite interacciones sociales, como seguir a otros usuarios, crear grupos, etc. Esperamos que lo disfruten.</p>
+           
+            <div class="buttons">
+                <a href="registro/"><button>Registrarse</button></a>
+             
+                <a href="registro/"><button>Iniciar Sesión</button></a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
