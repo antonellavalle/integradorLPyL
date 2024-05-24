@@ -3,6 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User 
 from django.http import HttpResponse
 import requests
+#para que funcione correctamente hay que instalar el request en un cmd pip install requests
 
 # Create your views here.
 # Create your views here.
