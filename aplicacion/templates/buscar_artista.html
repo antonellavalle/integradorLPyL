@@ -91,15 +91,20 @@
                    </div>
                </div>
            </nav> 
-   
+                  <!-- Fin zona de navegacion  -->
+
+                    <!-- Comienzo zona de resultados de busqueda  -->
            <div class="hero-area pt-5 mt-2" style="background-image: url('{% static 'img/03.jpg' %}');">
             <div class="nav-spacer">
                 <div class="container canciones-container">
                     <div class="row">
-                        {% if artistas %}
-                        <h2 class="text-white">Resultados de la búsqueda:</h2>
-                        {% for artista in artistas %}
-                            <div class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
+                        <div class="col-md-6"> <!-- Alineación a la izquierda  -->
+                            {% if artistas %}
+                            <div class="col-12">
+                                <h2 class="text-white">Resultados de la búsqueda de Artistas:</h2>
+                            </div>
+                            {% for artista in artistas %}
+                            <div class="cancion-pequeña m-1 ms-4 row align-items-center" style="color: white;">
                                 <div class="col-1 h3">{{ forloop.counter|add:0 }}</div>
                                 <div class="col d-flex">
                                     <img class="artista-img rounded m-1" src="{{ artista.imagen }}" alt="Imagen del Artista">
@@ -111,16 +116,39 @@
                                     <a href="{% url 'obtener_canciones' artista.id %}" class="text-white">Ver Canciones</a>
                                 </div>
                             </div>
-                        {% endfor %}
-                    {% else %}
-                        <p class="text-white">No se encontraron artistas.</p>
-                    {% endif %}
-                    
+                            {% endfor %}
+                            {% else %}
+                            <div class="col-12">
+                                <p class="text-white">No se encontraron artistas.</p>
+                            </div>
+                            {% endif %}
+                        </div>
+                
+                        <div class="col-md-6 text-end"> <!-- Alineacion a la derecha -->
+                            {% if canciones %}
+                            <div class="col-12">
+                                <h2 class="text-white">Canciones encontradas:</h2>
+                                <ul>
+                                    {% for cancion in canciones %}
+                                    <li class="cancion-pequeña m-1 ms-4 row align-items-center" style="color: white;">
+                                        <div class="col-1 h3">{{ forloop.counter|add:0 }}</div>
+                                        <div class="col d-flex">
+                                            <img class="cancion-pequeña-img rounded m-1" src="{{ cancion.imagen }}" alt="Carátula de la canción">
+                                            <div class="ms-1">
+                                                <div>{{ cancion.titulo }}</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
-            </div>
-              </div>
+                  
         </main>
+                       <!-- fin zona canciones  -->
 
             <!-- Comienzo del footer toda la seccion de final de la pagina -->
             <footer class="p-5 pt-4 row bg-dark text-white ">

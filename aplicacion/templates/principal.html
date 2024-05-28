@@ -28,6 +28,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Otomanopee+One&family=Roboto+Mono:ital,wght@0,200;0,300;1,700&family=Tourney;wght@900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3zcuHt0A93W35dYTsvhLPVnYs9e5tHfGjvOvKxVfElGroGKvsg+p" crossorigin="anonymous">
 
+
      <!-- Enlaces a archivos CSS y boostrap -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.min.css' %}">
@@ -50,16 +51,21 @@
                 <!-- Buscador -->
                 <!-- Cuando hay una i es un icono bi bi-search por ejemplo es el buscador -->
               
+                
                 <div class="input-group" style="max-width: 200px;">
-                    <!-- Formulario para buscar -->
+                   
                     <form method="GET" action="{% url 'buscar_artista' %}" style="display: flex; width: 100%;">
                      
-                        <!-- Campo de entrada para buscar -->
-                        <input type="text" class="form-control" name="q" placeholder="Buscar" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                        <!-- Botón de búsqueda -->
-                        <button type="submit" class="input-group-text bg-black text-white border-0" id="basic-addon2"><i class="bi bi-search"></i></button>
+                            <input type="text" class="form-control" name="q" placeholder="Buscar" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                          
+                            <select name="tipo"> <!-- Campo select para saber que buscar  -->
+                                <option value="artista">Artista</option>
+                                <option value="cancion">Canción</option>
+                            </select>
+                            <button type="submit" class="input-group-text bg-black text-white border-0" id="basic-addon2"><i class="bi bi-search"></i></button>    
                     </form>
                 </div>
+                  
                 <!-- Botón para colapsar la barra de navegación en dispositivos pequeños --> 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -438,7 +444,7 @@
 
     <script src="{% static 'js/bootstrap.min.js' %}"></script> <!-- Importación de script Bootstrap  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> <!-- Importación de script para que funcione la barra desplegable -->
-   
+ 
     
   </body>
 </html>

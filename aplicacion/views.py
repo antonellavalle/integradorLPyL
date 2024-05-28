@@ -39,12 +39,44 @@ def  principal(request):
      imagen_url = "{% static 'img/03.jpg' %}"
      return render(request,'principal.html')
 
+
 def buscar_artista(request):
     artistas = []
+    canciones = []
+
     if 'q' in request.GET:
         query = request.GET['q']
         artistas = buscar_artistas_deezer(query)
-    return render(request, 'buscar_artista.html', {'artistas': artistas})
+        canciones = buscar_canciones_deezer(query)
+
+    return render(request, 'buscar_artista.html', {'artistas': artistas, 'canciones': canciones})
+
+
+def buscar_canciones_deezer(query):
+    url = f'https://api.deezer.com/search/track?q={query}'
+    response = requests.get(url)
+    print(f'Solicitando canciones con query: {query}')
+    print(f'Respuesta de la API de Deezer: {response}')
+    
+    if response.status_code != 200:
+        print('Error en la solicitud a Deezer')
+        return []
+    
+    data = response.json()
+    print(f'Datos recibidos: {data}')
+    
+    if 'data' in data:
+        canciones = [{
+            'id': cancion['id'],
+            'titulo': cancion['title'],
+            'url': cancion['link'],
+            'imagen': cancion['album']['cover_medium'],
+            'duracion': formato_duracion(cancion['duration'])
+        } for cancion in data['data']]
+        return canciones
+    else:
+        return []
+
 
 def obtener_canciones(request, artista_id):
     canciones = obtener_canciones_de_deezer(artista_id)
@@ -92,6 +124,9 @@ def obtener_canciones_de_deezer(artista_id):
         return canciones
     else:
         return []
+
+
+
 
 '''
 def buscar_artistas_en_musicbrainz(query):
