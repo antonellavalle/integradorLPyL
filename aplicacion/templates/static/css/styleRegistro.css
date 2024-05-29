@@ -120,7 +120,18 @@ body a {
 
 .fx-animate-3 {
     animation: move_in 1.2s ease; /* Animación con 1.2s de duración */
+    display: flex; /* Activa Flexbox */
+    justify-content: center; /* Centra los botones horizontalmente */
+    align-items: center; /* Centra los botones verticalmente (si es necesario) */
+    /*flex-direction: column;  Los apila verticalmente */
+    gap: 10px; /* Espacio entre los botones */
+}   
+
+/* Botones */
+.btn {
+  margin: 0; /* Elimina cualquier margen exterior que puedan tener */
 }
+
 
 .fx-animate-4 {
     animation: move_in 1.6s ease; /* Animación con 1.6s de duración */
@@ -164,4 +175,5 @@ form {
     .content {
         height: 300px; /* Altura del contenedor */
     }
+
 }

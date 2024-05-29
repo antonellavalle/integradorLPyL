@@ -23,10 +23,11 @@
         </div>
         <div class="form-container col-md-6 mx-auto" style="margin-right: 20px;"> <!-- Contenedor para los formularios, ocupando la mitad del ancho en pantallas medianas o más grandes -->
           
-          <!-- Botones para cambiar entre iniciar sesión y registrarse -->
+          <!-- Botones para cambiar entre iniciar sesión y registrarse 
           <div onclick="show_login()" class="login-button button-selected" style="background-color: #cccccc; color: #a52424; margin-right: 20px;">Iniciar Sesión</div>
           <div onclick="show_signup()" class="signup-button" style="background-color: white; color: #a52424; margin-right: 20px;">Registrarse</div>
-          
+          Saco los botones entre la imagen   --> 
+
           <div class="">
             <!-- Formulario de inicio de sesión -->
             <form class="js-login-form pt-4 p-4">
@@ -45,14 +46,15 @@
                 <span class="input-group-text" id="basic-addon2"><i class="bi bi-key"></i></span>
               </div>
 
-              <!-- Botón para iniciar sesión -->
+              <!-- Botón para iniciar sesión y registro -->
               <div class="mb-4 fx-animate-3">
-                <button class="btn btn-lg btn-outline-light">Iniciar Sesión</button>
+                <button class="btn btn-lg btn-outline-light" onclick="show_login()">Iniciar Sesión</button>
+                <button class="btn btn-lg btn-outline-light" onclick="show_signup()">Registrarse</button>
               </div>
 
-              <!-- Enlaces para recuperar contraseña o registrarse -->
+              <!-- Enlaces para recuperar contraseña -->
               <div class="mb-4 fx-animate-5">
-                <a class="text-white" href="#">¿Olvidó su contraseña?</a> o <a onclick="show_signup()" class="text-white" href="#">Registrate</a>
+                <a class="text-white" href="#">¿Olvidó su contraseña?</a> 
               </div>
               <hr>
             </form>
@@ -91,10 +93,11 @@
                 <button class="btn btn-lg btn-outline-light">Crear cuenta</button>
               </div>
 
-              <!-- Enlaces para recuperar contraseña o iniciar sesión -->
+              <!-- Enlaces para iniciar sesión en recuperar contraseña -->
               <div class="mb-3 fx-animate-5">
-                <a class="text-white" href="#">¿Olvidó su contraseña?</a> o <a onclick="show_login()" class="text-white" href="#">Iniciar Sesión</a>
+                <a class="text-white" href="#" onclick="show_login()">Iniciar Sesión</a> 
               </div>
+
               <hr>
             </form>
           </div>
