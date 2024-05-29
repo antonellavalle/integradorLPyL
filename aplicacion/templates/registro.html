@@ -22,11 +22,7 @@
           <img src="{% static 'img/03.jpg' %}"> <!-- Imagen estática -->
         </div>
         <div class="form-container col-md-6 mx-auto" style="margin-right: 20px;"> <!-- Contenedor para los formularios, ocupando la mitad del ancho en pantallas medianas o más grandes -->
-          
-          <!-- Botones para cambiar entre iniciar sesión y registrarse 
-          <div onclick="show_login()" class="login-button button-selected" style="background-color: #cccccc; color: #a52424; margin-right: 20px;">Iniciar Sesión</div>
-          <div onclick="show_signup()" class="signup-button" style="background-color: white; color: #a52424; margin-right: 20px;">Registrarse</div>
-          Saco los botones entre la imagen   --> 
+
 
           <div class="">
             <!-- Formulario de inicio de sesión -->
@@ -48,8 +44,10 @@
 
               <!-- Botón para iniciar sesión y registro -->
               <div class="mb-4 fx-animate-3">
-                <button class="btn btn-lg btn-outline-light" onclick="show_login()">Iniciar Sesión</button>
-                <button class="btn btn-lg btn-outline-light" onclick="show_signup()">Registrarse</button>
+                <!-- Botón para iniciar sesión -->
+                 <button type="button" class="btn btn-lg btn-outline-light" onclick="show_login(event)">Iniciar Sesión</button>
+                <!-- Botón para registrarse -->
+                 <button type="button" class="btn btn-lg btn-outline-light" onclick="show_signup(event)">Registrarse</button>
               </div>
 
               <!-- Enlaces para recuperar contraseña -->
