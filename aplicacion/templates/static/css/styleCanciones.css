@@ -1,0 +1,78 @@
+/* Estilo para la lista de canciones dentro del contenedor 'cancionesTendencia' */
+.cancionesTendencia ul {
+    list-style: none; /* Elimina los estilos de lista predeterminados */
+    padding: 0; /* Elimina el relleno predeterminado de la lista */
+}
+
+/* Estilo para cada elemento de lista de canciones dentro del contenedor 'cancionesTendencia' */
+.cancionesTendencia ul li {
+    background-color: #7d0b0b;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(160,11,13,1) 25%, rgba(170,12,12,1) 67%, rgba(0,212,255,0) 100%);
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+/* Estilo para el título de cada canción dentro del contenedor 'cancionesTendencia' */
+.cancionesTendencia ul li h2 {
+    color: white;
+}
+
+/* Estilo para el texto del artista de cada canción dentro del contenedor 'cancionesTendencia' */
+.cancionesTendencia ul li p {
+    color: white;
+}
+
+/* Estilo para la visualización de categoría de canción al pasar el mouse sobre ellas */
+.cancionesTendencia .cancion-categoria-hover {
+    position: absolute;
+    background-color: #000000bb;
+    left: 0;
+    top: 0;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all .8s ease;
+}
+
+/* Define el comportamiento al pasar el mouse sobre la visualización de categoría de canción */
+.cancionesTendencia .cancion-categoria-hover:hover {
+    opacity: 1;
+}
+
+/* Estilo para la información de la canción */
+.info-cancion {
+    margin-left: 10px; /* Espacio entre la carátula y la información de la canción */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Estilo específico para la imagen de la canción en tendencia */
+.cancion-pequeña-img.tendencia-img {
+    width: 30px; /* Define el ancho deseado */
+    height: 30px; /* Define la altura deseada */
+}
+
+/* Estilo para las imágenes de canciones en tendencia */
+.cancionesTendencia ul li.tendencia-img img {
+    width: 50px !important; /* Define el ancho deseado */
+    height: 50px !important; /* Define la altura deseada */
+    object-fit: cover; /* Ajusta la forma en que la imagen se ajusta dentro del contenedor */
+}
+
+/* Estilo adicional al pasar el mouse sobre la canción */
+.cancionesTendencia ul li.cancion-pequeña:hover {
+    border: solid thin grey;
+    cursor: pointer;
+    transform: translate(-10px);
+}
+
+/* Estilo adicional para la clase 'cancion-pequeña' */
+.cancionesTendencia ul li.cancion-pequeña {
+    background-color: #7d0b0b;
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(160,11,13,1) 25%, rgba(170,12,12,1) 67%, rgba(0,212,255,0) 100%);
+    transition: all 0.3s ease;
+}

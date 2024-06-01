@@ -3,6 +3,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User 
 from django.http import HttpResponse
 import requests
+import json
+from django.http import JsonResponse
 #para que funcione correctamente hay que instalar el request en un cmd pip install requests
 
 # Create your views here.
@@ -108,6 +110,8 @@ def formato_duracion(segundos):
 
 
 def obtener_canciones_de_deezer(artista_id):
+    
+    
     url = f'https://api.deezer.com/artist/{artista_id}/top?limit=10'
     response = requests.get(url)
     if response.status_code != 200:
@@ -124,9 +128,35 @@ def obtener_canciones_de_deezer(artista_id):
         return canciones
     else:
         return []
+    
+def canciones_en_tendencia(request):
+    print("Se ha recibido una solicitud para la vista canciones_en_tendencia.")
+    url = 'https://api.deezer.com/chart/0/tracks?limit=5&country=ar'
+    response = requests.get(url)
 
+    if response.status_code == 200:
+        print("La API está respondiendo correctamente.")
+        data = response.json()
+        print("Datos recibidos:", data)
+        
+        # Extraer la información relevante de la respuesta
+        canciones = []
+        for cancion in data['data']:
+            info_cancion = {
+                'titulo': cancion['title'],
+                'artista': cancion['artist']['name'],
+                'album': cancion['album']['title'],
+                'imagen': cancion['album']['cover_medium']  # Aquí se obtiene la URL de la imagen directamente de la API
+            }
+            canciones.append(info_cancion)
 
-
+        # Retornar los datos como respuesta JSON
+        return JsonResponse({'canciones': canciones})
+    else:
+        print("Hubo un problema al hacer la solicitud a la API. Código de estado:", response.status_code)
+        # Si hay un error en la solicitud a la API, devuelve un mensaje de error
+        return JsonResponse({'error': 'Hubo un problema al hacer la solicitud a la API'}, status=500)
+    
 
 '''
 def buscar_artistas_en_musicbrainz(query):

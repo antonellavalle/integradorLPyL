@@ -105,6 +105,7 @@ body a {
     opacity: 1;
 }
 
+
 /* Define el tamaño y el comportamiento de las imágenes de categoría de canción */
 .imagen-cancion-categoria {
     width: 200px;
@@ -129,3 +130,6 @@ body a {
 .artist-name {
     font-size: 0.8em !important; /* Puedes ajustar este valor según lo necesites */
 }
+
+
+                                                 

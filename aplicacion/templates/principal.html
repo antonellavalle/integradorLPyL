@@ -24,17 +24,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pagina Principal</title>  <!-- Titulo de pagina -->
 
-     <!-- Enlaces a fuentes externas -->
-    <link href="https://fonts.googleapis.com/css2?family=Otomanopee+One&family=Roboto+Mono:ital,wght@0,200;0,300;1,700&family=Tourney;wght@900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3zcuHt0A93W35dYTsvhLPVnYs9e5tHfGjvOvKxVfElGroGKvsg+p" crossorigin="anonymous">
-
 
      <!-- Enlaces a archivos CSS y boostrap -->
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/stylePrincipal.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styleCanciones.css' %}">
+    <script src="{% static 'js/mostrarCanciones.js' %}"></script>
 
-   
 </head>
 <body>
 
@@ -212,55 +209,35 @@
                               <!--fin de la lista de canciones -->
                             </div>
                             <!-- Fin de la pestaña "Explorar" -->
-                    
-                                                  <!--comienzo de la seccion tendencia-->
-                            <div class="tab-pane fade" id="pills-Tendencia" role="tabpanel" aria-labelledby="pills-Tendencia-tab">
-                              <!--cancion 4  -->
-                              <div class="cancion-pequeña m-3 ms-4 col-md-6 row align-items-center" style="color: white;">
-                                  <div class="col-1 h3">04</div>
-                                  <div class="col d-flex">
-                                      <img class="cancion-pequeña-img rounded m-1" src="{% static 'img/06.jpg' %}">
-                                      <div class="ms-1">
-                                          <div>Hello Cotto</div>
-                                          <small>Duki</small>
-                                      </div>
-                                  </div>
-                                  <div class="col-2">03:38 <i class="bi bi-download"></i></div>
-                              </div>
-                              <!--fin cancion4-->
-
-                              <!--cancion5 -->
-                              <div class="cancion-pequeña m-3 ms-4 col-md-6 row align-items-center" style="color: white;">
-                                  <div class="col-1 h3">05</div>
-                                  <div class="col d-flex">
-                                      <img class="cancion-pequeña-img rounded m-1" src="{% static 'img/07.jpg' %}">
-                                      <div class="ms-1">
-                                          <div>Clocks</div>
-                                          <small>Coldplay</small>
-                                      </div>
-                                  </div>
-                                  <div class="col-2">05:13 <i class="bi bi-download"></i></div>
-                              </div>
-                              <!--fin cancion 5 -->
-
-                              <!--cancion 6  -->
-                              <div class="cancion-pequeña m-3 ms-4 col-md-6 row align-items-center" style="color: white;">
-                                  <div class="col-1 h3">06</div>
-                                  <div class="col d-flex">
-                                      <img class="cancion-pequeña-img rounded m-1" src="{% static 'img/08.jpg' %}">
-                                      <div class="ms-1">
-                                          <div>Numb</div>
-                                          <small>Linkin Park</small>
-                                      </div>
-                                  </div>
-                                  <div class="col-2">03:31 <i class="bi bi-download"></i></div>
-                              </div>
-                              <!-- fin cancion 6 -->
-                              
+                           
+                          
+                           
+               
+                        <!-- Sección de canciones en tendencia -->
+                        <div class="tab-pane fade" id="pills-Tendencia" role="tabpanel" aria-labelledby="pills-Tendencia-tab">
+                            <div class="cancionesTendencia">
+                                <ul id="lista-canciones" class="estilo-lista-canciones">
+                                    <!-- Inicio del bucle -->
+                                    {% for cancion in canciones %}
+                                    <li class="cancion-pequeña estilo-cancion">
+                                        <!-- Carátula de la canción -->
+                                        <img src="{{ cancion.imagen }}" alt="{{ cancion.titulo }}" class="cancion-pequeña-img tendencia-img" style="width: 30px; height: 30px;">
+    
+                                        <!-- Información de la canción (título y artista) -->
+                                        <div class="info-cancion">
+                                            <h2>{{ cancion.titulo }}</h2>
+                                            <p>Artista: {{ cancion.artista }}</p>
+                                        </div>
+                                        <!-- Álbum de la canción -->
+                                        <p>Álbum: {{ cancion.album }}</p>
+                                    </li>
+                                    <!-- Fin del bucle -->
+                                    {% endfor %}
+                                </ul>
                             </div>
-                            <!--fin de la seccion tendencia-->
+                        </div>
 
-                                                        <!--Nuevos lanzamientos-->
+                        <!--Nuevos lanzamientos-->
                             <div class="tab-pane fade" id="pills-Nuevos-Lanzamientos" role="tabpanel" aria-labelledby="pills-Nuevos-Lanzamientos-tab">
                               <!--cancion 7  -->
                               <div class="cancion-pequeña m-3 ms-4 col-md-6 row align-items-center" style="color: white;">
@@ -275,7 +252,7 @@
                                   <div class="col-2">03:38 <i class="bi bi-download"></i></div>
                               </div>
                               <!--fin cancion7-->
-
+                      
                               <!--cancion8 -->
                               <div class="cancion-pequeña m-3 ms-4 col-md-6 row align-items-center" style="color: white;">
                                   <div class="col-1 h3">08</div>
@@ -446,7 +423,7 @@
     <!--<script src="{% static 'js/bootstrap.min.js' %}"></script> <!-- Importación de script Bootstrap  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> <!-- Importación de script para que funcione la barra desplegable -->
     
+ 
     
-
   </body>
 </html>
