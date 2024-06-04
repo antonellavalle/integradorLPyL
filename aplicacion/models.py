@@ -7,6 +7,7 @@ class Usuario(models.Model):
     usuario = models.OneToOneField(User, on_delete=models.CASCADE)
     nombre = models.CharField(max_length=100)
     apellido = models.CharField(max_length=100)
+    password = models.CharField(max_length=100)
     correo = models.EmailField()
     seguidos = models.ManyToManyField('self', symmetrical=False, related_name='seguidores')
     '''grupos = models.ManyToManyField('Grupo', related_name='miembros')'''

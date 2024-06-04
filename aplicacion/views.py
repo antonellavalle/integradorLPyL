@@ -1,47 +1,117 @@
-from django.shortcuts import render
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User 
-from django.http import HttpResponse
+from django.shortcuts import get_object_or_404, render, redirect
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponse, JsonResponse
+from django.contrib import messages
 import requests
-import json
-from django.http import JsonResponse
-#para que funcione correctamente hay que instalar el request en un cmd pip install requests
+from .models import Usuario
+from aplicacion.forms import SignUpForm
 
-# Create your views here.
-# Create your views here.
-def  inicio(request):
-     return render(request,'inicio.html')
+def inicio(request):
+    return render(request, 'nuevo_inicio.html')
+
+def signup(request):
+    if request.method == 'POST':
+        print("POST data:", request.POST)  # Imprime los datos recibidos
+
+        form = SignUpForm(request.POST)
+        
+        if form.is_valid():
+            print("Form is valid")
+            
+            user = form.save()  # Aquí se usa el método save del formulario
+            
+            usuario = Usuario.objects.create(
+                usuario=user,
+                nombre=user.first_name,
+                apellido=user.last_name,
+                correo=user.email
+            )
+            
+            messages.success(request, "Usuario creado correctamente. Ahora puedes iniciar sesión.")
+            return redirect('iniciar_sesion')
+        else:
+            print("Form errors:", form.errors)  # Imprime los errores del formulario
+            for field, errors in form.errors.items():
+                print(f"Error in {field}: {errors}")
+            messages.error(request, "Error al registrarse. Verifique los datos ingresados.")
+    else:
+        form = SignUpForm()
     
-def  signup(request):
-     
-     if request.method == 'GET':
-              return render(request,'registro.html',{
-         'form': UserCreationForm
-         
-     })
-     else: 
-          if request.POST['password1'] == request.POST['password2']:
-           try:
-             user =   User.objects.create_user(username= request.POST['username'],password = request.POST['password1'])
-             user.save()
-             return HttpResponse('Usuario creado con exito')         
-           except:  
-              return render(request,'registro.html',{
-                'form': UserCreationForm,
-                'error': 'El nombre de usuario ya existe'
-         
-                     })
-          return render(request,'registro.html',{
-                'form': UserCreationForm,
-                'error': 'Las contraseñas no coinciden'
-         
-                     })
-          
-def  principal(request):
-     imagen_url = "{% static 'img/03.jpg' %}"
-     return render(request,'principal.html')
+    return render(request, 'nuevo_inicio.html', {'form': form, 'signup': True})
 
 
+'''def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            Usuario = Usuario.objects.create(
+                usuario=user.first_name,
+                nombre=user.first_name,
+                apellido=user.last_name,
+                correo=user.email
+            )
+            messages.success(request, "Usuario creado correctamente. Ahora puedes iniciar sesión.")
+            return redirect('iniciar_sesion')
+        else:
+            messages.error(request, "Error al registrarse. Verifique los datos ingresados.")
+    else:
+        form = SignUpForm()
+    return render(request, 'nuevo_inicio.html', {'form': form, 'signup': True})
+'''
+def iniciar_sesion(request):
+    if request.method == 'POST':
+        print("POST data:", request.POST)  # Imprime los datos recibidos
+
+        form = AuthenticationForm(data=request.POST)
+        
+        if form.is_valid():
+            print("Form is valid")
+            
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            print(f"Cleaned data - Email: {username}, Password: {password}")
+            
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                print("Authentication successful")
+                login(request, user)
+                return redirect('principal')
+            else:
+                print("Authentication failed")
+                messages.error(request, "Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.")
+        else:
+            print("Form errors:", form.errors)  # Imprime los errores del formulario
+            messages.error(request, "Error en el formulario de inicio de sesión.")
+    else:
+        print("GET request received")
+        form = AuthenticationForm()
+    
+    return render(request, 'nuevo_inicio.html', {'form': form, 'signup': False})
+
+
+'''def iniciar_sesion(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(data=request.POST)
+        if form.is_valid():
+            email = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(email=email, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('principal')
+            else:
+                messages.error(request, "Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.")
+        else:
+            messages.error(request, "Error en el formulario de inicio de sesión.")
+    else:
+        form = AuthenticationForm()
+    return render(request, 'nuevo_inicio.html', {'form': form, 'signup': False})
+'''
+def principal(request):
+    return render(request, 'principal.html')
+ 
 def buscar_artista(request):
     artistas = []
     canciones = []
@@ -110,8 +180,6 @@ def formato_duracion(segundos):
 
 
 def obtener_canciones_de_deezer(artista_id):
-    
-    
     url = f'https://api.deezer.com/artist/{artista_id}/top?limit=10'
     response = requests.get(url)
     if response.status_code != 200:
@@ -156,8 +224,32 @@ def canciones_en_tendencia(request):
         print("Hubo un problema al hacer la solicitud a la API. Código de estado:", response.status_code)
         # Si hay un error en la solicitud a la API, devuelve un mensaje de error
         return JsonResponse({'error': 'Hubo un problema al hacer la solicitud a la API'}, status=500)
+    '''Modifico desde aca '''
     
 
+def listar_usuarios(request):
+    usuarios = Usuario.objects.all()
+    return render(request, 'listar_usuarios.html', {'usuarios': usuarios})
+
+def detalle_usuario(request, pk):
+    usuario = get_object_or_404(Usuario, pk=pk)
+    return render(request, 'detalle_usuario.html', {'usuario': usuario})
+
+def editar_usuario(request, pk):
+    usuario = get_object_or_404(Usuario, pk=pk)
+    if request.method == 'POST':
+        # Aquí iría la lógica para editar el usuario
+        return redirect('detalle_usuario', pk=pk)
+    else:
+        return render(request, 'editar_usuario.html', {'usuario': usuario})
+
+def eliminar_usuario(request, pk):
+    usuario = get_object_or_404(Usuario, pk=pk)
+    if request.method == 'POST':
+        # Aquí iría la lógica para eliminar el usuario
+        return redirect('listar_usuarios')
+    else:
+        return render(request, 'eliminar_usuario.html', {'usuario': usuario})
 '''
 def buscar_artistas_en_musicbrainz(query):
     # Realiza una solicitud a la API de MusicBrainz para buscar artistas que coincidan con el query

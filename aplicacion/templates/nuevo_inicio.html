@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    {% load static %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styleInicio.css' %}">
+    <link rel="stylesheet" href="{% static 'css/styleRegistro.css' %}">
+    
+    <title>Inicio</title>
+</head>
+<body>
+    <!--Contenedor de inicio de Sesion-->
+    <div id="inicio-container" class="container text-white" style="scale: 0.8;">
+        <div class="text-center">
+            <div class="d-flex align-items-center font-size: 2rem">
+                <i class="bi bi-soundwave margin-left: 20px"></i>
+                <h1 class="h2 pt-3 pb-2" style="position: relative; top: 10px;"> Project Managers</h1>
+            </div>
+            <div class="img">
+                <img src="{% static 'img/Headphone-bro.svg' %}" alt="">
+            </div>
+        </div>
+
+        <div class="content">
+            <p>Somos un grupo de estudiantes que te brinda la oportunidad de explorar, descubrir y disfrutar de tu música favorita. Regístrate, crea listas personalizadas y valora canciones. Recibe recomendaciones basadas en tus gustos y conecta con otros usuarios. Únete a nuestra plataforma y sumérgete en un mundo de música adaptado a ti.</p>
+            
+            <div class="buttons">
+                <a href="#" onclick="show_login(event)"><button>Iniciar Sesión</button></a>
+                <a href="#" onclick="show_signup(event)"><button>Registrarse</button></a>
+            </div>
+        </div>
+    </div>
+
+    <main id="form-container" class="text-white form-container hide">
+        <h1 class="h2 text-center pt-3 pb-2"><i class="bi bi-soundwave"></i> Project Managers</h1>
+
+        <div class="content row mx-auto">
+            <div class="img-container p-0 col-md-6 bg-white" style="position: relative; left: 0px">
+                <img src="{% static 'img/03.jpg' %}">
+            </div>
+            <div class="form-container col-md-6 mx-auto" style="margin:auto auto;">
+
+                <div class="" style="scale:0.9;">
+                    <!-- esto muestra el mensaje de error que me retorna la funcion al trabajar en el formulario -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
+                        {% endfor %}
+                    {% endif %}
+                    
+                    <!-- Formulario de inicio de sesión -->
+                    <form class="js-login-form hide pt-4 p-4" method="POST" action="{% url 'iniciar_sesion' %}">
+                        {% csrf_token %}
+                        <h2 class="fx-animate-1">Iniciar Sesion</h2>
+                        <h5 class="fx-animate-3">Por favor ingrese sus datos</h5>
+                        
+                        <!-- Campo para el Nombre de usuario -->
+                        <div class="input-group mb-4 fx-animate-1">
+                            <input type="text" class="form-control p-2" placeholder="Nombre de usuario" name="username">
+                            <span class="input-group-text" id="basic-addon2"><i class="bi bi-envelope"></i></span>
+                        </div>
+                        
+                        <!-- Campo para la contraseña -->
+                        <div class="input-group mb-4 fx-animate-2">
+                            <input type="password" class="form-control p-2" placeholder="Contraseña" name="password">
+                            <span class="input-group-text" id="basic-addon2"><i class="bi bi-key"></i></span>
+                        </div>
+
+                        <!-- Botón para iniciar sesión y registro -->
+                        <div class="mb-4 fx-animate-3">
+                            <button type="submit" class="btn btn-lg btn-outline-light">Iniciar Sesion</button>
+                            <button type="button" class="btn btn-lg btn-outline-light" onclick="show_signup(event)">Registrarse</button>
+                        </div>
+
+                        <!-- Enlaces para recuperar contraseña -->
+                        <div class="mb-4 fx-animate-5">
+                            <a class="text-white" href="#">¿Olvidó su contraseña?</a> 
+                        </div>
+                        <hr>
+                    </form>
+
+                    <!-- Formulario de registro -->
+                    <form class="js-signup-form hide pt-4 p-4" method="POST" action="{% url 'signup' %}">
+                        {% csrf_token %}
+                        <h2 class="fx-animate-1">Registrarse</h2>
+                        <h5 class="fx-animate-3">Crear una cuenta</h5>
+
+                        <!-- Campo para el Usuario -->
+                        <div class="input-group mb-3 fx-animate-1">
+                          <input type="text" class="form-control p-2" placeholder="Nombre de Usuario" name="username">
+                          <span class="input-group-text" id="basic-addon2"><i class="bi bi-person"></i></span>
+                        </div>
+
+                        <!-- Campo para el nombre -->
+                        <div class="input-group mb-3 fx-animate-1">
+                            <input type="text" class="form-control p-2" placeholder="Nombre" name="first_name">
+                            <span class="input-group-text" id="basic-addon2"><i class="bi bi-person"></i></span>
+                        </div>
+
+                        <!-- Campo para el apellido -->
+                        <div class="input-group mb-3 fx-animate-2">
+                            <input type="text" class="form-control p-2" placeholder="Apellido" name="last_name">
+                            <span class="input-group-text" id="basic-addon2"><i class="bi bi-person-fill"></i></span>
+                        </div>
+
+                        <!-- Campo para el email -->
+                        <div class="input-group mb-3 fx-animate-4">
+                            <input type="email" class="form-control p-2" placeholder="Email" name="email">
+                            <span class="input-group-text" id="basic-addon2"><i class="bi bi-envelope"></i></span>
+                        </div>
+
+                        <!-- Campo para la contraseña -->
+                        <div class="input-group mb-3 fx-animate-5">
+                            <input type="password" class="form-control p-2" placeholder="Contraseña" name="password1">
+                            <span class="input-group-text" id="basic-addon2"><i class="bi bi-key"></i></span>
+                        </div>
+
+                        <!-- Campo para verificar contraseña -->
+                        <div class="input-group mb-3 fx-animate-5">
+                            <input type="password" class="form-control p-2" placeholder="Verificar Contraseña" name="password2">
+                            <span class="input-group-text" id="basic-addon2"><i class="bi bi-key"></i></span>
+                        </div>
+
+                        <!-- Botón para crear cuenta -->
+                        <div class="mb-3 fx-animate-3">
+                            <button type="submit" class="btn btn-lg btn-outline-light">Crear cuenta</button>
+                        </div>
+
+                        <!-- Enlaces para iniciar sesión en recuperar contraseña -->
+                        <div class="mb-3 fx-animate-5">
+                            <a class="text-white" href="#" onclick="show_login(event)">Iniciar Sesion</a> 
+                        </div>
+
+                        <hr>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Función para ocultar los formularios y mostrar solo el contenedor de inicio al cargar la página
+        function hide_forms_on_load() {
+            document.getElementById("inicio-container").classList.remove("hide");
+            document.getElementById("form-container").classList.add("hide");
+            document.querySelector(".js-login-form").classList.add("hide");
+            document.querySelector(".js-signup-form").classList.add("hide");
+        }
+
+        // Llama a la función cuando se carga la página
+        document.addEventListener("DOMContentLoaded", hide_forms_on_load);
+
+        // Función para mostrar el formulario de inicio de sesión y ocultar el de registro
+        function show_login(event) {
+            event.preventDefault();
+            document.getElementById("inicio-container").classList.add("hide");
+            document.getElementById("form-container").classList.remove("hide");
+            document.querySelector(".js-signup-form").classList.add("hide");
+            document.querySelector(".js-login-form").classList.remove("hide");
+        }
+
+        // Función para mostrar el formulario de registro y ocultar el de inicio de sesión
+        function show_signup(event) {
+            event.preventDefault();
+            document.getElementById("inicio-container").classList.add("hide");
+            document.getElementById("form-container").classList.remove("hide");
+            document.querySelector(".js-login-form").classList.add("hide");
+            document.querySelector(".js-signup-form").classList.remove("hide");
+        }
+    </script>
+</body>
+</html>
