@@ -200,7 +200,34 @@ def canciones_en_tendencia(request):
     else:
         # Si hay un error en la solicitud a la API, devuelve un mensaje de error
         return JsonResponse({'error': 'Hubo un problema al hacer la solicitud a la API'}, status=500)
+def nuevos_lanzamientos_en_arg(request):
+    print("Se ha recibido una solicitud para la vista nuevos_lanzamientos_en_arg.")
+    url = 'https://api.deezer.com/editorial/0/releases?limit=5&country=ar'
+    response = requests.get(url)
 
+
+    if response.status_code == 200:
+        print("La API está respondiendo correctamente.")
+        data = response.json()
+        print("Datos recibidos:", data)
+        
+        # Extraer la información relevante de la respuesta
+        lanzamientos = []
+        for cancion in data.get('data', []):
+            info_cancion = {
+                'titulo': cancion['title'] if 'title' in cancion else 'Sin título',
+                'artista': cancion['artist']['name'] if 'artist' in cancion and 'name' in cancion['artist'] else 'Desconocido',
+                'imagen': cancion['album']['cover_medium'] if 'album' in cancion and 'cover_medium' in cancion['album'] else '',  # Obtener la URL de la imagen o una vacía si no está disponible
+                'duracion': formato_duracion(cancion['duration']) if 'duration' in cancion else 0,  # Agregar la duración de la canción 
+            }
+            lanzamientos.append(info_cancion)
+
+        # Retornar los datos como respuesta JSON
+        return JsonResponse({'lanzamientos': lanzamientos})
+    else:
+        print("Hubo un problema al hacer la solicitud a la API. Código de estado:", response.status_code)
+        # Si hay un error en la solicitud a la API, devuelve un mensaje de error
+        return JsonResponse({'error': 'Hubo un problema al hacer la solicitud a la API'}, status=500)
 
 """
 La función listar_usuarios muestra una lista de todos los usuarios registrados.

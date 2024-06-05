@@ -11,6 +11,7 @@ urlpatterns = [
     path('buscar/', views.buscar_artista, name='buscar_artista'),
     path('canciones/<str:artista_id>/', views.obtener_canciones, name='obtener_canciones'),
     path('canciones_en_tendencia/', views.canciones_en_tendencia, name='canciones_en_tendencia'),
+    path('nuevos_lanzamientos_en_arg/', views.nuevos_lanzamientos_en_arg, name='nuevos_lanzamientos_en_arg'),
     path('usuarios/', views.listar_usuarios, name='listar_usuarios'),
     path('usuarios/<int:pk>/', views.detalle_usuario, name='detalle_usuario'),
     path('usuarios/<int:pk>/editar/', views.editar_usuario, name='editar_usuario'),

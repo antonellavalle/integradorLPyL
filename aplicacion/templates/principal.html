@@ -31,6 +31,7 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/stylePrincipal.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/styleCanciones.css' %}">
     <script src="{% static 'js/mostrarCanciones.js' %}"></script>
+    <script src="{% static 'js/nuevosLanzamientos.js' %}"></script>
 
 </head>
 <body>
@@ -241,48 +242,28 @@
 
                         <!--Nuevos lanzamientos-->
                             <div class="tab-pane fade" id="pills-Nuevos-Lanzamientos" role="tabpanel" aria-labelledby="pills-Nuevos-Lanzamientos-tab">
-                              <!--cancion 7  -->
-                              <div class="cancion-pequeña m-3 ms-4 col-md-6 row align-items-center" style="color: white;">
-                                  <div class="col-1 h3">07</div>
-                                  <div class="col d-flex">
-                                      <img class="cancion-pequeña-img rounded m-1" src="{% static 'img/04.jpg' %}">
-                                      <div class="ms-1">
-                                          <div>Rockstar</div>
-                                          <small>Descripcion</small>
-                                      </div>
-                                  </div>
-                                  <div class="col-2">03:38 <i class="bi bi-download"></i></div>
-                              </div>
-                              <!--fin cancion7-->
-                      
-                              <!--cancion8 -->
-                              <div class="cancion-pequeña m-3 ms-4 col-md-6 row align-items-center" style="color: white;">
-                                  <div class="col-1 h3">08</div>
-                                  <div class="col d-flex">
-                                      <img class="cancion-pequeña-img rounded m-1" src="{% static 'img/01.jpg' %}">
-                                      <div class="ms-1">
-                                          <div>Sicko Mode</div>
-                                          <small>Descripcion</small>
-                                      </div>
-                                  </div>
-                                  <div class="col-2">05:13 <i class="bi bi-download"></i></div>
-                              </div>
-                              <!--fin cancion 8 -->
-
-                              <!--cancion 9  -->
-                              <div class="cancion-pequeña m-3 ms-4 col-md-6 row align-items-center" style="color: white;">
-                                  <div class="col-1 h3">09</div>
-                                  <div class="col d-flex">
-                                      <img class="cancion-pequeña-img rounded m-1" src="{% static 'img/05.jpg' %}" >
-                                      <div class="ms-1">
-                                          <div>De musica ligera</div>
-                                          <small>Descripcion</small>
-                                      </div>
-                                  </div>
-                                  <div class="col-2">03:31 <i class="bi bi-download"></i></div>
-                              </div>
-                              <!-- fin cancion 9 -->
-
+                                <div class="cancionesLanzamientos m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
+                                    <ul id="lista-lanzamientos" class="estilo-lista-canciones">
+                                        <!-- Inicio del bucle -->
+                                        {% for lanzamiento in lanzamientos %}
+                                        <li class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
+                                            <div class="col-1 h3"> <!-- Número del lanzamiento --> {{ forloop.counter }}</div>
+                                            <div class="col d-flex">
+                                                <!-- Carátula del lanzamiento -->
+                                                <img src="{{ lanzamiento.imagen }}" alt="{{ lanzamiento.titulo }}" class="cancion-pequeña-img rounded m-1">
+                                                <div class="ms-1">
+                                                    <!-- Información del lanzamiento (título y artista) -->
+                                                    <div>{{ lanzamiento.titulo }}</div>
+                                                    <small>Artista: {{ lanzamiento.artista }}</small>
+                                                </div>
+                                            </div>
+                                            <!-- Duración del lanzamiento -->
+                                            <div class="col-2">{{ lanzamiento.duracion }} <i class="bi bi-play-fill"></i></div>
+                                        </li>
+                                        <!-- Fin del bucle -->
+                                        {% endfor %}
+                                    </ul>
+                            </div>
                             </div>
                           </div>
                             <!--fin de la seccion nuevos lanzamientos-->
