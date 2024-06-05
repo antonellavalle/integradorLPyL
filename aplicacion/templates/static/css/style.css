@@ -8,6 +8,16 @@ body {
     color: white !important;
 }
 
+.my-container {
+    font-size: 13px;
+    width: 100px;
+    height: 50px; /* Ajusta según sea necesario */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black; /* Opcional */
+}
+
 .image img {
     width: 50%; /* Esto hará que la imagen tenga la mitad del ancho original */
     /* O puedes establecer un ancho específico en píxeles */

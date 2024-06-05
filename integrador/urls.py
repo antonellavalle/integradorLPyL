@@ -4,6 +4,7 @@ from aplicacion import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('base/', views.base,name='base'),
     path('', views.inicio, name='inicio'),
     path('signup/', views.signup, name='signup'),#aca viene mi registro
     path('login/', views.iniciar_sesion, name='iniciar_sesion'),

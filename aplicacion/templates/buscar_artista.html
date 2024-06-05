@@ -1,193 +1,61 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    {% load static %}
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar Artista</title>
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Buscar Artista{% endblock %}
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styleBuscar_artista.css' %}">
-</head>
-<body>
-    <main>
-    <h1>Resultados de la busqueda </h1>
-        <!-- Barra de navegación -->
-        <nav class="mainNavbar shadow navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #7d0b0b;"
-        style="min-width:350px;" >  <!--Barra de navegacion tema y color -->
-          <!-- Logo de la esquina superior izquierda -->
-               <div class="container-fluid">
-                   <a class="navbar-brand" href="{% url 'principal' %}">
-                       <i class="bi bi-soundwave"></i> Project Managers
-                       <div style="font-size: 13px">Ingenieros</div>
-                   </a>
-                
-                   <!-- Buscador -->
-                   <!-- Cuando hay una i es un icono bi bi-search por ejemplo es el buscador -->
-                 
-                   <div class="input-group" style="max-width: 400px;">
-                       <!-- Formulario para buscar -->
-                       <form method="GET" action="{% url 'buscar_artista' %}" style="display: flex; width: 100%;">
-                        
-                           <!-- Campo de entrada para buscar -->
-                           <input type="text" class="form-control" name="q" placeholder="Buscar" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                           <!-- Botón de búsqueda -->
-                           <button type="submit" class="input-group-text bg-black text-white border-0" id="basic-addon2"><i class="bi bi-search"></i></button>
-                       </form>
-                   </div>
-                   <!-- Botón para colapsar la barra de navegación en dispositivos pequeños --> 
-                   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                       <span class="navbar-toggler-icon"></span>
-                   </button>
-       
-                         <!-- Menú de navegación -->
-                   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                            <!-- Elementos de navegación -->
-                           <li class="nav-item">
-                               <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-                           </li>
-                           <li class="nav-item">
-                               <a class="nav-link" href="#">Descubrir</a>
-                           </li>
-                           <li class="nav-item">
-                               <a class="nav-link" href="#">Nuevo</a>
-                           </li>
-                           <li class="nav-item">
-                               <a class="nav-link" href="#">Tendencia</a>
-                           </li>
-                           <li class="nav-item dropdown">
-                                <!-- Falta arreglar los dos  menus desplegables no se desplegan :c  -->
-                                 <!-- menu desplegable 1  -->
-                                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                   Género
-                               </a>
-                                 <!-- Opciones del menú desplegable "Género" -->
-                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                                   <li><a class="dropdown-item" href="#">Trap</a></li>
-                                   <li><a class="dropdown-item" href="#">Rock</a></li>
-                                   <li><hr class="dropdown-divider"></li>
-                                   <li><a class="dropdown-item" href="#">Reggaeton</a></li>
-                               </ul>
-                           </li>
-                          
-                             <!-- Imagen del usuario  -->
-                           <img class="rounded-circle" src="{% static 'img/01.jpg' %}" style="width:40px;height:40px">
-                           <li class="nav-item dropdown">
-                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                               Usuario
-                             </a>
-                              <!-- menu desplegable 2  -->
-                               <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown2">
-                                     <!-- Opciones del menú desplegable "Usuario" -->
-                                   <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i>Perfil</a></li>
-                                   <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i>Configuración</a></li>
-                                   <li><hr class="dropdown-divider"></li>
-                                   <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right"></i>Cerrar sesión</a></li>
-                               </ul>
-                           </li>
-                       </ul>
-                   </div>
-               </div>
-           </nav> 
-                  <!-- Fin zona de navegacion  -->
-
-                    <!-- Comienzo zona de resultados de busqueda  -->
-           <div class="hero-area pt-5 mt-2" style="background-image: url('{% static 'img/03.jpg' %}');">
-            <div class="nav-spacer">
-                <div class="container canciones-container">
-                    <div class="row">
-                        <div class="col-md-6"> <!-- Alineación a la izquierda  -->
-                            {% if artistas %}
-                            <div class="col-12">
-                                <h2 class="text-white">Resultados de la búsqueda de Artistas:</h2>
-                            </div>
-                            {% for artista in artistas %}
-                            <div class="cancion-pequeña m-1 ms-4 row align-items-center" style="color: white;">
-                                <div class="col-1 h3">{{ forloop.counter|add:0 }}</div>
-                                <div class="col d-flex">
-                                    <img class="artista-img rounded m-1" src="{{ artista.imagen }}" alt="Imagen del Artista">
-                                    <div class="ms-1">
-                                        <div>{{ artista.nombre }}</div>
+{% block content %}
+<h1>Resultados de la búsqueda</h1>
+                 <!-- Comienzo zona de resultados de busqueda  -->
+                 <div class="hero-area pt-5 mt-2" style="background-image: url('static/img/03.jpg');">
+                    <div class="nav-spacer">
+                        <div class="container canciones-container">
+                            <div class="row">
+                                <div class="col-md-6"> <!-- Alineación a la izquierda  -->
+                                    {% if artistas %}
+                                    <div class="col-12">
+                                        <h2 class="text-white">Resultados de la búsqueda de Artistas:</h2>
                                     </div>
-                                </div>
-                                <div class="col-auto ms-auto">
-                                    <a href="{% url 'obtener_canciones' artista.id %}" class="text-white">Ver Canciones</a>
-                                </div>
-                            </div>
-                            {% endfor %}
-                            {% else %}
-                            <div class="col-12">
-                                <p class="text-white">No se encontraron artistas.</p>
-                            </div>
-                            {% endif %}
-                        </div>
-                
-                        <div class="col-md-6 text-end"> <!-- Alineacion a la derecha -->
-                            {% if canciones %}
-                            <div class="col-12">
-                                <h2 class="text-white">Canciones encontradas:</h2>
-                                <ul>
-                                    {% for cancion in canciones %}
-                                    <li class="cancion-pequeña m-1 ms-4 row align-items-center" style="color: white;">
+                                    {% for artista in artistas %}
+                                    <div class="cancion-pequeña m-1 ms-4 row align-items-center" style="color: white;">
                                         <div class="col-1 h3">{{ forloop.counter|add:0 }}</div>
                                         <div class="col d-flex">
-                                            <img class="cancion-pequeña-img rounded m-1" src="{{ cancion.imagen }}" alt="Carátula de la canción">
+                                            <img class="artista-img rounded m-1" src="{{ artista.imagen }}" alt="Imagen del Artista">
                                             <div class="ms-1">
-                                                <div>{{ cancion.titulo }}</div>
+                                                <div>{{ artista.nombre }}</div>
                                             </div>
                                         </div>
-                                    </li>
+                                        <div class="col-auto ms-auto">
+                                            <a href="{% url 'obtener_canciones' artista.id %}" class="text-white">Ver Canciones</a>
+                                        </div>
+                                    </div>
                                     {% endfor %}
-                                </ul>
+                                    {% else %}
+                                    <div class="col-12">
+                                        <p class="text-white">No se encontraron artistas.</p>
+                                    </div>
+                                    {% endif %}
+                                </div>
+                        
+                                <div class="col-md-6 text-end"> <!-- Alineacion a la derecha -->
+                                    {% if canciones %}
+                                    <div class="col-12">
+                                        <h2 class="text-white">Canciones encontradas:</h2>
+                                        <ul>
+                                            {% for cancion in canciones %}
+                                            <li class="cancion-pequeña m-1 ms-4 row align-items-center" style="color: white;">
+                                                <div class="col-1 h3">{{ forloop.counter|add:0 }}</div>
+                                                <div class="col d-flex">
+                                                    <img class="cancion-pequeña-img rounded m-1" src="{{ cancion.imagen }}" alt="Carátula de la canción">
+                                                    <div class="ms-1">
+                                                        <div>{{ cancion.titulo }}</div>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                    {% endif %}
+                                </div>
                             </div>
-                            {% endif %}
                         </div>
-                    </div>
-                </div>
-                  
-        </main>
-                       <!-- fin zona canciones  -->
-
-            <!-- Comienzo del footer toda la seccion de final de la pagina -->
-            <footer class="p-5 pt-4 row bg-dark text-white ">
-                <!-- Columna 1 -->
-                <div class="col-md-3 mb-4 col-sm-6">
-                <h5>Links</h5>
-                <!-- Lista de enlaces -->
-                <ul class="nav flex-column">
-                    <li><a href="#" style="color: white;">Inicio</a></li>
-                    <li><a href="#" style="color: white;">Nuevo Lanzamientos</a></li>
-                    <li><a href="#" style="color: white;">Artistas</a></li>
-                    <li><a href="#" style="color: white;">Álbumes</a></li>
-                </ul>
-            </div>
-                <!-- Columna 2 -->
-                <div class="col-md-3 mb-4 col-sm-6">
-                    <h5>Links </h5>
-                    <!-- Lista de enlaces -->
-                    <ul class="nav flex-column text-white">
-                    <li><a href="#" style="color: white;">Inicio</a></li>
-                    <li><a href="#" style="color: white;">Nuevo Lanzamientos</a></li>
-                    <li><a href="#" style="color: white;">Artistas</a></li>
-                    <li><a href="#" style="color: white;">Álbumes</a></li>
-                    </ul>
-                </div>
-                <!-- Columna 3 -->
-                <div class="col-md-6 mb-4 col-sm-6">
-                    <h5>Suscribite a nuestras novedades </h5>
-                    <!-- Descripción de suscripción -->
-                    <div>Recibe  las ultimas novedades</div>
-        
-            <!-- Formulario de suscripción --> 
-                    <div class="input-group mb-3 mt-6">
-                    <input type="text" class="form-control" placeholder="Email">
-                    <!-- Botón de suscripción -->
-                    <span class="input-group-text" style="background-color: #7d0b0b; color: white;" id="basic-addon2">Subscribete</span>
-                    </div>
-            
-                </div>
-            </footer> <!-- Final del footer -->
-    </body>
-</html>
+                             
+{% endblock %}

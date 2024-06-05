@@ -7,6 +7,9 @@ import requests
 from .models import Usuario
 from aplicacion.forms import SignUpForm
 
+def base(request):
+    return render(request, 'base.html')
+
 def inicio(request):
     return render(request, 'nuevo_inicio.html')
 

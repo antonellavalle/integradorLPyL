@@ -1,133 +1,11 @@
-<!-- <ul> (Lista sin ordenar) -->
-<!-- <li> (Elemento de lista) -->
-<!-- <div> (Contenedor de división) -->
-<!-- <head> (Cabecera) -->
-<!-- <body> (Cuerpo)-->  
-<!-- <p> (Párrafo):-->
-<!-- <a> (Enlace) -->
-<!-- img> (Imagen) -->
-<!-- <h1>, <h2>, <h3>, <h4>, <h5>, <h6> (Encabezados) -->
-<!-- <form> (Formulario)-->
-<!-- <button> (boton) -->
-<!-- <input> (Entrada) -->
-<!-- <Span> (texto de linea) -->
-<!-- <div class> se utiliza como una clase para despues usarla referenciandola en el archivo css -->
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Página Principal{% endblock %}
 
-
-
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    {% load static %}  <!-- Carga los archivos estaticos -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina Principal</title>  <!-- Titulo de pagina -->
-
-
-     <!-- Enlaces a archivos CSS y boostrap -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/stylePrincipal.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styleCanciones.css' %}">
-    <script src="{% static 'js/mostrarCanciones.js' %}"></script>
-    <script src="{% static 'js/nuevosLanzamientos.js' %}"></script>
-
-</head>
-<body>
-
-    <main>   <!--Comienzo del contenido principal -->
-     <!-- Barra de navegación -->
-     <nav class="mainNavbar shadow navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #7d0b0b;"
-     style="min-width:350px;" >  <!--Barra de navegacion tema y color -->
-       <!-- Logo de la esquina superior izquierda -->
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    <i class="bi bi-soundwave"></i> Project Managers
-                    <div style="font-size: 13px">Ingenieros</div>
-                </a>
-                <!-- Buscador -->
-                <!-- Cuando hay una i es un icono bi bi-search por ejemplo es el buscador -->
-              
-                
-                <div class="input-group" style="max-width: 400px;">
-                   
-                    <form method="GET" action="{% url 'buscar_artista' %}" style="display: flex; width: 100%;">
-                     
-                            <input type="text" class="form-control" name="q" placeholder="Buscar" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                          
-                            <select name="tipo"> <!-- Campo select para saber que buscar  -->
-                                <option value="artista">Artista</option>
-                                <option value="cancion">Canción</option>
-                            </select>
-                            <button type="submit" class="input-group-text bg-black text-white border-0" id="basic-addon2"><i class="bi bi-search"></i></button>    
-                    </form>
-                </div>
-                  
-                <!-- Botón para colapsar la barra de navegación en dispositivos pequeños --> 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-    
-                      <!-- Menú de navegación -->
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                         <!-- Elementos de navegación -->
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Descubrir</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Nuevo</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Tendencia</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                             <!-- Falta arreglar los dos  menus desplegables no se desplegan :c  -->
-                              <!-- menu desplegable 1  -->
-                              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Género
-                            </a>
-                              <!-- Opciones del menú desplegable "Género" -->
-                              <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                                <li><a class="dropdown-item" href="#">Trap</a></li>
-                                <li><a class="dropdown-item" href="#">Rock</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Reggaeton</a></li>
-                            </ul>
-                        </li>
-                       
-                          <!-- Imagen del usuario  -->
-                        <img class="rounded-circle" src="{% static 'img/01.jpg' %}" style="width:40px;height:40px">
-                        <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Usuario
-                          </a>
-                           <!-- menu desplegable 2  -->
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown2">
-                                  <!-- Opciones del menú desplegable "Usuario" -->
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i>Perfil</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i>Configuración</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right"></i>Cerrar sesión</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav> 
-                <!--Fin de la barra de navegacion-->
-
-
-        
-
-         </div>
-            <!--Comienzo de toda la zona central  -->
+{% block content %}
+<!--Comienzo de toda la zona central  -->
             <!-- Hero hace referencia a toda la seccion central  -->
-             <div class="hero-area pt-5 mt-2" style="min-height: 400px; background-image: url('{% static 'img/03.jpg' %}'); background-position: 20% 40%; background-size: cover;">
+            <div class="hero-area pt-5 mt-2" style="min-height: 400px; background-image: url('{% static 'img/03.jpg' %}'); background-position: 20% 40%; background-size: cover;">
                 <!-- Espacio de navegación -->
                 <div  class="nav-spacer"></div>
                            <!--Imagen principal de fondo   -->   
@@ -238,6 +116,7 @@
                                     </ul>
                                 </div>
                             </div>
+                           
             
 
                         <!--Nuevos lanzamientos-->
@@ -359,54 +238,4 @@
 
          </section>
         <!--Fin de la seccion categoria  -->
-
-    </main>   <!--Fin del main o parte central de la pagina--> 
-
-     <!-- Comienzo del footer toda la seccion de final de la pagina -->
-    <footer class="p-5 pt-4 row bg-dark text-white ">
-       <!-- Columna 1 -->
-       <div class="col-md-3 mb-4 col-sm-6">
-        <h5>Links</h5>
-        <!-- Lista de enlaces -->
-        <ul class="nav flex-column">
-            <li><a href="#" style="color: white;">Inicio</a></li>
-            <li><a href="#" style="color: white;">Nuevo Lanzamientos</a></li>
-            <li><a href="#" style="color: white;">Artistas</a></li>
-            <li><a href="#" style="color: white;">Álbumes</a></li>
-        </ul>
-    </div>
-         <!-- Columna 2 -->
-        <div class="col-md-3 mb-4 col-sm-6">
-           <h5>Links </h5>
-             <!-- Lista de enlaces -->
-           <ul class="nav flex-column text-white">
-            <li><a href="#" style="color: white;">Inicio</a></li>
-            <li><a href="#" style="color: white;">Nuevo Lanzamientos</a></li>
-            <li><a href="#" style="color: white;">Artistas</a></li>
-            <li><a href="#" style="color: white;">Álbumes</a></li>
-           </ul>
-        </div>
-          <!-- Columna 3 -->
-        <div class="col-md-6 mb-4 col-sm-6">
-           <h5>Suscribite a nuestras novedades </h5>
-             <!-- Descripción de suscripción -->
-           <div>Recibe  las ultimas novedades</div>
-  
-    <!-- Formulario de suscripción --> 
-           <div class="input-group mb-3 mt-6">
-            <input type="text" class="form-control" placeholder="Email">
-            <!-- Botón de suscripción -->
-            <span class="input-group-text" style="background-color: #7d0b0b; color: white;" id="basic-addon2">Subscribete</span>
-           </div>
-      
-        </div>
-    </footer> <!-- Final del footer -->
-
-    <!--La siguiente linea la comento para solucionar el problema del despliegue, hay que verificar si afecta otros sectores-->
-    <!--<script src="{% static 'js/bootstrap.min.js' %}"></script> <!-- Importación de script Bootstrap  -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> <!-- Importación de script para que funcione la barra desplegable -->
-    
- 
-    
-  </body>
-</html>
+{% endblock %}
