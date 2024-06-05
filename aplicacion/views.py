@@ -214,7 +214,8 @@ def canciones_en_tendencia(request):
                 'titulo': cancion['title'],
                 'artista': cancion['artist']['name'],
                 'album': cancion['album']['title'],
-                'imagen': cancion['album']['cover_medium']  # Aquí se obtiene la URL de la imagen directamente de la API
+                'imagen': cancion['album']['cover_medium'],  # Aca se obtiene la URL de la imagen directamente de la API
+                 'duracion':  formato_duracion(cancion['duration']),  # Agregamos la duración de la canción
             }
             canciones.append(info_cancion)
 
@@ -224,6 +225,7 @@ def canciones_en_tendencia(request):
         print("Hubo un problema al hacer la solicitud a la API. Código de estado:", response.status_code)
         # Si hay un error en la solicitud a la API, devuelve un mensaje de error
         return JsonResponse({'error': 'Hubo un problema al hacer la solicitud a la API'}, status=500)
+
     '''Modifico desde aca '''
     
 
