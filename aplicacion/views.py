@@ -10,135 +10,96 @@ from aplicacion.forms import SignUpForm
 def inicio(request):
     return render(request, 'nuevo_inicio.html')
 
+"""
+La función signup maneja la creación de un nuevo usuario. Si la solicitud es de tipo POST,
+se valida y guarda el usuario. Si los datos son válidos, se crea una instancia del modelo
+Usuario asociado con el usuario creado y se redirige al inicio de sesión. Si los datos no 
+son válidos, se muestra un mensaje de error. Si la solicitud no es de tipo POST, se muestra
+un formulario vacío para el registro de un nuevo usuario.
+"""
 def signup(request):
-    if request.method == 'POST':
-        print("POST data:", request.POST)  # Imprime los datos recibidos
-
-        form = SignUpForm(request.POST)
-        
-        if form.is_valid():
-            print("Form is valid")
-            
-            user = form.save()  # Aquí se usa el método save del formulario
-            
-            usuario = Usuario.objects.create(
-                usuario=user,
-                nombre=user.first_name,
-                apellido=user.last_name,
-                correo=user.email
+    if request.method == 'POST':  # Verifica si la solicitud es de tipo POST
+        form = SignUpForm(request.POST)  # Crea una instancia del formulario SignUpForm con los datos de la solicitud POST
+        if form.is_valid():  # Verifica si los datos del formulario son válidos
+            user = form.save()  # Guarda la instancia del modelo User utilizando el método save del formulario
+            usuario = Usuario.objects.create(  # Crea una instancia del modelo Usuario asociada con el usuario creado
+                usuario=user,  # Asigna la instancia del modelo User al campo usuario
+                nombre=user.first_name,  # Asigna el primer nombre del usuario
+                apellido=user.last_name,  # Asigna el apellido del usuario
+                correo=user.email  # Asigna el correo electrónico del usuario
             )
-            
-            messages.success(request, "Usuario creado correctamente. Ahora puedes iniciar sesión.")
-            return redirect('iniciar_sesion')
+            messages.success(request, "Usuario creado correctamente. Ahora puedes iniciar sesión.")  # Muestra un mensaje de éxito indicando que el usuario se creó correctamente
+            return redirect('iniciar_sesion')  # Redirige al usuario a la vista de inicio de sesión
         else:
-            print("Form errors:", form.errors)  # Imprime los errores del formulario
-            for field, errors in form.errors.items():
-                print(f"Error in {field}: {errors}")
-            messages.error(request, "Error al registrarse. Verifique los datos ingresados.")
+            messages.error(request, "Error al registrarse. Verifique los datos ingresados.")  # Si el formulario no es válido, muestra un mensaje de error
     else:
-        form = SignUpForm()
-    
-    return render(request, 'nuevo_inicio.html', {'form': form, 'signup': True})
+        form = SignUpForm()  # Si la solicitud no es de tipo POST, crea una instancia vacía del formulario SignUpForm
+    return render(request, 'nuevo_inicio.html', {'form': form, 'signup': True})  # Renderiza la plantilla nuevo_inicio.html con el formulario y una variable signup
 
-
-'''def signup(request):
-    if request.method == 'POST':
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            Usuario = Usuario.objects.create(
-                usuario=user.first_name,
-                nombre=user.first_name,
-                apellido=user.last_name,
-                correo=user.email
-            )
-            messages.success(request, "Usuario creado correctamente. Ahora puedes iniciar sesión.")
-            return redirect('iniciar_sesion')
-        else:
-            messages.error(request, "Error al registrarse. Verifique los datos ingresados.")
-    else:
-        form = SignUpForm()
-    return render(request, 'nuevo_inicio.html', {'form': form, 'signup': True})
-'''
+"""
+La función iniciar_sesion maneja el proceso de inicio de sesión de un usuario. Si la solicitud es de tipo POST,
+se valida el formulario de autenticación. Si los datos son válidos, se autentica al usuario y se inicia la sesión.
+Si los datos no son válidos o la autenticación falla, se muestra un mensaje de error. Si la solicitud no es de tipo POST,
+se muestra un formulario vacío para el inicio de sesión.
+"""
 def iniciar_sesion(request):
-    if request.method == 'POST':
-        print("POST data:", request.POST)  # Imprime los datos recibidos
-
-        form = AuthenticationForm(data=request.POST)
+    if request.method == 'POST':  # Verifica si la solicitud es de tipo POST
+        form = AuthenticationForm(data=request.POST)  # Crea una instancia del formulario de autenticación con los datos de la solicitud POST
         
-        if form.is_valid():
-            print("Form is valid")
+        if form.is_valid():  # Verifica si los datos del formulario son válidos
+            username = form.cleaned_data.get('username')  # Obtiene el nombre de usuario del formulario limpio
+            password = form.cleaned_data.get('password')  # Obtiene la contraseña del formulario limpio
             
-            username = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            print(f"Cleaned data - Email: {username}, Password: {password}")
-            
-            user = authenticate(username=username, password=password)
+            user = authenticate(username=username, password=password)  # Autentica al usuario con el nombre de usuario y la contraseña
             if user is not None:
-                print("Authentication successful")
-                login(request, user)
-                return redirect('principal')
+                login(request, user)  # Inicia sesión del usuario
+                return redirect('principal')  # Redirige al usuario a la vista principal
             else:
-                print("Authentication failed")
-                messages.error(request, "Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.")
+                messages.error(request, "Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.")  # Muestra un mensaje de error si la autenticación falla
         else:
-            print("Form errors:", form.errors)  # Imprime los errores del formulario
-            messages.error(request, "Error en el formulario de inicio de sesión.")
+            messages.error(request, "Error en el formulario de inicio de sesión.")  # Muestra un mensaje de error si el formulario no es válido
     else:
-        print("GET request received")
-        form = AuthenticationForm()
+        form = AuthenticationForm()  # Si la solicitud no es de tipo POST, crea una instancia vacía del formulario de autenticación
     
-    return render(request, 'nuevo_inicio.html', {'form': form, 'signup': False})
+    return render(request, 'nuevo_inicio.html', {'form': form, 'signup': False})  # Renderiza la plantilla nuevo_inicio.html con el formulario y una variable signup
 
-
-'''def iniciar_sesion(request):
-    if request.method == 'POST':
-        form = AuthenticationForm(data=request.POST)
-        if form.is_valid():
-            email = form.cleaned_data.get('username')
-            password = form.cleaned_data.get('password')
-            user = authenticate(email=email, password=password)
-            if user is not None:
-                login(request, user)
-                return redirect('principal')
-            else:
-                messages.error(request, "Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.")
-        else:
-            messages.error(request, "Error en el formulario de inicio de sesión.")
-    else:
-        form = AuthenticationForm()
-    return render(request, 'nuevo_inicio.html', {'form': form, 'signup': False})
-'''
+"""
+La función principal renderiza la vista principal de la aplicación.
+"""
 def principal(request):
     return render(request, 'principal.html')
- 
+
+"""
+La función buscar_artista maneja la búsqueda de artistas y canciones utilizando la API de Deezer.
+Si la solicitud contiene el parámetro 'q', se realizan las búsquedas de artistas y canciones y se 
+muestran los resultados.
+"""
 def buscar_artista(request):
     artistas = []
     canciones = []
 
-    if 'q' in request.GET:
-        query = request.GET['q']
-        artistas = buscar_artistas_deezer(query)
-        canciones = buscar_canciones_deezer(query)
+    if 'q' in request.GET:  # Verifica si el parámetro 'q' está presente en la solicitud GET
+        query = request.GET['q']  # Obtiene el valor del parámetro 'q'
+        artistas = buscar_artistas_deezer(query)  # Busca artistas utilizando la API de Deezer
+        canciones = buscar_canciones_deezer(query)  # Busca canciones utilizando la API de Deezer
 
-    return render(request, 'buscar_artista.html', {'artistas': artistas, 'canciones': canciones})
+    return render(request, 'buscar_artista.html', {'artistas': artistas, 'canciones': canciones})  # Renderiza la plantilla buscar_artista.html con los resultados
 
-
+"""
+La función buscar_canciones_deezer busca canciones en la API de Deezer según el query proporcionado.
+Retorna una lista de canciones con su información relevante.
+"""
 def buscar_canciones_deezer(query):
-    url = f'https://api.deezer.com/search/track?q={query}'
-    response = requests.get(url)
-    print(f'Solicitando canciones con query: {query}')
-    print(f'Respuesta de la API de Deezer: {response}')
+    url = f'https://api.deezer.com/search/track?q={query}'  # Construye la URL de la solicitud a la API de Deezer
+    response = requests.get(url)  # Realiza la solicitud GET a la API de Deezer
     
-    if response.status_code != 200:
-        print('Error en la solicitud a Deezer')
-        return []
+    if response.status_code != 200:  # Verifica si la respuesta no tiene un código de estado 200
+        return []  # Retorna una lista vacía si hay un error en la solicitud
     
-    data = response.json()
-    print(f'Datos recibidos: {data}')
+    data = response.json()  # Convierte la respuesta en formato JSON
     
     if 'data' in data:
-        canciones = [{
+        canciones = [{  # Extrae y estructura la información relevante de las canciones
             'id': cancion['id'],
             'titulo': cancion['title'],
             'url': cancion['link'],
@@ -147,46 +108,61 @@ def buscar_canciones_deezer(query):
         } for cancion in data['data']]
         return canciones
     else:
-        return []
+        return []  # Retorna una lista vacía si no hay datos de canciones
 
-
+"""
+La función obtener_canciones obtiene las canciones de un artista específico utilizando la API de Deezer.
+"""
 def obtener_canciones(request, artista_id):
-    canciones = obtener_canciones_de_deezer(artista_id)
-    return render(request, 'obtener_canciones.html', {'canciones': canciones})
+    canciones = obtener_canciones_de_deezer(artista_id)  # Obtiene las canciones del artista
+    return render(request, 'obtener_canciones.html', {'canciones': canciones})  # Renderiza la plantilla obtener_canciones.html con los resultados
 
+"""
+La función buscar_artistas_deezer busca artistas en la API de Deezer según el query proporcionado.
+Retorna una lista de artistas con su información relevante.
+"""
 def buscar_artistas_deezer(query):
-    url = f'https://api.deezer.com/search/artist?q={query}'
-    response = requests.get(url)
-    print(f'Solicitando artistas con query: {query}')
-    print(f'Respuesta de la API de Deezer: {response}')
+    url = f'https://api.deezer.com/search/artist?q={query}'  # Construye la URL de la solicitud a la API de Deezer
+    response = requests.get(url)  # Realiza la solicitud GET a la API de Deezer
     
-    if response.status_code != 200:
-        print('Error en la solicitud a Deezer')
-        return []
+    if response.status_code != 200:  # Verifica si la respuesta no tiene un código de estado 200
+        return []  # Retorna una lista vacía si hay un error en la solicitud
     
-    data = response.json()
-    print(f'Datos recibidos: {data}')
+    data = response.json()  # Convierte la respuesta en formato JSON
     
     if 'data' in data:
-        artistas = [{'id': artista['id'], 'nombre': artista['name'], 'imagen': artista['picture_medium']} for artista in data['data']]
+        artistas = [{  # Extrae y estructura la información relevante de los artistas
+            'id': artista['id'],
+            'nombre': artista['name'],
+            'imagen': artista['picture_medium']
+        } for artista in data['data']]
         return artistas
     else:
-        return []
+        return []  # Retorna una lista vacía si no hay datos de artistas
 
+"""
+La función formato_duracion convierte una duración en segundos en un formato de minutos y segundos.
+"""
 def formato_duracion(segundos):
-    minutos = segundos // 60
-    segundos = segundos % 60
-    return f"{minutos}:{segundos:02d}"
+    minutos = segundos // 60  # Calcula los minutos
+    segundos = segundos % 60  # Calcula los segundos restantes
+    return f"{minutos}:{segundos:02d}"  # Retorna la duración en formato mm:ss
 
-
+"""
+La función obtener_canciones_de_deezer obtiene las canciones más populares de un artista utilizando la API de Deezer.
+Retorna una lista de canciones con su información relevante.
+"""
 def obtener_canciones_de_deezer(artista_id):
-    url = f'https://api.deezer.com/artist/{artista_id}/top?limit=10'
-    response = requests.get(url)
-    if response.status_code != 200:
-        return []
-    data = response.json()
+    url = f'https://api.deezer.com/artist/{artista_id}/top?limit=10'  # Construye la URL de la solicitud a la API de Deezer
+    response = requests.get(url)  # Realiza la solicitud GET a la API de Deezer
+    
+    if response.status_code != 200:  # Verifica si la respuesta no tiene un código de estado 200
+        return []  # Retorna una lista vacía si hay un error en la solicitud
+    
+    data = response.json()  # Convierte la respuesta en formato JSON
+    
     if 'data' in data:
-        canciones = [{
+        canciones = [{  # Extrae y estructura la información relevante de las canciones
             'id': cancion['id'],
             'titulo': cancion['title'],
             'url': cancion['link'],
@@ -195,61 +171,73 @@ def obtener_canciones_de_deezer(artista_id):
         } for cancion in data['data']]
         return canciones
     else:
-        return []
-    
-def canciones_en_tendencia(request):
-    print("Se ha recibido una solicitud para la vista canciones_en_tendencia.")
-    url = 'https://api.deezer.com/chart/0/tracks?limit=5&country=ar'
-    response = requests.get(url)
+        return []  # Retorna una lista vacía si no hay datos de canciones
 
-    if response.status_code == 200:
-        print("La API está respondiendo correctamente.")
-        data = response.json()
-        print("Datos recibidos:", data)
+"""
+La función canciones_en_tendencia obtiene las canciones en tendencia utilizando la API de Deezer y las retorna en formato JSON.
+"""
+def canciones_en_tendencia(request):
+    url = 'https://api.deezer.com/chart/0/tracks?limit=5&country=ar'  # Construye la URL de la solicitud a la API de Deezer
+    response = requests.get(url)  # Realiza la solicitud GET a la API de Deezer
+
+    if response.status_code == 200:  # Verifica si la respuesta tiene un código de estado 200
+        data = response.json()  # Convierte la respuesta en formato JSON
         
-        # Extraer la información relevante de la respuesta
+        # Extrae la información relevante de la respuesta
         canciones = []
         for cancion in data['data']:
             info_cancion = {
                 'titulo': cancion['title'],
                 'artista': cancion['artist']['name'],
                 'album': cancion['album']['title'],
-                'imagen': cancion['album']['cover_medium']  # Aquí se obtiene la URL de la imagen directamente de la API
+                'imagen': cancion['album']['cover_medium']  # Incluye la URL de la imagen de la carátula
             }
             canciones.append(info_cancion)
 
-        # Retornar los datos como respuesta JSON
+        # Retorna los datos como respuesta JSON
         return JsonResponse({'canciones': canciones})
     else:
-        print("Hubo un problema al hacer la solicitud a la API. Código de estado:", response.status_code)
         # Si hay un error en la solicitud a la API, devuelve un mensaje de error
         return JsonResponse({'error': 'Hubo un problema al hacer la solicitud a la API'}, status=500)
-    '''Modifico desde aca '''
-    
 
+"""
+La función listar_usuarios muestra una lista de todos los usuarios registrados.
+"""
 def listar_usuarios(request):
-    usuarios = Usuario.objects.all()
-    return render(request, 'listar_usuarios.html', {'usuarios': usuarios})
+    usuarios = Usuario.objects.all()  # Obtiene todos los usuarios
+    return render(request, 'listar_usuarios.html', {'usuarios': usuarios})  # Renderiza la plantilla listar_usuarios.html con la lista de usuarios
 
+"""
+La función detalle_usuario muestra los detalles de un usuario específico.
+"""
 def detalle_usuario(request, pk):
-    usuario = get_object_or_404(Usuario, pk=pk)
-    return render(request, 'detalle_usuario.html', {'usuario': usuario})
+    usuario = get_object_or_404(Usuario, pk=pk)  # Obtiene el usuario específico o retorna un 404 si no existe
+    return render(request, 'detalle_usuario.html', {'usuario': usuario})  # Renderiza la plantilla detalle_usuario.html con los detalles del usuario
 
+"""
+La función editar_usuario maneja la edición de los datos de un usuario específico.
+"""
 def editar_usuario(request, pk):
-    usuario = get_object_or_404(Usuario, pk=pk)
-    if request.method == 'POST':
+    usuario = get_object_or_404(Usuario, pk=pk)  # Obtiene el usuario específico o retorna un 404 si no existe
+    
+    if request.method == 'POST':  # Verifica si la solicitud es de tipo POST
         # Aquí iría la lógica para editar el usuario
-        return redirect('detalle_usuario', pk=pk)
+        return redirect('detalle_usuario', pk=pk)  # Redirige a la vista de detalles del usuario después de editarlo
     else:
-        return render(request, 'editar_usuario.html', {'usuario': usuario})
+        return render(request, 'editar_usuario.html', {'usuario': usuario})  # Renderiza la plantilla editar_usuario.html con los datos del usuario
 
+"""
+La función eliminar_usuario maneja la eliminación de un usuario específico.
+"""
 def eliminar_usuario(request, pk):
-    usuario = get_object_or_404(Usuario, pk=pk)
-    if request.method == 'POST':
+    usuario = get_object_or_404(Usuario, pk=pk)  # Obtiene el usuario específico o retorna un 404 si no existe
+    
+    if request.method == 'POST':  # Verifica si la solicitud es de tipo POST
         # Aquí iría la lógica para eliminar el usuario
-        return redirect('listar_usuarios')
+        return redirect('listar_usuarios')  # Redirige a la vista de lista de usuarios después de eliminarlo
     else:
-        return render(request, 'eliminar_usuario.html', {'usuario': usuario})
+        return render(request, 'eliminar_usuario.html', {'usuario': usuario})  # Renderiza la plantilla eliminar_usuario.html con los datos del usuario
+
 '''
 def buscar_artistas_en_musicbrainz(query):
     # Realiza una solicitud a la API de MusicBrainz para buscar artistas que coincidan con el query
