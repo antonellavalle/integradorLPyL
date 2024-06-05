@@ -190,7 +190,8 @@ def canciones_en_tendencia(request):
                 'titulo': cancion['title'],
                 'artista': cancion['artist']['name'],
                 'album': cancion['album']['title'],
-                'imagen': cancion['album']['cover_medium']  # Incluye la URL de la imagen de la carátula
+                'imagen': cancion['album']['cover_medium'],  # Aca se obtiene la URL de la imagen directamente de la API
+                 'duracion':  formato_duracion(cancion['duration']),  # Agregamos la duración de la canción
             }
             canciones.append(info_cancion)
 
@@ -199,6 +200,7 @@ def canciones_en_tendencia(request):
     else:
         # Si hay un error en la solicitud a la API, devuelve un mensaje de error
         return JsonResponse({'error': 'Hubo un problema al hacer la solicitud a la API'}, status=500)
+
 
 """
 La función listar_usuarios muestra una lista de todos los usuarios registrados.

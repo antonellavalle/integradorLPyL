@@ -212,30 +212,32 @@
                            
                           
                            
-               
-                        <!-- Sección de canciones en tendencia -->
-                        <div class="tab-pane fade" id="pills-Tendencia" role="tabpanel" aria-labelledby="pills-Tendencia-tab">
-                            <div class="cancionesTendencia">
-                                <ul id="lista-canciones" class="estilo-lista-canciones">
-                                    <!-- Inicio del bucle -->
-                                    {% for cancion in canciones %}
-                                    <li class="cancion-pequeña estilo-cancion">
-                                        <!-- Carátula de la canción -->
-                                        <img src="{{ cancion.imagen }}" alt="{{ cancion.titulo }}" class="cancion-pequeña-img tendencia-img" style="width: 30px; height: 30px;">
-    
-                                        <!-- Información de la canción (título y artista) -->
-                                        <div class="info-cancion">
-                                            <h2>{{ cancion.titulo }}</h2>
-                                            <p>Artista: {{ cancion.artista }}</p>
-                                        </div>
-                                        <!-- Álbum de la canción -->
-                                        <p>Álbum: {{ cancion.album }}</p>
-                                    </li>
-                                    <!-- Fin del bucle -->
-                                    {% endfor %}
-                                </ul>
+                                     <!--Si se quiere cambiar el estilo tambien hay que aplicarlo en mostrarCanciones.js -->
+                            <div class="tab-pane fade" id="pills-Tendencia" role="tabpanel" aria-labelledby="pills-Tendencia-tab">
+                                <div class="cancionesTendencia m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
+                                    <ul id="lista-canciones" class="estilo-lista-canciones">
+                                        <!-- Inicio del bucle -->
+                                        {% for cancion in canciones %}
+                                        <li class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
+                                            <div class="col-1 h3"> <!-- Número de canción --> {{ forloop.counter }}</div>
+                                            <div class="col d-flex">
+                                                <!-- Carátula de la canción -->
+                                                <img src="{{ cancion.imagen }}" alt="{{ cancion.titulo }}" class="cancion-pequeña-img rounded m-1">
+                                                <div class="ms-1">
+                                                    <!-- Información de la canción (título y artista) -->
+                                                    <div>{{ cancion.titulo }}</div>
+                                                    <small>Artista: {{ cancion.artista }}</small>
+                                                </div>
+                                            </div>
+                                            <!-- Duración de la canción -->
+                                            <div class="col-2">${cancion.duracion} <i class="bi bi-play-fill"></i></div> <!-- Duración de la canción -->
+                                        </li>
+                                        <!-- Fin del bucle -->
+                                        {% endfor %}
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+            
 
                         <!--Nuevos lanzamientos-->
                             <div class="tab-pane fade" id="pills-Nuevos-Lanzamientos" role="tabpanel" aria-labelledby="pills-Nuevos-Lanzamientos-tab">

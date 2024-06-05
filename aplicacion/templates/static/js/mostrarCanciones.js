@@ -11,24 +11,23 @@ fetch('/canciones_en_tendencia')
     // Manipula los datos recibidos
     console.log('Datos de canciones recibidos:', data); // Muestra los datos recibidos en la consola
 
-    // Itera sobre cada canción y muestra su información en la consola
-    data.canciones.forEach(cancion => {
-      console.log('Título:', cancion.titulo);
-      console.log('Artista:', cancion.artista);
-      console.log('Álbum:', cancion.album);
-      console.log('Imagen:', cancion.imagen);
-      console.log('----------------------------------');
-    });
-
     // Muestra las canciones en el DOM
     const listaCanciones = document.getElementById('lista-canciones'); // Obtiene el elemento <ul> donde se agregarán las canciones
-    data.canciones.forEach(cancion => { // Itera sobre cada canción recibida
+    listaCanciones.innerHTML = ''; // Borra cualquier contenido previo de la lista
+
+    data.canciones.forEach((cancion, index) => { // Itera sobre cada canción recibida
       const listItem = document.createElement('li'); // Crea un nuevo elemento <li> para cada canción
+      listItem.className = 'cancion-pequeña m-1 ms-4 col-md-6 row align-items-center'; // Agrega las clases necesarias
       listItem.innerHTML = `
-        <img src="${cancion.imagen}" alt="${cancion.titulo}"> <!-- Agrega una imagen con la URL y el título de la canción como atributos -->
-        <h2>${cancion.titulo}</h2> <!-- Agrega el título de la canción -->
-        <p>Artista: ${cancion.artista}</p> <!-- Agrega el nombre del artista -->
-        <p>Álbum: ${cancion.album}</p> <!-- Agrega el nombre del álbum -->
+        <div class="col-1 h3">${index + 1}</div> <!-- Número de canción -->
+        <div class="col d-flex">
+          <img src="${cancion.imagen}" alt="${cancion.titulo}" class="cancion-pequeña-img rounded m-1"> <!-- Carátula de la canción -->
+          <div class="ms-1">
+            <div>${cancion.titulo}</div> <!-- Título de la canción -->
+            <small>Artista: ${cancion.artista}</small> <!-- Artista de la canción -->
+          </div>
+        </div>
+        <div class="col-2">${cancion.duracion} <i class="bi bi-play-fill"></i></div> <!-- Duración de la canción -->
       `;
       listaCanciones.appendChild(listItem); // Agrega el elemento <li> a la lista de canciones
     });
@@ -36,3 +35,4 @@ fetch('/canciones_en_tendencia')
   .catch(error => {
     console.error('Error al obtener las canciones:', error.message); // Maneja cualquier error que ocurra durante el proceso
   });
+
