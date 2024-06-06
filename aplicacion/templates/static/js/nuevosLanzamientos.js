@@ -1,3 +1,4 @@
+
 // Realiza una solicitud HTTP GET para obtener los nuevos lanzamientos
 fetch('/nuevos_lanzamientos_en_arg')
   .then(response => {
