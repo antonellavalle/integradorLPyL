@@ -77,7 +77,8 @@
                             <a class="nav-link active" aria-current="page" href="#">Inicio</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Descubrir</a>
+                            <a class="nav-link" href="{% url 'listas' %}">Listas</a>
+
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="#">Nuevo</a>
@@ -101,10 +102,11 @@
                         </li>
                        
                           <!-- Imagen del usuario  -->
+                          {% if user.is_authenticated %}
                         <img class="rounded-circle" src="{% static 'img/01.jpg' %}" style="width:40px;height:40px">
                         <li class="nav-item dropdown">
                           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Usuario
+                            {{ user.username }}
                           </a>
                            <!-- menu desplegable 2  -->
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown2">
@@ -115,12 +117,13 @@
                                 <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right"></i>Cerrar sesión</a></li>
                             </ul>
                         </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
         </nav> 
                 <!--Fin de la barra de navegacion-->
-
+ 
 
         
 
@@ -193,7 +196,6 @@
                                   <div class="col-2">03:31 <i class="bi bi-download"></i></div>
                               </div>
                               <!-- Fin Canción 3 -->
-                              
                               <!-- Canción Extra -->
                               <div class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
                                   <div class="col-1 h3">10</div>

@@ -274,6 +274,9 @@ def eliminar_usuario(request, pk):
     else:
         return render(request, 'eliminar_usuario.html', {'usuario': usuario})  # Renderiza la plantilla eliminar_usuario.html con los datos del usuario
 
+def listas_de_reproducion(request):
+    return render(request, 'listasReproducion.html')
+
 '''
 def buscar_artistas_en_musicbrainz(query):
     # Realiza una solicitud a la API de MusicBrainz para buscar artistas que coincidan con el query
