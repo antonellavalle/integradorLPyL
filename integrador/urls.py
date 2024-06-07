@@ -17,6 +17,6 @@ urlpatterns = [
     path('usuarios/<int:pk>/editar/', views.editar_usuario, name='editar_usuario'),
     path('usuarios/<int:pk>/eliminar/', views.eliminar_usuario, name='eliminar_usuario'),
     path('listas/', views.listas_de_reproducion,name='listas'),
-    
+    path('agregar_canciones/', views.agregar_canciones, name='agregar_canciones'), # Usado para poder buscar canciones en las listas de reproducion
 ]
 
