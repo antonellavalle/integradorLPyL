@@ -110,6 +110,30 @@ def buscar_canciones_deezer(query):
     else:
         return []  # Retorna una lista vacía si no hay datos de canciones
 
+# Usado para poder buscar canciones en las listas de reproducion
+def agregar_canciones(request):
+    query = request.GET.get('query', '')
+    url = f'https://api.deezer.com/search/track?q={query}'
+    response = requests.get(url)
+    
+    if response.status_code != 200:
+        return JsonResponse({'error': 'Error al consultar la API de Deezer'}, status=response.status_code)
+    
+    data = response.json()
+    
+    canciones = []
+    if 'data' in data:
+        canciones = [{
+            'id': cancion.get('id', ''),
+            'titulo': cancion.get('title', 'Título no disponible'),
+            'artista': cancion.get('artist', {}).get('name', 'Artista no disponible'),
+            'imagen': cancion.get('album', {}).get('cover_medium', 'default_cover.jpg'),
+            'duracion': formato_duracion(cancion.get('duration', 0))
+        } for cancion in data['data']]
+    
+    return JsonResponse(canciones, safe=False)
+# Usado para poder buscar canciones en las listas de reproducion
+
 """
 La función obtener_canciones obtiene las canciones de un artista específico utilizando la API de Deezer.
 """
