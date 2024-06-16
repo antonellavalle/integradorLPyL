@@ -67,7 +67,46 @@ def iniciar_sesion(request):
 La función principal renderiza la vista principal de la aplicación.
 """
 def principal(request):
-    return render(request, 'principal.html')
+    cancionesTrap = obtener_canciones_de_genero('trap')
+    cancionesRock = obtener_canciones_de_genero('rock')
+    contexto = {
+        'cancionesTrap': cancionesTrap,
+        'cancionesRock': cancionesRock
+    }
+    return render(request, 'principal.html', contexto)
+
+
+def obtener_canciones_de_genero(genero, limite=5):
+    url = 'https://api.deezer.com/search'
+    params = {
+        'q': genero,
+        'limit': limite  # Puedes ajustar el límite según tus necesidades
+    }
+    response = requests.get(url, params=params)  # Realiza la solicitud GET a la API de Deezer
+
+    if response.status_code != 200:  # Verifica si la respuesta no tiene un código de estado 200
+        return []  # Retorna una lista vacía si hay un error en la solicitud
+
+    data = response.json()  # Convierte la respuesta en formato JSON
+
+    if 'data' in data:
+        canciones = [{  # Extrae la información relevante de las canciones
+            'id': cancion['id'],
+            'titulo': cancion['title'],
+            'artista': cancion['artist']['name'],
+            'url': cancion['link'],
+            'imagen': cancion['album']['cover_medium'],
+            'duracion': formato_duracion(cancion['duration'])  
+        } for cancion in data['data']]
+        return canciones
+    else:
+        return []  # Retorna una lista vacía si no hay datos de canciones
+
+    
+
+
+
+
 
 """
 La función buscar_artista maneja la búsqueda de artistas y canciones utilizando la API de Deezer.

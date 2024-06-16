@@ -278,43 +278,27 @@
 
          <!-- Ajusta el contenido-->
          <section class="pt-2 p-4 mx-5 d-flex justify-content-center" style="flex-wrap:wrap;">
-             <!-- Comienzo de la presentacion de la cancion 1 configuracion de la imagen -->
-             <div class="m-4" style="width:200px;">
-                 <div style="position: relative;">
-                     <img src="{% static 'img/04.jpg' %}" class="imagen-cancion-categoria">
-                     <a href="#">
-                         <div class="cancion-categoria-hover">
-                             <i class="h1 bi bi-download" style="color:white;"></i>
-                         </div>
-                     </a>
-                 </div>
-                 <!-- Titulo y descripcion debajo de la imagen -->
-                 <div>
-                     <div class="lider text-white">Rockstar</div>
-                     <div class="text-white" style="font-size: 0.9em;">Post Malone</div>
-                 </div>
-             </div>
-             <!-- Fin de la presentacion de la cancion 1 -->
-         
-             <!-- Comienzo de la presentacion de la cancion 2 -->
-             <div class="m-4" style="width:200px; position: relative;">
-                 <div style="position: relative;">
-                     <img src="{% static 'img/01.jpg' %}" class="imagen-cancion-categoria">
-                     <a href="#">
-                         <div class="cancion-categoria-hover">
-                             <i class="h1 bi bi-download" style="color:white;"></i>
-                         </div>
-                     </a>
-                 </div>
-                 <!-- Titulo y descripcion debajo de la imagen -->
-                 <div>
-                     <div class="lider text-white">Sicko Mode</div>
-                     <div class="text-white" style="font-size: 0.9em;">Travis Scott</div>
-
-                 </div>
-             </div>
-             <!-- Fin de la presentacion de la cancion 2 -->
-            </section>
+            {% for cancion in cancionesTrap %}
+            <!-- Comienzo de la presentacion de la cancion -->
+            <div class="m-4" style="width:200px;">
+                <div style="position: relative;">
+                    <img src="{{ cancion.imagen }}" class="imagen-cancion-categoria">
+                    <a href="{{ cancion.url }}">
+                        <div class="cancion-categoria-hover">
+                            <i class="h1 bi bi-play-fill" style="color:white;"></i>
+                        </div>
+                    </a>
+                </div>
+                <!-- Titulo y descripcion debajo de la imagen -->
+                <div>
+                    <div class="lider text-white">{{ cancion.titulo }}</div>
+                    <div class="text-white" style="font-size: 0.9em;">{{ cancion.artista }}</div>
+                </div>
+            </div>
+            <!-- Fin de la presentacion de la cancion -->
+        {% endfor %}
+           </section>
+    
              <!--Fin de la seccion categoria trap   -->
 
 
@@ -323,42 +307,30 @@
 
          <section class="pt-2 p-4 mx-5 d-flex justify-content-center" style="flex-wrap:wrap;">
              <!-- Comienzo de la presentacion de la cancion 1 -->
-             <div class="m-4" style="width:200px;">
-                 <div style="position: relative;">
-                     <img src="{% static 'img/05.jpg' %}" class="imagen-cancion-categoria">
-                     <a href="#">
-                         <div class="cancion-categoria-hover">
-                             <i class="h1 bi bi-download" style="color:white;"></i>
-                         </div>
-                     </a>
-                 </div>
-                 <!-- Titulo y descripcion debajo de la imagen -->
-                 <div>
-                     <div class="lider text-white">De musica Ligera</div>
-                     <div class="text-white" style="font-size: 0.9em;">Soda Stereo</div>
-                 </div>
-             </div>
-        
-             <!-- Fin de la presentacion de la cancion 1 -->
-         
-             <!-- Comienzo de la presentacion de la cancion 2 -->
-             <div class="m-4" style="width:200px; position: relative;">
-                 <div style="position: relative;">
-                     <img src="{% static 'img/08.jpg' %}" class="imagen-cancion-categoria">
-                     <a href="#">
-                         <div class="cancion-categoria-hover">
-                             <i class="h1 bi bi-download" style="color:white;"></i>
-                         </div>
-                     </a>
-                 </div>
-                 <!-- Titulo y descripcion debajo de la imagen -->
-                 <div>
-                     <div class="lider text-white">In the end</div>
-                     <div class="text-white" style="font-size: 0.9em;">Linkin Park</div>
-                 </div>
-             </div>
-             <!-- Fin de la presentacion de la cancion 2 -->
+             <section class="pt-2 p-4 mx-5 d-flex justify-content-center" style="flex-wrap:wrap;">
+                {% for cancion in cancionesRock %}
+                <!-- Comienzo de la presentacion de la cancion -->
+                <div class="m-4" style="width:200px;">
+                    <div style="position: relative;">
+                        <img src="{{ cancion.imagen }}" class="imagen-cancion-categoria">
+                        <a href="{{ cancion.url }}">
+                            <div class="cancion-categoria-hover">
+                                <i class="h1 bi bi-play-fill" style="color:white;"></i>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Titulo y descripcion debajo de la imagen -->
+                    <div>
+                        <div class="lider text-white">{{ cancion.titulo }}</div>
+                        <div class="text-white" style="font-size: 0.9em;">{{ cancion.artista }}</div>
+                    </div>
+                </div>
+                <!-- Fin de la presentacion de la cancion -->
+            {% endfor %}
+               </section>
              <!--Fin de la seccion categoria Rock  -->
+
+             
 
          </section>
         <!--Fin de la seccion categoria  -->
