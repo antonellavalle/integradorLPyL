@@ -1,102 +1,92 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    {% load static %} 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-
-     <!-- Barra de navegación -->
-     <nav class="mainNavbar shadow navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #7d0b0b;"
-     style="min-width:350px;" >  <!--Barra de navegacion tema y color -->
-       <!-- Logo de la esquina superior izquierda -->
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    <i class="bi bi-soundwave"></i> Project Managers
-                    <div style="font-size: 13px">Ingenieros</div>
-                </a>
-                <!-- Buscador -->
-                <!-- Cuando hay una i es un icono bi bi-search por ejemplo es el buscador -->
-              
-                
-                <div class="input-group" style="max-width: 400px;">
-                   
-                    <form method="GET" action="{% url 'buscar_artista' %}" style="display: flex; width: 100%;">
-                     
-                            <input type="text" class="form-control" name="q" placeholder="Buscar" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                          
-                            <select name="tipo"> <!-- Campo select para saber que buscar  -->
-                                <option value="artista">Artista</option>
-                                <option value="cancion">Canción</option>
-                            </select>
-                            <button type="submit" class="input-group-text bg-black text-white border-0" id="basic-addon2"><i class="bi bi-search"></i></button>    
-                    </form>
-                </div>
+{% load static %}
+    <!-- Barra de navegación -->
+    <nav class="mainNavbar shadow navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #7d0b0b;"
+    style="min-width:350px;" >  <!--Barra de navegacion tema y color -->
+      <!-- Logo de la esquina superior izquierda -->
+           <div class="container-fluid">
+                 <a class="navbar-brand" href="{% url 'principal' %}">
+                   <i class="bi bi-soundwave"></i> Project Managers
+                   <div style="font-size: 13px">Ingenieros</div>
+               </a>
+               <!-- Buscador -->
+               <!-- Cuando hay una i es un icono bi bi-search por ejemplo es el buscador -->
+             
+   
+               <div class="input-group" style="max-width: 400px;">
                   
-                <!-- Botón para colapsar la barra de navegación en dispositivos pequeños --> 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-    
-                      <!-- Menú de navegación -->
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                         <!-- Elementos de navegación -->
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'listas' %}">Listas</a>
-
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Nuevo</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Tendencia</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                             <!-- Falta arreglar los dos  menus desplegables no se desplegan :c  -->
-                              <!-- menu desplegable 1  -->
-                              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Género
-                            </a>
-                              <!-- Opciones del menú desplegable "Género" -->
-                              <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                                <li><a class="dropdown-item" href="#">Trap</a></li>
-                                <li><a class="dropdown-item" href="#">Rock</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Reggaeton</a></li>
-                            </ul>
-                        </li>
-                       
-                          <!-- Imagen del usuario  -->
-                          {% if user.is_authenticated %}
-                        <img class="rounded-circle" src="{% static 'img/01.jpg' %}" style="width:40px;height:40px">
-                        <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ user.username }}
-                          </a>
-                           <!-- menu desplegable 2  -->
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown2">
-                                  <!-- Opciones del menú desplegable "Usuario" -->
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i>Perfil</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i>Configuración</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right"></i>Cerrar sesión</a></li>
-                            </ul>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </nav> 
+                   <form method="GET" action="{% url 'buscar_artista' %}" style="display: flex; width: 100%;">
+                    
+                           <input type="text" class="form-control" name="q" placeholder="Buscar" aria-label="Recipient's username" aria-describedby="basic-addon2">
+                         
+                           <select name="tipo"> <!-- Campo select para saber que buscar  -->
+                               <option value="artista">Artista</option>
+                               <option value="cancion">Canción</option>
+                           </select>
+                           <button type="submit" class="input-group-text bg-black text-white border-0" id="basic-addon2"><i class="bi bi-search"></i></button>    
+                   </form>
+               </div>
+      
                
-            <!--Fin de la barra de navegacion-->
 
+               <!-- Botón para colapsar la barra de navegación en dispositivos pequeños --> 
+               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                   <span class="navbar-toggler-icon"></span>
+               </button>
+   
+                     <!-- Menú de navegación -->
+               <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                   <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <!-- Elementos de navegación -->
+                       <li class="nav-item">
+                           <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                       </li>
+                       <li class="nav-item">
+                           <a class="nav-link" href="{% url 'listas' %}">Listas</a>
+
+                       </li>
+                       <li class="nav-item">
+                           <a class="nav-link" href="#">Nuevo</a>
+                       </li>
+                       <li class="nav-item">
+                           <a class="nav-link" href="#">Tendencia</a>
+                       </li>
+                       <li class="nav-item dropdown">
+                            <!-- Falta arreglar los dos  menus desplegables no se desplegan :c  -->
+                             <!-- menu desplegable 1  -->
+                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                               Género
+                           </a>
+                             <!-- Opciones del menú desplegable "Género" -->
+                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                               <li><a class="dropdown-item" href="#">Trap</a></li>
+                               <li><a class="dropdown-item" href="#">Rock</a></li>
+                               <li><hr class="dropdown-divider"></li>
+                               <li><a class="dropdown-item" href="#">Reggaeton</a></li>
+                           </ul>
+                       </li>
+                      
+                         <!-- Imagen del usuario  -->
+                         {% if user.is_authenticated %}
+                       <img class="rounded-circle" src="{% static 'img/01.jpg' %}" style="width:40px;height:40px">
+                       <li class="nav-item dropdown">
+                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                           {{ user.username }}
+                         </a>
+                          <!-- menu desplegable 2  -->
+                           <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown2">
+                                 <!-- Opciones del menú desplegable "Usuario" -->
+                               <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i>Perfil</a></li>
+                               <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i>Configuración</a></li>
+                               <li><hr class="dropdown-divider"></li>
+                               <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right"></i>Cerrar sesión</a></li>
+                           </ul>
+                       </li>
+                       {% endif %}
+                   </ul>
+               </div>
+           </div>
+       </nav> 
+               <!--Fin de la barra de navegacion-->
 
             
 
-</body>
-</html>

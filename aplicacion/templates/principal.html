@@ -12,376 +12,144 @@
 <!-- <input> (Entrada) -->
 <!-- <Span> (texto de linea) -->
 <!-- <div class> se utiliza como una clase para despues usarla referenciandola en el archivo css -->
-
-
-
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    {% load static %}  <!-- Carga los archivos estaticos -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagina Principal</title>  <!-- Titulo de pagina -->
-
-
-     <!-- Enlaces a archivos CSS y boostrap -->
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/stylePrincipal.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/styleCanciones.css' %}">
-    <script src="{% static 'js/mostrarCanciones.js' %}"></script>
-    <script src="{% static 'js/nuevosLanzamientos.js' %}"></script>
-
-</head>
-<body>
-
-    <main>   <!--Comienzo del contenido principal -->
-     <!-- Barra de navegación -->
-     <nav class="mainNavbar shadow navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #7d0b0b;"
-     style="min-width:350px;" >  <!--Barra de navegacion tema y color -->
-       <!-- Logo de la esquina superior izquierda -->
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">
-                    <i class="bi bi-soundwave"></i> Project Managers
-                    <div style="font-size: 13px">Ingenieros</div>
-                </a>
-                <!-- Buscador -->
-                <!-- Cuando hay una i es un icono bi bi-search por ejemplo es el buscador -->
-              
-                
-                <div class="input-group" style="max-width: 400px;">
-                   
-                    <form method="GET" action="{% url 'buscar_artista' %}" style="display: flex; width: 100%;">
-                     
-                            <input type="text" class="form-control" name="q" placeholder="Buscar" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                          
-                            <select name="tipo"> <!-- Campo select para saber que buscar  -->
-                                <option value="artista">Artista</option>
-                                <option value="cancion">Canción</option>
-                            </select>
-                            <button type="submit" class="input-group-text bg-black text-white border-0" id="basic-addon2"><i class="bi bi-search"></i></button>    
-                    </form>
-                </div>
-                  
-                <!-- Botón para colapsar la barra de navegación en dispositivos pequeños --> 
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-    
-                      <!-- Menú de navegación -->
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                         <!-- Elementos de navegación -->
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'listas' %}">Listas</a>
-
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Nuevo</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Tendencia</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                             <!-- Falta arreglar los dos  menus desplegables no se desplegan :c  -->
-                              <!-- menu desplegable 1  -->
-                              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Género
-                            </a>
-                              <!-- Opciones del menú desplegable "Género" -->
-                              <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
-                                <li><a class="dropdown-item" href="#">Trap</a></li>
-                                <li><a class="dropdown-item" href="#">Rock</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">Reggaeton</a></li>
-                            </ul>
-                        </li>
-                       
-                          <!-- Imagen del usuario  -->
-                          {% if user.is_authenticated %}
-                        <img class="rounded-circle" src="{% static 'img/01.jpg' %}" style="width:40px;height:40px">
-                        <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {{ user.username }}
-                          </a>
-                           <!-- menu desplegable 2  -->
-                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown2">
-                                  <!-- Opciones del menú desplegable "Usuario" -->
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i>Perfil</a></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i>Configuración</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right"></i>Cerrar sesión</a></li>
-                            </ul>
-                        </li>
-                        {% endif %}
-                    </ul>
-                </div>
-            </div>
-        </nav> 
-                <!--Fin de la barra de navegacion-->
- 
-
-        
-
-         </div>
-            <!--Comienzo de toda la zona central  -->
-            <!-- Hero hace referencia a toda la seccion central  -->
-             <div class="hero-area pt-5 mt-2" style="min-height: 400px; background-image: url('{% static 'img/03.jpg' %}'); background-position: 20% 40%; background-size: cover;">
-                <!-- Espacio de navegación -->
-                <div  class="nav-spacer"></div>
-                           <!--Imagen principal de fondo   -->   
-                           <ul class="hero-nav nav m-4 nav-pills mb-3" id="pills-tab" role="tablist">
-                            <!-- Botones de navegación en forma de pestañas -->
-                            <!-- Botón "Explorar" -->
-                            <li class="nav-item" role="presentation">
-                                <button class="text-white nav-link active" id="pills-Explorar-tab" data-bs-toggle="pill" data-bs-target="#pills-Explorar" type="button" role="tab" aria-controls="pills-Explorar" aria-selected="true">Explorar</button>
-                            </li>
-                            <!-- Botón "Tendencia" -->
-                            <li class="nav-item" role="presentation">
-                                <button class="text-white nav-link" id="pills-Tendencia-tab" data-bs-toggle="pill" data-bs-target="#pills-Tendencia" type="button" role="tab" aria-controls="pills-Tendencia" aria-selected="false">Tendencia</button>
-                            </li>
-                            <!-- Botón "Nuevos Lanzamientos" -->
-                            <li class="nav-item" role="presentation">
-                                <button class="text-white nav-link" id="pills-Nuevos-Lanzamientos-tab" data-bs-toggle="pill" data-bs-target="#pills-Nuevos-Lanzamientos" type="button" role="tab" aria-controls="pills-Nuevos-Lanzamientos" aria-selected="false">Nuevos Lanzamientos</button>
-                            </li>
-                        </ul>
-                        <!-- Contenido de las pestañas -->
-                        <div class="tab-content" id="pills-tabContent">
-                            <!-- Pestaña de Explorar -->
-                                           
-                            <div class="tab-pane fade show active" id="pills-Explorar" role="tabpanel" aria-labelledby="pills-Explorar-tab">
-                              <!--comienzo de la parte de la lista de canciones -->
-                              <!-- Explorar -->
-                              <!-- Cancion 1 -->
-                              <div class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
-                                  <div class="col-1 h3">01</div>
-                                  <div class="col d-flex">
-                                      <img class="cancion-pequeña-img rounded m-1" src="{% static 'img/04.jpg' %}">
-                                      <div class="ms-1">
-                                          <div>Rockstar</div>
-                                          <small>Post Malone</small>
-                                      </div>
-                                  </div>
-                                  <div class="col-2">03:38 <i class="bi bi-download"></i></div>
-                              </div>
-                              <!-- Fin Canción 1 -->
-             
-                              <!--cancion 2 -->
-                              <div class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
-                                  <div class="col-1 h3">02</div>
-                                  <div class="col d-flex">
-                                      <img class="cancion-pequeña-img rounded m-1" src="{% static 'img/01.jpg' %}">
-                                      <div class="ms-1">
-                                          <div>Sicko Mode</div>
-                                          <small>Travis Scott</small>
-                                      </div>
-                                  </div>
-                                  <div class="col-2">05:13 <i class="bi bi-download"></i></div>
-                              </div>
-                              <!-- Fin Canción 2 -->
-                              <!--cancion 3  -->
-                              <div class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
-                                  <div class="col-1 h3">03</div>
-                                  <div class="col d-flex">
-                                      <img class="cancion-pequeña-img rounded m-1" src="{% static 'img/05.jpg' %}">
-                                      <div class="ms-1">
-                                          <div>De musica ligera</div>
-                                          <small>Soda stereo</small>
-                                      </div>
-                                  </div>
-                                  <div class="col-2">03:31 <i class="bi bi-download"></i></div>
-                              </div>
-                              <!-- Fin Canción 3 -->
-                              <!-- Canción Extra -->
-                              <div class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
-                                  <div class="col-1 h3">10</div>
-                                  <div class="col d-flex">
-                                      <img class="cancion-pequeña-img rounded m-1" src="{% static 'img/10.jpg' %}">
-                                      <div class="ms-1">
-                                          <div>Take What You Want</div>
-                                          <small>Post Malone</small>
-                                      </div>
-                                  </div>
-                                  <div class="col-2">03:31 <i class="bi bi-download"></i></div>
-                              </div>
-                              <!-- Fin Canción Extra -->
-                              <!--fin de la lista de canciones -->
+    {% extends "base.html" %}
+{% block main %}
+{% load static %}
+<!-- Comienzo del contenido principal -->
+<!-- Comienzo de toda la zona central -->
+<!-- Hero hace referencia a toda la seccion central -->
+<div class="hero-area pt-3 mt-2" style="min-height: 400px; background-image: url('{% static 'img/03.jpg' %}'); background-position: 20% 40%; background-size: cover;">
+    <!-- Espacio de navegación -->
+    <div class="nav-spacer"></div>
+    <!-- Imagen principal de fondo -->
+    <ul class="hero-nav nav m-4 nav-pills mb-3" id="pills-tab" role="tablist">
+        <!-- Botones de navegación en forma de pestañas -->
+        <!-- Botón "Tendencia" -->
+        <li class="nav-item" role="presentation">
+            <button class="text-white nav-link active" id="pills-Tendencia-tab" data-bs-toggle="pill" data-bs-target="#pills-Tendencia" type="button" role="tab" aria-controls="pills-Tendencia" aria-selected="true">Tendencia</button>
+        </li>
+        <!-- Botón "Nuevos Lanzamientos" -->
+        <li class="nav-item" role="presentation">
+            <button class="text-white nav-link" id="pills-Nuevos-Lanzamientos-tab" data-bs-toggle="pill" data-bs-target="#pills-Nuevos-Lanzamientos" type="button" role="tab" aria-controls="pills-Nuevos-Lanzamientos" aria-selected="false">Nuevos Lanzamientos</button>
+        </li>
+    </ul>
+    <!-- Contenido de las pestañas -->
+    <div class="tab-content">
+        <!-- Canciones de tendencias -->
+        <!-- Si se quiere cambiar el estilo también hay que aplicarlo en mostrarCanciones.js -->
+        <div class="tab-pane fade show active" id="pills-Tendencia" role="tabpanel" aria-labelledby="pills-Tendencia-tab">
+            <div class="cancionesTendencia m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
+                <ul id="lista-canciones" class="estilo-lista-canciones">
+                    <!-- Inicio del bucle -->
+                    {% for cancion in canciones %}
+                    <li class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
+                        <div class="col-1 h3"> <!-- Número de canción --> {{ forloop.counter }}</div>
+                        <div class="col d-flex">
+                            <!-- Carátula de la canción -->
+                            <img src="{{ cancion.imagen }}" alt="{{ cancion.titulo }}" class="cancion-pequeña-img rounded m-1">
+                            <div class="ms-1">
+                                <!-- Información de la canción (título y artista) -->
+                                <div>{{ cancion.titulo }}</div>
+                                <small>Artista: {{ cancion.artista }}</small>
                             </div>
-                            <!-- Fin de la pestaña "Explorar" -->
-                           
-                          
-                           
-                                     <!--Si se quiere cambiar el estilo tambien hay que aplicarlo en mostrarCanciones.js -->
-                            <div class="tab-pane fade" id="pills-Tendencia" role="tabpanel" aria-labelledby="pills-Tendencia-tab">
-                                <div class="cancionesTendencia m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
-                                    <ul id="lista-canciones" class="estilo-lista-canciones">
-                                        <!-- Inicio del bucle -->
-                                        {% for cancion in canciones %}
-                                        <li class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
-                                            <div class="col-1 h3"> <!-- Número de canción --> {{ forloop.counter }}</div>
-                                            <div class="col d-flex">
-                                                <!-- Carátula de la canción -->
-                                                <img src="{{ cancion.imagen }}" alt="{{ cancion.titulo }}" class="cancion-pequeña-img rounded m-1">
-                                                <div class="ms-1">
-                                                    <!-- Información de la canción (título y artista) -->
-                                                    <div>{{ cancion.titulo }}</div>
-                                                    <small>Artista: {{ cancion.artista }}</small>
-                                                </div>
-                                            </div>
-                                            <!-- Duración de la canción -->
-                                            <div class="col-2">${cancion.duracion} <i class="bi bi-play-fill"></i></div> <!-- Duración de la canción -->
-                                        </li>
-                                        <!-- Fin del bucle -->
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
-                           
-            
-
-                        <!--Nuevos lanzamientos-->
-                            <div class="tab-pane fade" id="pills-Nuevos-Lanzamientos" role="tabpanel" aria-labelledby="pills-Nuevos-Lanzamientos-tab">
-                                <div class="cancionesLanzamientos m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
-                                    <ul id="lista-lanzamientos" class="estilo-lista-canciones">
-                                        <!-- Inicio del bucle -->
-                                        {% for lanzamiento in lanzamientos %}
-                                        <li class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
-                                            <div class="col-1 h3"> <!-- Número del lanzamiento --> {{ forloop.counter }}</div>
-                                            <div class="col d-flex">
-                                                <!-- Carátula del lanzamiento -->
-                                                <img src="{{ lanzamiento.imagen }}" alt="{{ lanzamiento.titulo }}" class="cancion-pequeña-img rounded m-1">
-                                                <div class="ms-1">
-                                                    <!-- Información del lanzamiento (título y artista) -->
-                                                    <div>{{ lanzamiento.titulo }}</div>
-                                                    <small>Artista: {{ lanzamiento.artista }}</small>
-                                                </div>
-                                            </div>
-                                            <!-- Duración del lanzamiento -->
-                                            <div class="col-2">{{ lanzamiento.duracion }} <i class="bi bi-play-fill"></i></div>
-                                        </li>
-                                        <!-- Fin del bucle -->
-                                        {% endfor %}
-                                    </ul>
-                            </div>
-                            </div>
-                          </div>
-                            <!--fin de la seccion nuevos lanzamientos-->
-              </div>
-           <!--Fin  de la zona central  -->
-
-         <!--Comienzo de la seccion categoria trap  -->
-         <h5 class="titulo-categoria mx-5 pt-4 mb-2 text-white">Trap<small class="float-end mt-1"><a href="" class="text-white me-1">Ver mas <i class="bi bi-box-arrow-up-right"></i></a></small></h5>
-
-         <!-- Ajusta el contenido-->
-         <section class="pt-2 p-4 mx-5 d-flex justify-content-center" style="flex-wrap:wrap;">
-            {% for cancion in cancionesTrap %}
-            <!-- Comienzo de la presentacion de la cancion -->
-            <div class="m-4" style="width:200px;">
-                <div style="position: relative;">
-                    <img src="{{ cancion.imagen }}" class="imagen-cancion-categoria">
-                    <a href="{{ cancion.url }}">
-                        <div class="cancion-categoria-hover">
-                            <i class="h1 bi bi-play-fill" style="color:white;"></i>
                         </div>
-                    </a>
-                </div>
-                <!-- Titulo y descripcion debajo de la imagen -->
-                <div>
-                    <div class="lider text-white">{{ cancion.titulo }}</div>
-                    <div class="text-white" style="font-size: 0.9em;">{{ cancion.artista }}</div>
-                </div>
+                        <!-- Duración de la canción -->
+                        <div class="col-2">{{ cancion.duracion }} <i class="bi bi-play-fill"></i></div> <!-- Duración de la canción -->
+                    </li>
+                    <!-- Fin del bucle -->
+                    {% endfor %}
+                </ul>
             </div>
-            <!-- Fin de la presentacion de la cancion -->
-        {% endfor %}
-           </section>
-    
-             <!--Fin de la seccion categoria trap   -->
+        </div>
+        <!-- Fin de Canciones en tendencias -->
 
-
-              <!--Comienzo de la segunda  categoria  Rock-->
-         <h5 class="titulo-categoria mx-5 pt-4 mb-2 text-white">Rock<small class="float-end mt-1"><a href="" class="text-white me-1">Ver mas <i class="bi bi-box-arrow-up-right"></i></a></small></h5>
-
-         <section class="pt-2 p-4 mx-5 d-flex justify-content-center" style="flex-wrap:wrap;">
-             <!-- Comienzo de la presentacion de la cancion 1 -->
-             <section class="pt-2 p-4 mx-5 d-flex justify-content-center" style="flex-wrap:wrap;">
-                {% for cancion in cancionesRock %}
-                <!-- Comienzo de la presentacion de la cancion -->
-                <div class="m-4" style="width:200px;">
-                    <div style="position: relative;">
-                        <img src="{{ cancion.imagen }}" class="imagen-cancion-categoria">
-                        <a href="{{ cancion.url }}">
-                            <div class="cancion-categoria-hover">
-                                <i class="h1 bi bi-play-fill" style="color:white;"></i>
+        <!-- Nuevos lanzamientos -->
+        <div class="tab-pane fade" id="pills-Nuevos-Lanzamientos" role="tabpanel" aria-labelledby="pills-Nuevos-Lanzamientos-tab">
+            <div class="cancionesLanzamientos m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
+                <ul id="lista-lanzamientos" class="estilo-lista-canciones">
+                    <!-- Inicio del bucle -->
+                    {% for lanzamiento in lanzamientos %}
+                    <li class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
+                        <div class="col-1 h3"> <!-- Número del lanzamiento --> {{ forloop.counter }}</div>
+                        <div class="col d-flex">
+                            <!-- Carátula del lanzamiento -->
+                            <img src="{{ lanzamiento.imagen }}" alt="{{ lanzamiento.titulo }}" class="cancion-pequeña-img rounded m-1">
+                            <div class="ms-1">
+                                <!-- Información del lanzamiento (título y artista) -->
+                                <div>{{ lanzamiento.titulo }}</div>
+                                <small>Artista: {{ lanzamiento.artista }}</small>
                             </div>
-                        </a>
-                    </div>
-                    <!-- Titulo y descripcion debajo de la imagen -->
-                    <div>
-                        <div class="lider text-white">{{ cancion.titulo }}</div>
-                        <div class="text-white" style="font-size: 0.9em;">{{ cancion.artista }}</div>
-                    </div>
-                </div>
-                <!-- Fin de la presentacion de la cancion -->
-            {% endfor %}
-               </section>
-             <!--Fin de la seccion categoria Rock  -->
-
-             
-
-         </section>
-        <!--Fin de la seccion categoria  -->
-
-    </main>   <!--Fin del main o parte central de la pagina--> 
-
-     <!-- Comienzo del footer toda la seccion de final de la pagina -->
-    <footer class="p-5 pt-4 row bg-dark text-white ">
-       <!-- Columna 1 -->
-       <div class="col-md-3 mb-4 col-sm-6">
-        <h5>Links</h5>
-        <!-- Lista de enlaces -->
-        <ul class="nav flex-column">
-            <li><a href="#" style="color: white;">Inicio</a></li>
-            <li><a href="#" style="color: white;">Nuevo Lanzamientos</a></li>
-            <li><a href="#" style="color: white;">Artistas</a></li>
-            <li><a href="#" style="color: white;">Álbumes</a></li>
-        </ul>
+                        </div>
+                        <!-- Duración del lanzamiento -->
+                        <div class="col-2">{{ lanzamiento.duracion }} <i class="bi bi-play-fill"></i></div>
+                    </li>
+                    <!-- Fin del bucle -->
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
     </div>
-         <!-- Columna 2 -->
-        <div class="col-md-3 mb-4 col-sm-6">
-           <h5>Links </h5>
-             <!-- Lista de enlaces -->
-           <ul class="nav flex-column text-white">
-            <li><a href="#" style="color: white;">Inicio</a></li>
-            <li><a href="#" style="color: white;">Nuevo Lanzamientos</a></li>
-            <li><a href="#" style="color: white;">Artistas</a></li>
-            <li><a href="#" style="color: white;">Álbumes</a></li>
-           </ul>
-        </div>
-          <!-- Columna 3 -->
-        <div class="col-md-6 mb-4 col-sm-6">
-           <h5>Suscribite a nuestras novedades </h5>
-             <!-- Descripción de suscripción -->
-           <div>Recibe  las ultimas novedades</div>
-  
-    <!-- Formulario de suscripción --> 
-           <div class="input-group mb-3 mt-6">
-            <input type="text" class="form-control" placeholder="Email">
-            <!-- Botón de suscripción -->
-            <span class="input-group-text" style="background-color: #7d0b0b; color: white;" id="basic-addon2">Subscribete</span>
-           </div>
-      
-        </div>
-    </footer> <!-- Final del footer -->
+</div>
+<!-- Fin de la zona central -->
 
+<!-- Comienzo de la sección categoría Trap -->
+<h5 class="titulo-categoria mx-5 pt-4 mb-2 text-white">Trap<small class="float-end mt-1"><a href="" class="text-white me-1">Ver más <i class="bi bi-box-arrow-up-right"></i></a></small></h5>
+
+<!-- Ajusta el contenido -->
+<section class="pt-2 p-4 mx-5 d-flex justify-content-center" style="flex-wrap:wrap;">
+    {% for cancion in cancionesTrap %}
+    <!-- Comienzo de la presentación de la canción -->
+    <div class="m-4" style="width:200px;">
+        <div style="position: relative;">
+            <img src="{{ cancion.imagen }}" class="imagen-cancion-categoria">
+            <a href="{{ cancion.url }}">
+                <div class="cancion-categoria-hover">
+                    <i class="h1 bi bi-play-fill" style="color:white;"></i>
+                </div>
+            </a>
+        </div>
+        <!-- Título y descripción debajo de la imagen -->
+        <div>
+            <div class="lider text-white">{{ cancion.titulo }}</div>
+            <div class="text-white" style="font-size: 0.9em;">{{ cancion.artista }}</div>
+        </div>
+    </div>
+    <!-- Fin de la presentación de la canción -->
+    {% endfor %}
+</section>
+<!-- Fin de la sección categoría Trap -->
+
+<!-- Comienzo de la segunda categoría Rock -->
+<h5 class="titulo-categoria mx-5 pt-4 mb-2 text-white">Rock<small class="float-end mt-1"><a href="" class="text-white me-1">Ver más <i class="bi bi-box-arrow-up-right"></i></a></small></h5>
+
+<section class="pt-2 p-4 mx-5 d-flex justify-content-center" style="flex-wrap:wrap;">
+    {% for cancion in cancionesRock %}
+    <!-- Comienzo de la presentación de la canción -->
+    <div class="m-4" style="width:200px;">
+        <div style="position: relative;">
+            <img src="{{ cancion.imagen }}" class="imagen-cancion-categoria">
+            <a href="{{ cancion.url }}">
+                <div class="cancion-categoria-hover">
+                    <i class="h1 bi bi-play-fill" style="color:white;"></i>
+                </div>
+            </a>
+        </div>
+        <!-- Título y descripción debajo de la imagen -->
+        <div>
+            <div class="lider text-white">{{ cancion.titulo }}</div>
+            <div class="text-white" style="font-size: 0.9em;">{{ cancion.artista }}</div>
+        </div>
+    </div>
+    <!-- Fin de la presentación de la canción -->
+    {% endfor %}
+</section>
+<!-- Fin de la sección categoría Rock -->
+{% endblock %}
+puedes mover las pestañas tendencias y nuevos lanzamiento mas hacia arriba 
     <!--La siguiente linea la comento para solucionar el problema del despliegue, hay que verificar si afecta otros sectores-->
-    <!--<script src="{% static 'js/bootstrap.min.js' %}"></script> <!-- Importación de script Bootstrap  -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script> <!-- Importación de script para que funcione la barra desplegable -->
+    <!--<script src="{% static 'js/bootstrap.min.js' %}"></script>  Importación de script Bootstrap  -->
+     <!-- Importación de script para que funcione la barra desplegable -->
     
  
     
-  </body>
-</html>
+ 
