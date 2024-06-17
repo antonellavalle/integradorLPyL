@@ -80,12 +80,12 @@ def obtener_canciones_de_genero(genero, limite=5):
     url = 'https://api.deezer.com/search'
     params = {
         'q': genero,
-        'limit': limite  # Puedes ajustar el límite según tus necesidades
+        'limit': limite  
     }
     response = requests.get(url, params=params)  # Realiza la solicitud GET a la API de Deezer
 
     if response.status_code != 200:  # Verifica si la respuesta no tiene un código de estado 200
-        return []  # Retorna una lista vacía si hay un error en la solicitud
+        return []  # Retorna una lista vacia si hay un error en la solicitud
 
     data = response.json()  # Convierte la respuesta en formato JSON
 
