@@ -41,8 +41,9 @@
             <div class="cancionesTendencia m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
                 <ul id="lista-canciones" class="estilo-lista-canciones">
                     <!-- Inicio del bucle -->
-                    {% for cancion in canciones %}
+                    {% for cancion in cancionesTendencia %}
                     <li class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
+                   
                         <div class="col-1 h3"> <!-- Número de canción --> {{ forloop.counter }}</div>
                         <div class="col d-flex">
                             <!-- Carátula de la canción -->
@@ -66,6 +67,7 @@
         <!-- Nuevos lanzamientos -->
         <div class="tab-pane fade" id="pills-Nuevos-Lanzamientos" role="tabpanel" aria-labelledby="pills-Nuevos-Lanzamientos-tab">
             <div class="cancionesLanzamientos m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
+              
                 <ul id="lista-lanzamientos" class="estilo-lista-canciones">
                     <!-- Inicio del bucle -->
                     {% for lanzamiento in lanzamientos %}
@@ -145,7 +147,7 @@
 </section>
 <!-- Fin de la sección categoría Rock -->
 {% endblock %}
-puedes mover las pestañas tendencias y nuevos lanzamiento mas hacia arriba 
+
     <!--La siguiente linea la comento para solucionar el problema del despliegue, hay que verificar si afecta otros sectores-->
     <!--<script src="{% static 'js/bootstrap.min.js' %}"></script>  Importación de script Bootstrap  -->
      <!-- Importación de script para que funcione la barra desplegable -->

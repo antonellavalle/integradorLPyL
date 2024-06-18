@@ -69,9 +69,13 @@ La función principal renderiza la vista principal de la aplicación.
 def principal(request):
     cancionesTrap = obtener_canciones_de_genero('trap')
     cancionesRock = obtener_canciones_de_genero('rock')
+    cancionesTendencia = canciones_en_tendencia()
+    lanzamientos = nuevos_lanzamientos_en_arg()
     contexto = {
         'cancionesTrap': cancionesTrap,
-        'cancionesRock': cancionesRock
+        'cancionesRock': cancionesRock,
+        'cancionesTendencia': cancionesTendencia,
+        'lanzamientos': lanzamientos
     }
     return render(request, 'principal.html', contexto)
 
@@ -239,37 +243,34 @@ def obtener_canciones_de_deezer(artista_id):
 """
 La función canciones_en_tendencia obtiene las canciones en tendencia utilizando la API de Deezer y las retorna en formato JSON.
 """
-def canciones_en_tendencia(request):
-    url = 'https://api.deezer.com/chart/0/tracks?limit=5&country=ar'  # Construye la URL de la solicitud a la API de Deezer
-    response = requests.get(url)  # Realiza la solicitud GET a la API de Deezer
 
-    if response.status_code == 200:  # Verifica si la respuesta tiene un código de estado 200
-        data = response.json()  # Convierte la respuesta en formato JSON
-        
-        # Extrae la información relevante de la respuesta
+
+def canciones_en_tendencia():
+    url = 'https://api.deezer.com/chart/0/tracks?limit=5&country=ar'
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
         canciones = []
+
         for cancion in data['data']:
             info_cancion = {
                 'titulo': cancion['title'],
                 'artista': cancion['artist']['name'],
                 'album': cancion['album']['title'],
-                'imagen': cancion['album']['cover_medium'],  # Aca se obtiene la URL de la imagen directamente de la API
-                 'duracion':  formato_duracion(cancion['duration']),  # Agregamos la duración de la canción
+                'imagen': cancion['album']['cover_medium'],
+                'duracion': formato_duracion(cancion['duration']),
             }
             canciones.append(info_cancion)
 
-        # Retorna los datos como respuesta JSON
-        return JsonResponse({'canciones': canciones})
+        return canciones  # Devuelve la lista de canciones en forma de lista de diccionarios
     else:
-        # Si hay un error en la solicitud a la API, devuelve un mensaje de error
-        return JsonResponse({'error': 'Hubo un problema al hacer la solicitud a la API'}, status=500)
-   
-   
-def nuevos_lanzamientos_en_arg(request):
+        return []  # En caso de error, devuelve una lista vacía o maneja el error según necesites
+
+
+def nuevos_lanzamientos_en_arg():
     print("Se ha recibido una solicitud para la vista nuevos_lanzamientos_en_arg.")
     url = "https://api.deezer.com/editorial/0/releases?limit=5&country=ar"
-
-
 
     response = requests.get(url)
 
@@ -291,13 +292,15 @@ def nuevos_lanzamientos_en_arg(request):
                 'titulo': titulo,
                 'artista': artista,
                 'imagen': imagen,
-                'duracion': duracion if duracion else 'Desconocida',  # Mostrar 'Desconocida' si no está disponible
+                'duracion': formato_duracion(duracion) if duracion else 'Desconocida',  # Mostrar 'Desconocida' si no está disponible
             }
             lanzamientos.append(info_cancion)
 
-        # Retornar los datos como respuesta JSON
-        return JsonResponse({'lanzamientos': lanzamientos})
-
+        # Retornar los datos como lista de diccionarios
+        return lanzamientos
+    else:
+        # En caso de error, devuelve una lista vacía
+        return []
 
 """
 La función listar_usuarios muestra una lista de todos los usuarios registrados.
@@ -339,61 +342,3 @@ def eliminar_usuario(request, pk):
 
 def listas_de_reproducion(request):
     return render(request, 'listasReproducion.html')
-
-'''
-def buscar_artistas_en_musicbrainz(query):
-    # Realiza una solicitud a la API de MusicBrainz para buscar artistas que coincidan con el query
-    url = f'http://musicbrainz.org/ws/2/artist/?query={query}&fmt=json'
-    response = requests.get(url)
-    data = response.json()
-    
-    # Verifica si se recibieron datos correctamente
-    if 'artists' in data:
-        # Extrae los artistas de los datos recibidos
-        artistas = [{'id': artista['id'], 'nombre': artista['name']} for artista in data['artists']]
-        return artistas
-    else:
-        # Si no se reciben datos o hay un error, retorna una lista vacía
-        return []
-
-def buscar_artista(request):
-    artistas = []
-    if 'q' in request.GET:
-        query = request.GET['q']
-        artistas = buscar_artistas_en_musicbrainz(query)
-    return render(request, 'buscar_artista.html', {'artistas': artistas})
-
-
-def obtener_canciones_de_musicbrainz(artista_id):
-    print(f'Solicitando canciones para el artista con ID: {artista_id}')
-    # Realiza una solicitud a la API de MusicBrainz para obtener información del artista y sus grabaciones
-    url = f'http://musicbrainz.org/ws/2/artist/{artista_id}?inc=recordings&fmt=json'
-    response = requests.get(url)
-    print(f'Respuesta de la API de MusicBrainz: {response}')
-    
-    # Verifica si se recibieron datos correctamente
-    if response.status_code == 200:
-        data = response.json()
-        print(f'Datos recibidos: {data}')
-        
-        if 'recordings' in data:
-            # Extrae las grabaciones (canciones) del artista de los datos recibidos
-            canciones = [{'id': grabacion['id'], 'titulo': grabacion['title']} for grabacion in data['recordings']]
-            print(f'Canciones obtenidas: {canciones}')
-            return canciones
-        else:
-            # Si no se reciben datos de grabaciones, retorna una lista vacía
-            print('No se encontraron grabaciones para este artista.')
-            return []
-    else:
-        # Si no se recibe una respuesta exitosa, muestra un mensaje de error y retorna una lista vacía
-        print(f'Error al solicitar datos: {response.status_code}')
-        return []
-
-
-def obtener_canciones(request, artista_id):
-    # Aquí deberías agregar la lógica para obtener las canciones del artista con el ID proporcionado
-    canciones = obtener_canciones_de_musicbrainz(artista_id)
-    return render(request, 'obtener_canciones.html', {'canciones': canciones})
-'''
-
