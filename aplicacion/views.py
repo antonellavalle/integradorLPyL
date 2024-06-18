@@ -342,3 +342,39 @@ def eliminar_usuario(request, pk):
 
 def listas_de_reproducion(request):
     return render(request, 'listasReproducion.html')
+
+def artistas(request):
+    # Diccionario de géneros con sus respectivos IDs en Deezer
+    generos = {
+        'rock': 152,
+        'pop': 132,
+        'electronic': 106,
+        'jazz': 129
+    }
+    
+    artistas_por_genero = {}
+    
+    for genero, genero_id in generos.items():
+        # Obtener artistas por género desde Deezer
+        artistas_por_genero[genero] = buscar_artistas_por_genero(genero_id)[:10]
+    
+    return render(request, 'artistas.html', {'artistas_por_genero': artistas_por_genero})
+
+def buscar_artistas_por_genero(genero_id):
+    url = f'https://api.deezer.com/genre/{genero_id}/artists'
+    response = requests.get(url)
+    
+    if response.status_code != 200:
+        return []  # Retorna una lista vacía si hay un error en la solicitud
+    
+    data = response.json()
+    
+    if 'data' in data:
+        artistas = [{
+            'id': artista['id'],
+            'nombre': artista['name'],
+            'imagen': artista['picture_medium']
+        } for artista in data['data']]
+        return artistas[:10]  # Limitamos a los primeros 10 artistas
+    else:
+        return []
