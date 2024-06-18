@@ -38,11 +38,10 @@
         <!-- Canciones de tendencias -->
         <!-- Si se quiere cambiar el estilo también hay que aplicarlo en mostrarCanciones.js -->
         <div class="tab-pane fade show active" id="pills-Tendencia" role="tabpanel" aria-labelledby="pills-Tendencia-tab">
-            <div class="cancionesTendencia m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
                 <ul id="lista-canciones" class="estilo-lista-canciones">
                     <!-- Inicio del bucle -->
                     {% for cancion in cancionesTendencia %}
-                    <li class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
+                    <li class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white">
                    
                         <div class="col-1 h3"> <!-- Número de canción --> {{ forloop.counter }}</div>
                         <div class="col d-flex">
@@ -60,14 +59,13 @@
                     <!-- Fin del bucle -->
                     {% endfor %}
                 </ul>
-            </div>
+            
         </div>
         <!-- Fin de Canciones en tendencias -->
 
         <!-- Nuevos lanzamientos -->
         <div class="tab-pane fade" id="pills-Nuevos-Lanzamientos" role="tabpanel" aria-labelledby="pills-Nuevos-Lanzamientos-tab">
-            <div class="cancionesLanzamientos m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
-              
+    
                 <ul id="lista-lanzamientos" class="estilo-lista-canciones">
                     <!-- Inicio del bucle -->
                     {% for lanzamiento in lanzamientos %}
@@ -84,10 +82,11 @@
                         </div>
                         <!-- Duración del lanzamiento -->
                         <div class="col-2">{{ lanzamiento.duracion }} <i class="bi bi-play-fill"></i></div>
-                    </li>
                     <!-- Fin del bucle -->
+                    </li>
                     {% endfor %}
-                </ul>
+                    <!-- Etiqueta vacía para agregar espacio -->
+                 
             </div>
         </div>
     </div>
