@@ -10,6 +10,7 @@ class Usuario(models.Model):
     password = models.CharField(max_length=100)
     correo = models.EmailField()
     seguidos = models.ManyToManyField('self', symmetrical=False, related_name='seguidores')
+    imagen = models.ImageField(upload_to='perfil/', default='perfil/default.jpg')
     '''grupos = models.ManyToManyField('Grupo', related_name='miembros')'''
 
     def __str__(self):

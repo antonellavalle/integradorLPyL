@@ -71,6 +71,10 @@ def iniciar_sesion(request):
     
     return render(request, 'nuevo_inicio.html', {'form': form, 'signup': False})  # Renderiza la plantilla nuevo_inicio.html con el formulario y una variable signup
 
+def cerrar_sesion(request):
+    logout(request)  # Cierra la sesión del usuario
+    # Puedes realizar cualquier limpieza adicional antes de redirigir
+    return redirect(reverse('iniciar_sesion'))
 """
 La función principal renderiza la vista principal de la aplicación.
 """
