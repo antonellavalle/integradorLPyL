@@ -3,7 +3,7 @@
 {% load static %}
 
 <div class="hero-area pt-3 mt-2" style="min-height: 400px; background-image: url('{% static 'img/03.jpg' %}'); background-position: 20% 40%; background-size: cover;">
-    <div class="nav-spacer"></div>
+    <div class="nav-spacer" style="height: 60px;"></div> 
 
     {% for genero, albumes in albumes_por_genero.items %}
     <h5 class="titulo-categoria mx-5 pt-4 mb-2 text-white">{{ genero|title }} Álbumes <small class="float-end mt-1"><a href="" class="text-white me-1">Ver más <i class="bi bi-box-arrow-up-right"></i></a></small></h5>

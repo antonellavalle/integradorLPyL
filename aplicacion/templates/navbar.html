@@ -20,7 +20,7 @@
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'listas' %}">Listas</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'artistas' %}">Artistas</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Albumes</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'albumes' %}">Albumes</a></li>
 
                 {% if user.is_authenticated %}
                     {% if user.usuario.imagen %}
