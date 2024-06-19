@@ -20,5 +20,6 @@ urlpatterns = [
     path('agregar_canciones/', views.agregar_canciones, name='agregar_canciones'), # Usado para poder buscar canciones en las listas de reproducion
     path('artistas/', views.artistas, name='artistas'),
     path('artista/<int:artista_id>/', views.detalle_artista, name='detalle_artista'),
+    path('cerrar_sesion/', views.cerrar_sesion, name='cerrar_sesion'),
 ]
 

@@ -6,6 +6,9 @@ from django.contrib import messages
 import requests
 from .models import Usuario
 from aplicacion.forms import SignUpForm
+from django.urls import reverse
+from django.shortcuts import render
+
 
 def inicio(request):
     return render(request, 'nuevo_inicio.html')
@@ -36,6 +39,11 @@ def signup(request):
         form = SignUpForm()  # Si la solicitud no es de tipo POST, crea una instancia vacía del formulario SignUpForm
     return render(request, 'nuevo_inicio.html', {'form': form, 'signup': True})  # Renderiza la plantilla nuevo_inicio.html con el formulario y una variable signup
 
+def cerrar_sesion(request):
+    # Puedes realizar cualquier limpieza adicional antes de redirigir
+
+    # Redirige a la página de inicio de sesión
+    return redirect(reverse('iniciar_sesion'))
 """
 La función iniciar_sesion maneja el proceso de inicio de sesión de un usuario. Si la solicitud es de tipo POST,
 se valida el formulario de autenticación. Si los datos son válidos, se autentica al usuario y se inicia la sesión.

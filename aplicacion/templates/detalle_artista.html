@@ -1,68 +1,41 @@
 {% extends "base.html" %}
 {% block content %}
 {% load static %}
-<!-- Barra de navegación -->
-<nav class="mainNavbar shadow navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #7d0b0b; min-width:350px;">
-    <!-- Logo de la esquina superior izquierda -->
+
+<div class="hero-area pt-3 mt-2" style="background-image: url('{% static 'img/03.jpg' %}'); background-position: 20% 40%; background-size: cover;">
+    <!-- Espacio adicional para evitar superposición con la barra de navegación -->
+    <div class="nav-spacer" style="height: 60px;"></div> <!-- Ajusta la altura según el tamaño de tu barra de navegación -->
+
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'principal' %}">
-            <i class="bi bi-soundwave"></i> Project Managers
-            <div style="font-size: 13px">Ingenieros</div>
-        </a>
+        <div class="row">
+            <!-- Columna del artista -->
+            <div class="col-md-4">
+                <div class="text-white text-center">
+                    <img src="{{ artista.imagen }}" alt="{{ artista.nombre }}" class="img-fluid rounded-circle mb-3" style="max-width: 200px;">
+                    <h2>{{ artista.nombre }}</h2>
+                </div>
+            </div>
 
-        <!-- Buscador -->
-        <div class="input-group" style="max-width: 400px;">
-            <form method="GET" action="{% url 'buscar_artista' %}" style="display: flex; width: 100%;">
-                <input type="text" class="form-control" name="q" placeholder="Buscar" aria-label="Recipient's username" aria-describedby="basic-addon2">
-                <select name="tipo">
-                    <option value="artista">Artista</option>
-                    <option value="cancion">Canción</option>
-                </select>
-                <button type="submit" class="input-group-text bg-black text-white border-0" id="basic-addon2">
-                    <i class="bi bi-search"></i>
-                </button>
-            </form>
-        </div>
-
-        <!-- Botón para colapsar la barra de navegación en dispositivos pequeños -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-
-        <!-- Menú de navegación -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <!-- Elementos de navegación -->
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Inicio</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'listas' %}">Listas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'artistas' %}">Artistas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'albumes' %}">Álbumes</a>
-                </li>
-                
-                <!-- Imagen del usuario y menú desplegable de usuario -->
-                {% if user.is_authenticated %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img class="rounded-circle" src="{% static 'img/01.jpg' %}" style="width:40px;height:40px;">
-                        {{ user.username }}
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown2">
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-person"></i> Perfil</a></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear"></i> Configuración</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="#"><i class="bi bi-box-arrow-right"></i> Cerrar sesión</a></li>
-                    </ul>
-                </li>
-                {% endif %}
-            </ul>
+            <!-- Columna de las canciones -->
+            <div class="col-md-8">
+                <h3 class="text-white mb-4">Canciones populares</h3>
+                <ul class="list-group">
+                    {% for cancion in canciones %}
+                    <li class="cancion-pequeña m-1 ms-4 row align-items-center" style="color: white;">
+                        <div class="col-1 h3">{{ forloop.counter }}</div>
+                        <div class="col d-flex">
+                            <img class="cancion-pequeña-img rounded m-1" src="{{ cancion.imagen }}" alt="Carátula de la canción">
+                            <div class="ms-1">
+                                <div>{{ cancion.titulo }}</div>
+                            </div>
+                        </div>
+                        <div class="col-2">{{ cancion.duracion }}<a href="https://www.deezer.com/track/{{ cancion.id }}" target="_blank"><i class="bi bi-play-fill"></i></a></div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
     </div>
-</nav>
-<!-- Fin de la barra de navegación -->
+</div>
+
+{% endblock %}
