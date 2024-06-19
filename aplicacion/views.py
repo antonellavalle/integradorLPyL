@@ -378,3 +378,64 @@ def buscar_artistas_por_genero(genero_id):
         return artistas[:10]  # Limitamos a los primeros 10 artistas
     else:
         return []
+    
+import requests
+from django.shortcuts import render
+
+def detalle_artista(request, artista_id):
+    # URL para obtener la información del artista
+    url_artista = f'https://api.deezer.com/artist/{artista_id}'
+    response_artista = requests.get(url_artista)
+    
+    if response_artista.status_code != 200:
+        return render(request, 'detalle_artista.html', {'artista': None, 'canciones': []})
+    
+    # Información del artista
+    data_artista = response_artista.json()
+    artista = {
+        'nombre': data_artista['name'],
+        'imagen': data_artista['picture_medium']
+    }
+    
+    # URL para obtener las canciones más populares del artista
+    url_canciones = f'https://api.deezer.com/artist/{artista_id}/top'
+    response_canciones = requests.get(url_canciones)
+    
+    if response_canciones.status_code != 200:
+        return render(request, 'detalle_artista.html', {'artista': artista, 'canciones': []})
+    
+    data_canciones = response_canciones.json()
+    
+    canciones = []
+    for track in data_canciones['data']:
+        # Convertir la duración de segundos a minutos:segundos
+        duracion_segundos = track['duration']
+        minutos = duracion_segundos // 60
+        segundos = duracion_segundos % 60
+        duracion = f"{minutos}:{segundos:02d}"
+        
+        # Añadir la canción con la imagen del álbum
+        canciones.append({
+            'titulo': track['title'],
+            'id': track['id'],
+            'duracion': duracion,
+            'imagen': track['album']['cover_medium'],  # URL de la imagen del álbum
+            'preview': track['preview']
+        })
+    
+    return render(request, 'detalle_artista.html', {'artista': artista, 'canciones': canciones})
+
+
+def obtener_canciones_del_artista(artista_id):
+    url = f'https://api.deezer.com/artist/{artista_id}/top'
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        data = response.json()
+        canciones = [{
+            'titulo': track['title'],
+            'duracion': track['duration']
+        } for track in data['data']]
+        return canciones
+    else:
+        return []

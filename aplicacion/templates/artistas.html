@@ -15,7 +15,8 @@
         <div class="m-4" style="width:200px;">
             <div style="position: relative;">
                 <img src="{{ artista.imagen }}" class="imagen-cancion-categoria">
-                <a href="{{ artista.id }}">
+                <!-- Enlace al detalle del artista -->
+                <a href="{% url 'detalle_artista' artista.id %}">
                     <div class="cancion-categoria-hover">
                         <i class="h1 bi bi-play-fill" style="color:white;"></i>
                     </div>

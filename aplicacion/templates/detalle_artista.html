@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<div class="hero-area pt-3 mt-2" style="background-image: url('{% static 'img/03.jpg' %}'); background-position: 20% 40%; background-size: cover;">
+    <!-- Espacio adicional para evitar superposición con la barra de navegación -->
+    <div class="nav-spacer" style="height: 60px;"></div> <!-- Ajusta la altura según el tamaño de tu barra de navegación -->
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Columna del artista -->
+            <div class="col-md-4">
+                <div class="text-white text-center">
+                    <img src="{{ artista.imagen }}" alt="{{ artista.nombre }}" class="img-fluid rounded-circle mb-3" style="max-width: 200px;">
+                    <h2>{{ artista.nombre }}</h2>
+                </div>
+            </div>
+
+            <!-- Columna de las canciones -->
+            <div class="col-md-8">
+                <h3 class="text-white mb-4">Canciones populares</h3>
+                <ul class="list-group">
+                    {% for cancion in canciones %}
+                    <li class="cancion-pequeña m-1 ms-4 row align-items-center" style="color: white;">
+                        <div class="col-1 h3">{{ forloop.counter }}</div>
+                        <div class="col d-flex">
+                            <img class="cancion-pequeña-img rounded m-1" src="{{ cancion.imagen }}" alt="Carátula de la canción">
+                            <div class="ms-1">
+                                <div>{{ cancion.titulo }}</div>
+                            </div>
+                        </div>
+                        <div class="col-2">{{ cancion.duracion }} <i class="bi bi-play-fill"></i></div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
