@@ -453,7 +453,7 @@ def obtener_canciones_del_artista(artista_id):
         return []
 
 def obtener_albumes(request):
-    generos = ['pop', 'rock', 'hip-hop', 'jazz']  # Añade más géneros según sea necesario
+    generos = ['pop', 'rock', 'latin', 'metal', 'electronic']  # Añade más géneros según sea necesario
     albumes_por_genero = {}
     
     for genero in generos:
