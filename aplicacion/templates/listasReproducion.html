@@ -1,10 +1,9 @@
 {% extends "base.html" %}
-{% load static %}
-{% block main %}
 
-    <title>Listas</title> <!-- Título de la página -->
-  
- 
+{% block title %}Listas de Reproducción{% endblock %}
+
+{% block content %}
+
      <!--Comienzo seccion css-->
     <!--estilos para la lista de reproduccion  y las canciones  -->
     <style>
@@ -236,20 +235,3 @@
           
         </script>
  {% endblock %}
-        <!--fin seccion js-->
-
- <!--esto de aca abajo esta usado como referencia para ver las canciones-->
-<!--
-       <div class="row">
-    <div class="col-md-6">
-        <div class="cancion-pequeña d-flex align-items-center">
-            <div class="h3">01</div>
-            <img class="cancion-pequeña-img rounded m-1" src="{% static 'img/04.jpg' %}">
-            <div class="ms-1">
-                <div>Rockstar</div>
-                <small>Post Malone</small>
-            </div>
-            <div class="ms-auto">03:38 <i class="bi bi-play-fill"></i></div>
-        </div>
-    </div>
-</div> -->

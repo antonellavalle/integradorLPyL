@@ -12,9 +12,11 @@
 <!-- <input> (Entrada) -->
 <!-- <Span> (texto de linea) -->
 <!-- <div class> se utiliza como una clase para despues usarla referenciandola en el archivo css -->
-    {% extends "base.html" %}
-{% block main %}
-{% load static %}
+    {% extends 'base.html' %}
+    {% load static %}
+    {% block title %}Página Principal{% endblock %}
+    
+    {% block content %}
 <!-- Comienzo del contenido principal -->
 <!-- Comienzo de toda la zona central -->
 <!-- Hero hace referencia a toda la seccion central -->

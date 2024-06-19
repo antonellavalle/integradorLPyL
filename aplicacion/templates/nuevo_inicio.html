@@ -1,17 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-    {% load static %}
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap-icons.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styleInicio.css' %}">
-    <link rel="stylesheet" href="{% static 'css/styleRegistro.css' %}">
-    
-    <title>Inicio</title>
-</head>
-<body>
+{% extends 'base_inicio.html' %}
+{% load static %}
+{% block title %}Nuevo Inicio{% endblock %}
+
+{% block content_inicio %}
     <!--Contenedor de inicio de Sesion-->
     <div id="inicio-container" class="container text-white" style="scale: 0.8;">
         <div class="text-center">
@@ -171,5 +163,4 @@
             document.querySelector(".js-signup-form").classList.remove("hide");
         }
     </script>
-</body>
-</html>
+    {% endblock %}
