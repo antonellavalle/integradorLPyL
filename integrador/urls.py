@@ -1,11 +1,12 @@
 from django.contrib import admin
 from django.urls import path
 from aplicacion import views
+from aplicacion.vistas.login import RegistroView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.inicio, name='inicio'),
-    path('signup/', views.signup, name='signup'),#aca viene mi registro
+    path('signup/', RegistroView.as_view(), name='signup'),#aca viene mi registro
     path('login/', views.iniciar_sesion, name='iniciar_sesion'),
     path('principal/', views.principal, name='principal'),
     path('buscar/', views.buscar_artista, name='buscar_artista'),
