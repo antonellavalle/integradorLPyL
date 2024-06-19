@@ -21,5 +21,7 @@ urlpatterns = [
     path('artistas/', views.artistas, name='artistas'),
     path('artista/<int:artista_id>/', views.detalle_artista, name='detalle_artista'),
     path('cerrar_sesion/', views.cerrar_sesion, name='cerrar_sesion'),
+    path('albumes/', views.obtener_albumes, name='albumes'),
+    path('albumes/<int:album_id>/', views.obtener_canciones_del_album, name='canciones_del_album'),
 ]
 

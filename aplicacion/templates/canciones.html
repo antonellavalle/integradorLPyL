@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<div class="hero-area pt-3 mt-2" style="min-height: 400px; background-image: url('{% static 'img/03.jpg' %}'); background-position: 20% 40%; background-size: cover;">
+    <div class="nav-spacer"></div>
+
+    <div class="container-fluid mt-5">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="{{ album.imagen }}" class="img-fluid rounded-circle mb-3" alt="{{ album.titulo }}" style="max-width: 200px;">
+                <h2 class="text-white">{{ album.titulo }}</h2>
+                <h4 class="text-white">{{ album.artista }}</h4>
+            </div>
+            <div class="col-md-8">
+                <h3 class="text-white mb-4">Canciones del Álbum</h3>
+                <ul class="list-group">
+                    {% for cancion in album.canciones %}
+                    <li class="cancion-pequeña m-1 ms-4 row align-items-center" style="color: white;">
+                        <div class="col-1 h3">{{ forloop.counter }}</div>
+                        <div class="col d-flex">
+                            <div class="ms-1">
+                                <div>{{ cancion.titulo }}</div>
+                            </div>
+                        </div>
+                        <div class="col-2">{{ cancion.duracion_formatted }} <i class="bi bi-play-fill"></i></div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+{% load static %}
+
+<div class="hero-area pt-3 mt-2" style="min-height: 400px; background-image: url('{% static 'img/03.jpg' %}'); background-position: 20% 40%; background-size: cover;">
+    <div class="nav-spacer"></div>
+
+    {% for genero, albumes in albumes_por_genero.items %}
+    <h5 class="titulo-categoria mx-5 pt-4 mb-2 text-white">{{ genero|title }} Álbumes <small class="float-end mt-1"><a href="" class="text-white me-1">Ver más <i class="bi bi-box-arrow-up-right"></i></a></small></h5>
+    <section class="pt-2 p-4 mx-5 d-flex justify-content-center" style="flex-wrap:wrap;">
+        {% for album in albumes %}
+        <div class="m-4" style="width:200px;">
+            <div style="position: relative;">
+                <img src="{{ album.imagen }}" class="imagen-cancion-categoria">
+                <a href="{% url 'canciones_del_album' album.id %}">
+                    <div class="cancion-categoria-hover">
+                        <i class="h1 bi bi-play-fill" style="color:white;"></i>
+                    </div>
+                </a>
+            </div>
+            <div>
+                <div class="lider text-white">{{ album.titulo }}</div>
+                <div class="text-white">{{ album.artista }}</div>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+    {% endfor %}
+</div>
+
+{% endblock %}

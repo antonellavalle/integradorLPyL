@@ -20,6 +20,7 @@
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href="#">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'listas' %}">Listas</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'artistas' %}">Artistas</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'albumes' %}">Albumes</a></li>
                 
                 {% if user.is_authenticated %}
                 <img class="rounded-circle" src="{% static 'img/01.jpg' %}" style="width:40px;height:40px">
