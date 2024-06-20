@@ -1,8 +1,9 @@
 from django.contrib import admin
 from django.urls import path
 from aplicacion import views
-from aplicacion.vistas.login import RegistroView, inicio, iniciar_sesion
+from aplicacion.vistas.login import RegistroView, inicio, iniciar_sesion, cerrar_sesion
 from aplicacion.vistas.album import obtener_albumes, obtener_canciones_del_album
+from aplicacion.vistas.artista import ArtistaListView, ArtistaDetailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -20,9 +21,9 @@ urlpatterns = [
     path('usuarios/<int:pk>/eliminar/', views.eliminar_usuario, name='eliminar_usuario'),
     path('listas/', views.listas_de_reproducion,name='listas'),
     path('agregar_canciones/', views.agregar_canciones, name='agregar_canciones'), # Usado para poder buscar canciones en las listas de reproducion
-    path('artistas/', views.artistas, name='artistas'),
-    path('artista/<int:artista_id>/', views.detalle_artista, name='detalle_artista'),
-    path('cerrar_sesion/', views.cerrar_sesion, name='cerrar_sesion'),
+    path('artistas/', ArtistaListView.as_view(), name='artistas'),
+    path('artista/<int:artista_id>/', ArtistaDetailView.as_view(), name='detalle_artista'),
+    path('cerrar_sesion/', cerrar_sesion, name='cerrar_sesion'),
     path('albumes/', obtener_albumes, name='albumes'),
     path('albumes/<int:album_id>/', obtener_canciones_del_album, name='canciones_del_album'),
 ]

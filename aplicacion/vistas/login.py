@@ -1,12 +1,13 @@
 from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
 from django.contrib import messages
 import requests
 from ..models import Usuario
 from aplicacion.forms import SignUpForm
 from django.views import View
+from django.urls import reverse
 
 def inicio(request):
     return render(request, 'nuevo_inicio.html')
@@ -71,3 +72,8 @@ def iniciar_sesion(request):
         form = AuthenticationForm()  # Si la solicitud no es de tipo POST, crea una instancia vacía del formulario de autenticación
     
     return render(request, 'nuevo_inicio.html', {'form': form, 'signup': False})  # Renderiza la plantilla nuevo_inicio.html con el formulario y una variable signup
+
+def cerrar_sesion(request):
+    logout(request)  # Cierra la sesión del usuario
+    # Puedes realizar cualquier limpieza adicional antes de redirigir
+    return redirect(reverse('iniciar_sesion'))
