@@ -20,23 +20,30 @@ un formulario vacío para el registro de un nuevo usuario.
 """
 class RegistroView(View):
     def get(self, request):
-        form = SignUpForm()  # Si la solicitud no es de tipo POST, crea una instancia vacía del formulario SignUpForm
-        return render(request, 'nuevo_inicio.html', {'form': form, 'signup': True})  # Renderiza la plantilla nuevo_inicio.html con el formulario y una variable signup
-    
+        form = SignUpForm()  # Instancia vacía del formulario
+        return render(request, 'nuevo_inicio.html', {'form': form, 'signup': True})  # Renderiza la plantilla con el formulario
+
     def post(self, request):
-        form = SignUpForm(request.POST)  # Crea una instancia del formulario SignUpForm con los datos de la solicitud POST
+        form = SignUpForm(request.POST)  # Instancia del formulario con los datos POST
         if form.is_valid():  # Verifica si los datos del formulario son válidos
-            user = form.save()  # Guarda la instancia del modelo User utilizando el método save del formulario
-            usuario = Usuario.objects.create(  # Crea una instancia del modelo Usuario asociada con el usuario creado
-                usuario=user,  # Asigna la instancia del modelo User al campo usuario
-                nombre=user.first_name,  # Asigna el primer nombre del usuario
-                apellido=user.last_name,  # Asigna el apellido del usuario
-                correo=user.email  # Asigna el correo electrónico del usuario
+            user = form.save()  # Guarda el usuario y retorna la instancia del modelo User
+            # Crea la instancia del modelo Usuario
+            usuario = Usuario.objects.create(
+                usuario=user,
+                nombre=user.first_name,
+                apellido=user.last_name,
+                correo=user.email
             )
-            messages.success(request, "Usuario creado correctamente. Ahora puedes iniciar sesión.")  # Muestra un mensaje de éxito indicando que el usuario se creó correctamente
-            return redirect('iniciar_sesion')  # Redirige al usuario a la vista de inicio de sesión
+            messages.success(request, 'Usuario creado correctamente. Ahora puedes iniciar sesión.')  # Mensaje de éxito
+            return redirect('iniciar_sesion')  # Redirige a la vista de inicio de sesión
         else:
-            messages.error(request, "Error al registrarse. Verifique los datos ingresados.")  # Si el formulario no es válido, muestra un mensaje de error
+            # Si el formulario no es válido, mostrar los errores específicos de cada campo
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field}: {error}")
+            # Renderiza la plantilla con el formulario y los errores
+            return render(request, 'nuevo_inicio.html', {'form': form, 'signup': True})
+# Si el formulario no es válido, muestra un mensaje de error
 
 """
 La función iniciar_sesion maneja el proceso de inicio de sesión de un usuario. Si la solicitud es de tipo POST,
