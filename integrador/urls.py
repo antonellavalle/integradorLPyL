@@ -1,13 +1,14 @@
 from django.contrib import admin
 from django.urls import path
 from aplicacion import views
-from aplicacion.vistas.login import RegistroView
+from aplicacion.vistas.login import RegistroView, inicio, iniciar_sesion
+from aplicacion.vistas.album import obtener_albumes, obtener_canciones_del_album
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.inicio, name='inicio'),
+    path('', inicio, name='inicio'),
     path('signup/', RegistroView.as_view(), name='signup'),#aca viene mi registro
-    path('login/', views.iniciar_sesion, name='iniciar_sesion'),
+    path('login/', iniciar_sesion, name='iniciar_sesion'),
     path('principal/', views.principal, name='principal'),
     path('buscar/', views.buscar_artista, name='buscar_artista'),
     path('canciones/<str:artista_id>/', views.obtener_canciones, name='obtener_canciones'),
@@ -22,7 +23,7 @@ urlpatterns = [
     path('artistas/', views.artistas, name='artistas'),
     path('artista/<int:artista_id>/', views.detalle_artista, name='detalle_artista'),
     path('cerrar_sesion/', views.cerrar_sesion, name='cerrar_sesion'),
-    path('albumes/', views.obtener_albumes, name='albumes'),
-    path('albumes/<int:album_id>/', views.obtener_canciones_del_album, name='canciones_del_album'),
+    path('albumes/', obtener_albumes, name='albumes'),
+    path('albumes/<int:album_id>/', obtener_canciones_del_album, name='canciones_del_album'),
 ]
 
