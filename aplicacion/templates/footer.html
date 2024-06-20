@@ -1,41 +1,29 @@
 
- <!-- Comienzo del footer toda la seccion de final de la pagina -->
- <footer class="p-5 pt-4 row bg-dark text-white ">
+<!-- Comienzo del footer toda la seccion de final de la pagina -->
+<footer class="p-5 pt-4 row bg-dark text-white ">
     <!-- Columna 1 -->
     <div class="col-md-3 mb-4 col-sm-6">
-     <h5>Links</h5>
-     <!-- Lista de enlaces -->
-     <ul class="nav flex-column">
-         <li><a href="#" style="color: white;">Inicio</a></li>
-         <li><a href="#" style="color: white;">Nuevo Lanzamientos</a></li>
-         <li><a href="#" style="color: white;">Artistas</a></li>
-         <li><a href="#" style="color: white;">Álbumes</a></li>
-     </ul>
- </div>
-      <!-- Columna 2 -->
-     <div class="col-md-3 mb-4 col-sm-6">
-        <h5>Links </h5>
-          <!-- Lista de enlaces -->
-        <ul class="nav flex-column text-white">
-         <li><a href="#" style="color: white;">Inicio</a></li>
-         <li><a href="#" style="color: white;">Nuevo Lanzamientos</a></li>
-         <li><a href="#" style="color: white;">Artistas</a></li>
-         <li><a href="#" style="color: white;">Álbumes</a></li>
-        </ul>
-     </div>
-       <!-- Columna 3 -->
-     <div class="col-md-6 mb-4 col-sm-6">
+    <h5>Links</h5>
+    <!-- Lista de enlaces -->
+    <ul class="nav flex-column">
+        <li><a href="{% url 'listas' %}" style="color: white;">Listas</a></li>
+        <li><a href="{% url 'artistas' %}" style="color: white;">Artistas</a></li>
+        <li><a href="{% url 'albumes' %}" style="color: white;">Álbumes</a></li>
+    </ul>
+</div>
+    <!-- Columna 3 -->
+    <div class="col-md-6 mb-4 col-sm-6">
         <h5>Suscribite a nuestras novedades </h5>
-          <!-- Descripción de suscripción -->
+        <!-- Descripción de suscripción -->
         <div>Recibe  las ultimas novedades</div>
 
- <!-- Formulario de suscripción --> 
+<!-- Formulario de suscripción --> 
         <div class="input-group mb-3 mt-6">
-         <input type="text" class="form-control" placeholder="Email">
-         <!-- Botón de suscripción -->
-         <span class="input-group-text" style="background-color: #7d0b0b; color: white;" id="basic-addon2">Subscribete</span>
+        <input type="text" class="form-control" placeholder="Email">
+        <!-- Botón de suscripción -->
+        <span class="input-group-text" style="background-color: #7d0b0b; color: white;" id="basic-addon2">Subscribete</span>
         </div>
-   
-     </div>
- </footer> 
- <!-- Final del footer -->
+
+    </div>
+</footer> 
+<!-- Final del footer -->

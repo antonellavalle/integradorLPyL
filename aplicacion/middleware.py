@@ -6,18 +6,18 @@ import re
 logger = logging.getLogger(__name__)
 
 class AutenticacionMiddleware:
-    def __init__(self, get_response):  # Corrige el método __init__
+    def __init__(self, get_response):  
         self.get_response = get_response
-        # Añade los patrones de URL que quieres excluir de la autenticación
+        
         self.excluded_urls = [
             re.compile(r'^/signup/$'),  # URL exacta para registro
             re.compile(r'^/login/$'),   # URL exacta para inicio de sesión
-            re.compile(r'^/$'),         # URL para la página de inicio, si es necesario
+            re.compile(r'^/$'),         # URL para la página de inicio
         ]
 
     def __call__(self, request):  # Corrige el método __call__
         logger.debug(f'Middleware llamado para la URL: {request.path}')
-        print(f'URL solicitada: {request.path}')  # Añadir esta línea para depurar
+        print(f'URL solicitada: {request.path}') 
 
         # Verifica si la URL debe ser excluida
         if any(pattern.match(request.path) for pattern in self.excluded_urls):
