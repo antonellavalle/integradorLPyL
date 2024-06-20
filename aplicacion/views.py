@@ -1,252 +1,6 @@
 from django.shortcuts import get_object_or_404, render, redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse, JsonResponse
-from django.contrib import messages
 import requests
 from .models import Usuario
-from aplicacion.forms import SignUpForm
-from django.urls import reverse
-from django.shortcuts import render
-
-"""
-La función principal renderiza la vista principal de la aplicación.
-"""
-def principal(request):
-    cancionesTrap = obtener_canciones_de_genero('trap')
-    cancionesRock = obtener_canciones_de_genero('rock')
-    cancionesTendencia = canciones_en_tendencia()
-    lanzamientos = nuevos_lanzamientos_en_arg()
-    contexto = {
-        'cancionesTrap': cancionesTrap,
-        'cancionesRock': cancionesRock,
-        'cancionesTendencia': cancionesTendencia,
-        'lanzamientos': lanzamientos
-    }
-    return render(request, 'principal.html', contexto)
-
-
-def obtener_canciones_de_genero(genero, limite=5):
-    url = 'https://api.deezer.com/search'
-    params = {
-        'q': genero,
-        'limit': limite  
-    }
-    response = requests.get(url, params=params)  # Realiza la solicitud GET a la API de Deezer
-
-    if response.status_code != 200:  # Verifica si la respuesta no tiene un código de estado 200
-        return []  # Retorna una lista vacia si hay un error en la solicitud
-
-    data = response.json()  # Convierte la respuesta en formato JSON
-
-    if 'data' in data:
-        canciones = [{  # Extrae la información relevante de las canciones
-            'id': cancion['id'],
-            'titulo': cancion['title'],
-            'artista': cancion['artist']['name'],
-            'url': cancion['link'],
-            'imagen': cancion['album']['cover_medium'],
-            'duracion': formato_duracion(cancion['duration'])  
-        } for cancion in data['data']]
-        return canciones
-    else:
-        return []  # Retorna una lista vacía si no hay datos de canciones
-
-    
-
-
-
-
-
-"""
-La función buscar_artista maneja la búsqueda de artistas y canciones utilizando la API de Deezer.
-Si la solicitud contiene el parámetro 'q', se realizan las búsquedas de artistas y canciones y se 
-muestran los resultados.
-"""
-def buscar_artista(request):
-    artistas = []
-    canciones = []
-
-    if 'q' in request.GET:  # Verifica si el parámetro 'q' está presente en la solicitud GET
-        query = request.GET['q']  # Obtiene el valor del parámetro 'q'
-        artistas = buscar_artistas_deezer(query)  # Busca artistas utilizando la API de Deezer
-        canciones = buscar_canciones_deezer(query)  # Busca canciones utilizando la API de Deezer
-
-    return render(request, 'buscar_artista.html', {'artistas': artistas, 'canciones': canciones})  # Renderiza la plantilla buscar_artista.html con los resultados
-
-"""
-La función buscar_canciones_deezer busca canciones en la API de Deezer según el query proporcionado.
-Retorna una lista de canciones con su información relevante.
-"""
-def buscar_canciones_deezer(query):
-    url = f'https://api.deezer.com/search/track?q={query}'  # Construye la URL de la solicitud a la API de Deezer
-    response = requests.get(url)  # Realiza la solicitud GET a la API de Deezer
-    
-    if response.status_code != 200:  # Verifica si la respuesta no tiene un código de estado 200
-        return []  # Retorna una lista vacía si hay un error en la solicitud
-    
-    data = response.json()  # Convierte la respuesta en formato JSON
-    
-    if 'data' in data:
-        canciones = [{  # Extrae y estructura la información relevante de las canciones
-            'id': cancion['id'],
-            'titulo': cancion['title'],
-            'url': cancion['link'],
-            'imagen': cancion['album']['cover_medium'],
-            'duracion': formato_duracion(cancion['duration'])
-        } for cancion in data['data']]
-        return canciones
-    else:
-        return []  # Retorna una lista vacía si no hay datos de canciones
-
-# Usado para poder buscar canciones en las listas de reproducion
-def agregar_canciones(request):
-    query = request.GET.get('query', '')
-    url = f'https://api.deezer.com/search/track?q={query}'
-    response = requests.get(url)
-    
-    if response.status_code != 200:
-        return JsonResponse({'error': 'Error al consultar la API de Deezer'}, status=response.status_code)
-    
-    data = response.json()
-    
-    canciones = []
-    if 'data' in data:
-        canciones = [{
-            'id': cancion.get('id', ''),
-            'titulo': cancion.get('title', 'Título no disponible'),
-            'artista': cancion.get('artist', {}).get('name', 'Artista no disponible'),
-            'imagen': cancion.get('album', {}).get('cover_medium', 'default_cover.jpg'),
-            'duracion': formato_duracion(cancion.get('duration', 0))
-        } for cancion in data['data']]
-    
-    return JsonResponse(canciones, safe=False)
-# Usado para poder buscar canciones en las listas de reproducion
-
-"""
-La función obtener_canciones obtiene las canciones de un artista específico utilizando la API de Deezer.
-"""
-def obtener_canciones(request, artista_id):
-    canciones = obtener_canciones_de_deezer(artista_id)  # Obtiene las canciones del artista
-    return render(request, 'obtener_canciones.html', {'canciones': canciones})  # Renderiza la plantilla obtener_canciones.html con los resultados
-
-"""
-La función buscar_artistas_deezer busca artistas en la API de Deezer según el query proporcionado.
-Retorna una lista de artistas con su información relevante.
-"""
-def buscar_artistas_deezer(query):
-    url = f'https://api.deezer.com/search/artist?q={query}'  # Construye la URL de la solicitud a la API de Deezer
-    response = requests.get(url)  # Realiza la solicitud GET a la API de Deezer
-    
-    if response.status_code != 200:  # Verifica si la respuesta no tiene un código de estado 200
-        return []  # Retorna una lista vacía si hay un error en la solicitud
-    
-    data = response.json()  # Convierte la respuesta en formato JSON
-    
-    if 'data' in data:
-        artistas = [{  # Extrae y estructura la información relevante de los artistas
-            'id': artista['id'],
-            'nombre': artista['name'],
-            'imagen': artista['picture_medium']
-        } for artista in data['data']]
-        return artistas
-    else:
-        return []  # Retorna una lista vacía si no hay datos de artistas
-
-"""
-La función formato_duracion convierte una duración en segundos en un formato de minutos y segundos.
-"""
-def formato_duracion(segundos):
-    minutos = segundos // 60  # Calcula los minutos
-    segundos = segundos % 60  # Calcula los segundos restantes
-    return f"{minutos}:{segundos:02d}"  # Retorna la duración en formato mm:ss
-
-"""
-La función obtener_canciones_de_deezer obtiene las canciones más populares de un artista utilizando la API de Deezer.
-Retorna una lista de canciones con su información relevante.
-"""
-def obtener_canciones_de_deezer(artista_id):
-    url = f'https://api.deezer.com/artist/{artista_id}/top?limit=10'  # Construye la URL de la solicitud a la API de Deezer
-    response = requests.get(url)  # Realiza la solicitud GET a la API de Deezer
-    
-    if response.status_code != 200:  # Verifica si la respuesta no tiene un código de estado 200
-        return []  # Retorna una lista vacía si hay un error en la solicitud
-    
-    data = response.json()  # Convierte la respuesta en formato JSON
-    
-    if 'data' in data:
-        canciones = [{  # Extrae y estructura la información relevante de las canciones
-            'id': cancion['id'],
-            'titulo': cancion['title'],
-            'url': cancion['link'],
-            'imagen': cancion['album']['cover_medium'],  # Incluye la URL de la imagen de la carátula
-            'duracion': formato_duracion(cancion['duration'])  # Incluye la duración de la canción en segundos
-        } for cancion in data['data']]
-        return canciones
-    else:
-        return []  # Retorna una lista vacía si no hay datos de canciones
-
-"""
-La función canciones_en_tendencia obtiene las canciones en tendencia utilizando la API de Deezer y las retorna en formato JSON.
-"""
-
-
-def canciones_en_tendencia():
-    url = 'https://api.deezer.com/chart/0/tracks?limit=5&country=ar'
-    response = requests.get(url)
-
-    if response.status_code == 200:
-        data = response.json()
-        canciones = []
-
-        for cancion in data['data']:
-            info_cancion = {
-                'titulo': cancion['title'],
-                'artista': cancion['artist']['name'],
-                'album': cancion['album']['title'],
-                'imagen': cancion['album']['cover_medium'],
-                'duracion': formato_duracion(cancion['duration']),
-            }
-            canciones.append(info_cancion)
-
-        return canciones  # Devuelve la lista de canciones en forma de lista de diccionarios
-    else:
-        return []  # En caso de error, devuelve una lista vacía o maneja el error según necesites
-
-
-def nuevos_lanzamientos_en_arg():
-    print("Se ha recibido una solicitud para la vista nuevos_lanzamientos_en_arg.")
-    url = "https://api.deezer.com/editorial/0/releases?limit=5&country=ar"
-
-    response = requests.get(url)
-
-    if response.status_code == 200:
-        print("La API está respondiendo correctamente.")
-        data = response.json()
-        print("Datos recibidos:", data)
-        
-        # Extraer la información relevante de la respuesta
-        lanzamientos = []
-        for cancion in data.get('data', []):
-            titulo = cancion.get('title', 'Sin título')
-            artista = cancion.get('artist', {}).get('name', 'Desconocido')
-            imagen = cancion.get('cover_medium', '') 
-            duracion = cancion.get('duration', None)  # Usar None si no está disponible
-            print("Duración de la canción:", duracion) 
-
-            info_cancion = {
-                'titulo': titulo,
-                'artista': artista,
-                'imagen': imagen,
-                'duracion': formato_duracion(duracion) if duracion else 'Desconocida',  # Mostrar 'Desconocida' si no está disponible
-            }
-            lanzamientos.append(info_cancion)
-
-        # Retornar los datos como lista de diccionarios
-        return lanzamientos
-    else:
-        # En caso de error, devuelve una lista vacía
-        return []
 
 """
 La función listar_usuarios muestra una lista de todos los usuarios registrados.
@@ -288,3 +42,100 @@ def eliminar_usuario(request, pk):
 
 def listas_de_reproducion(request):
     return render(request, 'listasReproducion.html')
+
+def artistas(request):
+    # Diccionario de géneros con sus respectivos IDs en Deezer
+    generos = {
+        'rock': 152,
+        'pop': 132,
+        'electronic': 106,
+        'jazz': 129
+    }
+    
+    artistas_por_genero = {}
+    
+    for genero, genero_id in generos.items():
+        # Obtener artistas por género desde Deezer
+        artistas_por_genero[genero] = buscar_artistas_por_genero(genero_id)[:10]
+    
+    return render(request, 'artistas.html', {'artistas_por_genero': artistas_por_genero})
+
+def buscar_artistas_por_genero(genero_id):
+    url = f'https://api.deezer.com/genre/{genero_id}/artists'
+    response = requests.get(url)
+    
+    if response.status_code != 200:
+        return []  # Retorna una lista vacía si hay un error en la solicitud
+    
+    data = response.json()
+    
+    if 'data' in data:
+        artistas = [{
+            'id': artista['id'],
+            'nombre': artista['name'],
+            'imagen': artista['picture_medium']
+        } for artista in data['data']]
+        return artistas[:10]  # Limitamos a los primeros 10 artistas
+    else:
+        return []
+    
+import requests
+from django.shortcuts import render
+
+def detalle_artista(request, artista_id):
+    # URL para obtener la información del artista
+    url_artista = f'https://api.deezer.com/artist/{artista_id}'
+    response_artista = requests.get(url_artista)
+    
+    if response_artista.status_code != 200:
+        return render(request, 'detalle_artista.html', {'artista': None, 'canciones': []})
+    
+    # Información del artista
+    data_artista = response_artista.json()
+    artista = {
+        'nombre': data_artista['name'],
+        'imagen': data_artista['picture_medium']
+    }
+    
+    # URL para obtener las canciones más populares del artista
+    url_canciones = f'https://api.deezer.com/artist/{artista_id}/top'
+    response_canciones = requests.get(url_canciones)
+    
+    if response_canciones.status_code != 200:
+        return render(request, 'detalle_artista.html', {'artista': artista, 'canciones': []})
+    
+    data_canciones = response_canciones.json()
+    
+    canciones = []
+    for track in data_canciones['data']:
+        # Convertir la duración de segundos a minutos:segundos
+        duracion_segundos = track['duration']
+        minutos = duracion_segundos // 60
+        segundos = duracion_segundos % 60
+        duracion = f"{minutos}:{segundos:02d}"
+        
+        # Añadir la canción con la imagen del álbum
+        canciones.append({
+            'titulo': track['title'],
+            'id': track['id'],
+            'duracion': duracion,
+            'imagen': track['album']['cover_medium'],  # URL de la imagen del álbum
+            'preview': track['preview']
+        })
+    
+    return render(request, 'detalle_artista.html', {'artista': artista, 'canciones': canciones})
+
+
+def obtener_canciones_del_artista(artista_id):
+    url = f'https://api.deezer.com/artist/{artista_id}/top'
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        data = response.json()
+        canciones = [{
+            'titulo': track['title'],
+            'duracion': track['duration']
+        } for track in data['data']]
+        return canciones
+    else:
+        return []

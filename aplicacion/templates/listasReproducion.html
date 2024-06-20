@@ -4,7 +4,7 @@
 
 {% block content %}
 
-     <!--Comienzo seccion css-->
+    <!--Comienzo seccion css-->
     <!--estilos para la lista de reproduccion  y las canciones  -->
     <style>
       /* Al pasar el mouse sobre .cancion-pequeña o .lista-desplegable */
@@ -30,7 +30,7 @@
             margin-right: 10px;  /* Espacio a la derecha de la imagen: 10px */
         }
     </style>
-         <!--fin seccion css-->
+        <!--fin seccion css-->
 
     <!--Comienzo lista  -->
     <div class="container mt-5 pt-5" >     <!--añadimos un container-->
@@ -42,7 +42,7 @@
     </div>
 
         <!--Comienzo js-->
-     
+    
         <script>
              // Contador para asignar los numeros las listas
             let contadorListas = 1;
@@ -63,28 +63,28 @@
                 lista.innerHTML = `
                     <div class="lista-desplegable d-flex flex-column">
                         <div class="d-flex align-items-center">
-                              <!-- Muestra el nombre de la lista -->
+                            <!-- Muestra el nombre de la lista -->
                             <div class="h3">${nombreLista}</div>
                             <!-- Boton para buscar canciones -->
                             <button class="btn btn-primary ms-auto" type="button" onclick="toggleBuscarCanciones(${contadorListas})">
                                 Buscar canciones
                             </button>
-                             <!-- Boton para ver/ocultar canciones -->
+                            <!-- Boton para ver/ocultar canciones -->
                             <button class="btn btn-secondary ms-2" type="button" onclick="toggleCanciones(${contadorListas})">
                                 Ver/Ocultar canciones
                             </button>
-                                 <!-- Boton para borrar la lista -->
+                                <!-- Boton para borrar la lista -->
                             <button class="btn btn-danger ms-2" onclick="borrarLista(this)">Borrar</button>
                         </div>
-                         <!-- Contenedor para buscar canciones -->
+                        <!-- Contenedor para buscar canciones -->
                         <div class="buscar-canciones mt-3" id="buscarCanciones${contadorListas}" style="display: none;">
                             <div class="input-group mb-3">
-                                  <!-- Campo de búsqueda de canciones -->
+                                <!-- Campo de búsqueda de canciones -->
                                 <input type="text" id="buscarCancion${contadorListas}" class="form-control" placeholder="Buscar canción">
                                 <button class="btn btn-primary" type="button" onclick="buscarCanciones(${contadorListas})">Buscar</button>
                             </div>
-                              <!-- Contenedor para mostrar resultados de búsqueda -->
-               
+                            <!-- Contenedor para mostrar resultados de búsqueda -->
+            
                             <div id="resultadosBusqueda${contadorListas}"></div>
                         </div>
                         <!-- Contenedor para las canciones añadidas -->
@@ -151,7 +151,7 @@
                  // Obtiene el contenedor donde se mostraran los resultados de busqueda
                 const resultadosDiv = document.getElementById(`resultadosBusqueda${id}`);
                 resultadosDiv.innerHTML = ''; // Borra cualquier contenido previo en el contenedor
-      
+
                  // Itera sobre cada canción en los datos recibidos
                 data.forEach((cancion, index) => {
                     // Obtiene la URL de la imagen de la portada de la canción (o usa una por defecto) habria que definir alguna en caso de que no encuentra nada sino tira un error de imagen depende lo que devuelva 
@@ -165,7 +165,7 @@
                     cancionDiv.classList.add('cancion-pequeña', 'd-flex', 'align-items-center');
                     cancionDiv.innerHTML = `
                         <div class="h3">${index + 1}</div>
-                          <!-- Muestra la imagen de la portada de la canción -->
+                        <!-- Muestra la imagen de la portada de la canción -->
                         <img class="cancion-pequeña-img rounded m-1" src="${cover}">
                         <div class="ms-1">
                             <!-- Muestra el titulo de la canción -->
@@ -182,7 +182,7 @@
                     resultadosDiv.appendChild(cancionDiv);
                 });
             }
-      
+
             // Función para añadir una cancion a la lista seleccionada
             function añadirCancion(listaId, title, artist, cover, duration) {
                // Obtiene el contenedor de canciones de la lista seleccionada
@@ -192,7 +192,7 @@
                 cancionDiv.classList.add('cancion-pequeña', 'd-flex', 'align-items-center');
                 cancionDiv.innerHTML = `
                     <div class="h3">${cancionesDiv.children.length + 1}</div>
-                     <!-- Muestra la imagen de la portada de la canción -->
+                    <!-- Muestra la imagen de la portada de la canción -->
                     <img class="cancion-pequeña-img rounded m-1" src="${cover}">
                     <div class="ms-1">
                         <div>${title}</div> <!-- Muestra el título de la canción -->
@@ -232,6 +232,6 @@
             }
        // Agrega un event listener al boton de "Agregar Lista" para llamar a la función agregarLista al hacer clic
             document.getElementById('agregarLista').addEventListener('click', agregarLista);
-          
+        
         </script>
- {% endblock %}
+{% endblock %}
