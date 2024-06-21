@@ -74,6 +74,11 @@ def iniciar_sesion(request):
     return render(request, 'nuevo_inicio.html', {'form': form, 'signup': False})  # Renderiza la plantilla nuevo_inicio.html con el formulario y una variable signup
 
 def cerrar_sesion(request):
-    logout(request)  # Cierra la sesión del usuario
-    # Puedes realizar cualquier limpieza adicional antes de redirigir
+    if request.user.is_authenticated:  # Verifica si el usuario está autenticado
+        logout(request)  # Cierra la sesión del usuario
+        messages.success(request, 'Has cerrado sesión exitosamente.')  # Mensaje de éxito para la sesión cerrada
+    else:
+        messages.error(request, 'No has iniciado sesión.')  # Mensaje de error si el usuario no está autenticado
+    
+    # Redirige al usuario a la página de inicio de sesión
     return redirect(reverse('iniciar_sesion'))
