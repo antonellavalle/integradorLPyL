@@ -14,7 +14,7 @@ class ListasReproduccionView(View):
         """
         Renderiza la plantilla para las listas de reproducción.
         """
-        return render(request, 'listasReproducion.html')
+        return render(request, 'listasReproduccion.html')
 
 
 class AgregarCancionesView(View):
