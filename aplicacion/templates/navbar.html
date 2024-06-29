@@ -1,11 +1,15 @@
 {% load static %}
 <!-- templates/navbar.html -->
+
+
+<!--navbar-expand-lg significa  que la barra de navegación se expandira (expand) en dispositivos grandes (lg) -->
 <nav class="mainNavbar shadow navbar navbar-expand-lg navbar-dark fixed-top" style="background-color: #7d0b0b;">
     <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'principal' %}">
             <i class="bi bi-soundwave"></i> Project Managers
             <div style="font-size: 13px">Ingenieros</div>
         </a>
+          <!--input group es el campo de busqueda-->
         <div class="input-group" style="max-width: 400px;">
             <form method="GET" action="{% url 'buscar_artista' %}" style="display: flex; width: 100%;">
                 <input type="text" class="form-control" name="q" placeholder="Buscar" aria-label="Recipient's username" aria-describedby="basic-addon2">
@@ -17,6 +21,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                 <!--Con ms auto movemos los items de la barra de navegacion hacia la derecha -->
                 <li class="nav-item"><a class="nav-link active" aria-current="page" href=href="{% url 'principal' %}">Inicio</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'listas_de_reproduccion' %}">Listas</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'artistas' %}">Artistas</a></li>

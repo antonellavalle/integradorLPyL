@@ -14,19 +14,20 @@
 <!-- <div class> se utiliza como una clase para despues usarla referenciandola en el archivo css -->
     {% extends 'base.html' %}
     {% load static %}
-    {% block title %}Página Principal{% endblock %}
-    
-    {% block content %}
-<!-- Comienzo del contenido principal -->
-<!-- Comienzo de toda la zona central -->
-<!-- Hero hace referencia a toda la seccion central -->
 
+    {% block title %}Página Principal{% endblock %}
+
+    {% block content %}
+    <!-- Comienzo del contenido principal -->
+    <!-- hero area hace referencia a la seccion llamativa de la pagina -->
     <div class="hero-area pt-3 mt-2" style="min-height: 400px; background-image: url('{% static 'img/03.jpg' %}'); background-position: 20% 40%; background-size: cover;">
         <!-- Espacio de navegación -->
+
+        <!-- nav spacer lo que permite es tener distintos items en una barra -->
         <div class="nav-spacer"></div>
         <!-- Imagen principal de fondo -->
-     <ul class="hero-nav nav m-5 nav-pills mb-3" id="pills-tab" role="tablist">  <!--Cambiando el m se mueve las pestañas para arriba o hacia abajo-->
- 
+         
+        <ul class="hero-nav nav m-5 nav-pills mb-3" id="pills-tab" role="tablist">
             <!-- Botones de navegación en forma de pestañas -->
             <!-- Botón "Tendencia" -->
             <li class="nav-item" role="presentation">
@@ -40,120 +41,112 @@
         <!-- Contenido de las pestañas -->
         <div class="tab-content mt-2">
             <!-- Canciones de tendencias -->
-            <!-- Si se quiere cambiar el estilo también hay que aplicarlo en mostrarCanciones.js -->
             <div class="tab-pane fade show active" id="pills-Tendencia" role="tabpanel" aria-labelledby="pills-Tendencia-tab">
-                    <ul id="lista-canciones" class="estilo-lista-canciones">
-                        <!-- Inicio del bucle -->
-                        {% for cancion in cancionesTendencia %}
-                        <li class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white">
-                    
-                            <div class="col-1 h3"> <!-- Número de canción --> {{ forloop.counter }}</div>
-                            <div class="col d-flex">
-                                <!-- Carátula de la canción -->
-                                <img src="{{ cancion.imagen }}" alt="{{ cancion.titulo }}" class="cancion-pequeña-img rounded m-1">
-                                <div class="ms-1">
-                                    <!-- Información de la canción (título y artista) -->
-                                    <div>{{ cancion.titulo }}</div>
-                                    <small>Artista: {{ cancion.artista }}</small>
-                                </div>
+                <ul id="lista-canciones" class="estilo-lista-canciones">
+                    <!-- Inicio del bucle -->
+                    {% for cancion in cancionesTendencia %}
+                    <!--definimos la posicion de las canciones-->
+        <!-- la canciones tienen 3 divs 1 para el numero de cancion
+         otro para el titulo y el ultimo para la duracion-->
+         <!-- las canciones tienen row para que esten una debaja de la otra -->         
+          <!--con m-1 defino la separacion entre las canciones con ms 4 muevo hacia la derecha las canciones -->
+         <li class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
+                        <div class="col-1 h3"> <!-- Numero de cancion --> {{ forloop.counter }}</div>
+                        <div class="col d-flex">
+                            <!-- Carátula de la canción -->
+                            <img src="{{ cancion.imagen }}" alt="{{ cancion.titulo }}" class="cancion-pequeña-img rounded m-1">
+                            <div class="ms-1">
+                                <!-- Información de la canción (título y artista) -->
+                                <div>{{ cancion.titulo }}</div>
+                                <small>Artista: {{ cancion.artista }}</small>
                             </div>
-                            <!-- Duración de la canción -->
-                            <div class="col-2">{{ cancion.duracion }} <i class="bi bi-play-fill"></i></div> <!-- Duración de la canción -->
-                        </li>
-                        <!-- Fin del bucle -->
-                        {% endfor %}
-                    </ul>
-                
+                        </div>
+                        <!-- Duración de la canción -->
+                        <div class="col-2">{{ cancion.duracion }} <i class="bi bi-play-fill"></i></div>
+                    </li>
+                    <!-- Fin del bucle -->
+                    {% endfor %}
+                </ul>
             </div>
             <!-- Fin de Canciones en tendencias -->
 
             <!-- Nuevos lanzamientos -->
             <div class="tab-pane fade" id="pills-Nuevos-Lanzamientos" role="tabpanel" aria-labelledby="pills-Nuevos-Lanzamientos-tab">
-        
-                    <ul id="lista-lanzamientos" class="estilo-lista-canciones">
-                        <!-- Inicio del bucle -->
-                        {% for lanzamiento in lanzamientos %}
-                        <li class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
-                            <div class="col-1 h3"> <!-- Número del lanzamiento --> {{ forloop.counter }}</div>
-                            <div class="col d-flex">
-                                <!-- Carátula del lanzamiento -->
-                                <img src="{{ lanzamiento.imagen }}" alt="{{ lanzamiento.titulo }}" class="cancion-pequeña-img rounded m-1">
-                                <div class="ms-1">
-                                    <!-- Información del lanzamiento (título y artista) -->
-                                    <div>{{ lanzamiento.titulo }}</div>
-                                    <small>Artista: {{ lanzamiento.artista }}</small>
-                                </div>
+                <ul id="lista-lanzamientos" class="estilo-lista-canciones">
+                    <!-- Inicio del bucle -->
+                    {% for lanzamiento in lanzamientos %}
+                    <li class="cancion-pequeña m-1 ms-4 col-md-6 row align-items-center" style="color: white;">
+                        <div class="col-1 h3"> <!-- Número del lanzamiento --> {{ forloop.counter }}</div>
+                        <div class="col d-flex">
+                            <!-- Carátula del lanzamiento -->
+                            <img src="{{ lanzamiento.imagen }}" alt="{{ lanzamiento.titulo }}" class="cancion-pequeña-img rounded m-1">
+                            <div class="ms-1">
+                                <!-- Información del lanzamiento (título y artista) -->
+                                <div>{{ lanzamiento.titulo }}</div>
+                                <small>Artista: {{ lanzamiento.artista }}</small>
                             </div>
-                            <!-- Duración del lanzamiento -->
-                            <div class="col-2">{{ lanzamiento.duracion }} <i class="bi bi-play-fill"></i></div>
-                        <!-- Fin del bucle -->
-                        </li>
-                        {% endfor %}
-                        <!-- Etiqueta vacía para agregar espacio -->
-                    
-                </div>
+                        </div>
+                        <!-- Duración del lanzamiento -->
+                        <div class="col-2">{{ lanzamiento.duracion }} <i class="bi bi-play-fill"></i></div>
+                    </li>
+                    {% endfor %}
+                    <!-- Fin del bucle -->
+                </ul>
             </div>
+            <!-- Fin de Nuevos Lanzamientos -->
         </div>
-   
-    <!-- Fin de la zona central -->
+    </div>
+    <!-- Fin del contenido principal -->
 
-    <!-- Comienzo de la sección categoría Trap -->
-    <h5 class="titulo-categoria mx-5 pt-4 mb-2 text-white">Trap<small class="float-end mt-1"><a href="" class="text-white me-1">Ver más <i class="bi bi-box-arrow-up-right"></i></a></small></h5>
+    <!-- Comienzo de la sección artistas aleatorios -->
+    <h5 class="titulo-categoria mx-5 pt-4 mb-2 text-white">Artistas<small class="float-end mt-1"><a href="{% url 'artistas' %}" class="text-white me-1">Ver más <i class="bi bi-box-arrow-up-right"></i></a></small></h5>
 
-    <!-- Ajusta el contenido -->
+ <!-- con el section definimos un parte de la pagina para ser utilizado -->
+  
     <section class="pt-2 p-4 mx-5 d-flex justify-content-center" style="flex-wrap:wrap;">
-        {% for cancion in cancionesTrap %}
-        <!-- Comienzo de la presentación de la canción -->
+        {% for artista in artistasAleatorios %}
+        <!-- Comienzo de la presentación del artista -->
         <div class="m-4" style="width:200px;">
             <div style="position: relative;">
-                <img src="{{ cancion.imagen }}" class="imagen-cancion-categoria">
-                <a href="{{ cancion.url }}">
+                <img src="{{ artista.imagen }}" class="imagen-cancion-categoria" alt="{{ artista.nombre }}">
                     <div class="cancion-categoria-hover">
                         <i class="h1 bi bi-play-fill" style="color:white;"></i>
                     </div>
                 </a>
             </div>
-            <!-- Título y descripción debajo de la imagen -->
-            <div>
-                <div class="lider text-white">{{ cancion.titulo }}</div>
-                <div class="text-white" style="font-size: 0.9em;">{{ cancion.artista }}</div>
+            <!-- Nombre del artista debajo de la imagen -->
+            <div class="text-center text-white mt-2">
+                <h6>{{ artista.nombre }}</h6>
             </div>
         </div>
-        <!-- Fin de la presentación de la canción -->
+        <!-- Fin de la presentación del artista -->
         {% endfor %}
     </section>
-    <!-- Fin de la sección categoría Trap -->
+     <!-- Fin de la sección artistas aleatorios -->
 
-    <!-- Comienzo de la segunda categoría Rock -->
-    <h5 class="titulo-categoria mx-5 pt-4 mb-2 text-white">Rock<small class="float-end mt-1"><a href="" class="text-white me-1">Ver más <i class="bi bi-box-arrow-up-right"></i></a></small></h5>
 
-    <section class="pt-2 p-4 mx-5 d-flex justify-content-center" style="flex-wrap:wrap;">
-        {% for cancion in cancionesRock %}
-        <!-- Comienzo de la presentación de la canción -->
-        <div class="m-4" style="width:200px;">
+    <!-- Sección de álbumes aleatorios -->
+    <h5 class="titulo-categoria mx-5 pt-4 mb-2 text-white">Álbumes<small class="float-end mt-1"><a href="{% url 'albumes' %}" class="text-white me-1">Ver más <i class="bi bi-box-arrow-up-right"></i></a></small></h5>
+
+    <section class="pt-2 p-4 mx-5 d-flex justify-content-center" style="flex-wrap: wrap;">
+        {% for album in albumesAleatorios %}
+        <!-- Comienzo de la presentación del álbum -->
+        <div class="m-4" style="width: 200px;">
             <div style="position: relative;">
-                <img src="{{ cancion.imagen }}" class="imagen-cancion-categoria">
-                <a href="{{ cancion.url }}">
+                <img src="{{ album.imagen }}" class="imagen-cancion-categoria" alt="{{ album.titulo }}">
                     <div class="cancion-categoria-hover">
-                        <i class="h1 bi bi-play-fill" style="color:white;"></i>
+                        <i class="h1 bi bi-play-fill" style="color: white;"></i>
                     </div>
                 </a>
             </div>
-            <!-- Título y descripción debajo de la imagen -->
-            <div>
-                <div class="lider text-white">{{ cancion.titulo }}</div>
-                <div class="text-white" style="font-size: 0.9em;">{{ cancion.artista }}</div>
+            <!-- Nombre del álbum debajo de la imagen -->
+            <div class="text-center text-white mt-2">
+                <h6>{{ album.titulo }}</h6>
             </div>
         </div>
-        <!-- Fin de la presentación de la canción -->
+        <!-- Fin de la presentación del álbum -->
         {% endfor %}
     </section>
-    <!-- Fin de la sección categoría Rock -->
+     <!-- Fin de la sección albumes aleatorios -->
     {% endblock %}
-
-        <!--La siguiente linea la comento para solucionar el problema del despliegue, hay que verificar si afecta otros sectores-->
-        <!--<script src="{% static 'js/bootstrap.min.js' %}"></script>  Importación de script Bootstrap  -->
-        <!-- Importación de script para que funcione la barra desplegable -->
-        
     
-

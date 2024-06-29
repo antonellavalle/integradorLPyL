@@ -1,5 +1,6 @@
 import requests
 from django.shortcuts import render
+import random
 
 class DeezerAPI:
     @staticmethod
@@ -25,32 +26,61 @@ class DeezerAPI:
             return []
     
     @staticmethod
-    def obtener_canciones_de_genero(genero, limite=5):
-        url = 'https://api.deezer.com/search'
+    #agrego artistas aleatorios 
+    def obtener_artistas_aleatorios(limite=5):
+            url = 'https://api.deezer.com/chart/0/artists'
+            params = {
+                'limit': limite,
+                'order': 'random'  # Orden aleatorio para obtener artistas aleatorios
+            }
+            response = requests.get(url, params=params)
+            
+            if response.status_code != 200:
+                return []
+            
+            data = response.json()
+            
+            if 'data' in data:
+                artistas = [{
+                    'id': artista['id'],
+                    'nombre': artista['name'],
+                   # 'url': artista['link'],
+                    'imagen': artista['picture_medium']
+                } for artista in data['data']]
+                return artistas
+            else:
+                return []
+
+     
+    @staticmethod
+    def obtener_albumes_aleatorios(limite=5):
+        url = 'https://api.deezer.com/chart/0/albums'
         params = {
-            'q': genero,
-            'limit': limite
+            'limit': limite,
+            'order': 'random'  # Orden aleatorio para obtener álbumes aleatorios
         }
         response = requests.get(url, params=params)
         
         if response.status_code != 200:
+            print(f'Error al obtener álbumes aleatorios. Código de estado: {response.status_code}')
             return []
         
         data = response.json()
         
         if 'data' in data:
-            canciones = [{
-                'id': cancion['id'],
-                'titulo': cancion['title'],
-                'artista': cancion['artist']['name'],
-                'url': cancion['link'],
-                'imagen': cancion['album']['cover_medium'],
-                'duracion': DeezerAPI.formato_duracion(cancion['duration'])
-            } for cancion in data['data']]
-            return canciones
+            albumes = [{
+                'id': album['id'],
+                'titulo': album['title'],
+                'artista': album['artist']['name'],
+                'url': album['link'],
+                'imagen': album['cover_medium']
+            } for album in data['data']]
+            print(f'Álbumes aleatorios obtenidos correctamente: {albumes}')
+            return albumes
         else:
+            print('No se encontraron datos de álbumes en la respuesta.')
             return []
-
+        
     @staticmethod
     def buscar_canciones_deezer(query):
         url = f'https://api.deezer.com/search/track?q={query}'

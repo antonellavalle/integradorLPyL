@@ -2,21 +2,23 @@
 from django.shortcuts import render
 from aplicacion.vistas.busqueda import DeezerAPI
 import requests
+import random 
 
 def principal(request):
-    cancionesTrap = DeezerAPI.obtener_canciones_de_genero('trap')   
-    cancionesRock = DeezerAPI.obtener_canciones_de_genero('rock')
+    artistasAleatorios = DeezerAPI.obtener_artistas_aleatorios() 
+    albumesAleatorios = DeezerAPI.obtener_albumes_aleatorios()
 
     cancionesTendencia = canciones_en_tendencia()
     lanzamientos = nuevos_lanzamientos_en_arg()
     
     contexto = {
-        'cancionesTrap': cancionesTrap,
-        'cancionesRock': cancionesRock,
+        'artistasAleatorios':  artistasAleatorios,
+        'albumesAleatorios':  albumesAleatorios,
         'cancionesTendencia': cancionesTendencia,
         'lanzamientos': lanzamientos
     }
     return render(request, 'principal.html', contexto)
+
 
 def canciones_en_tendencia():
     url = 'https://api.deezer.com/chart/0/tracks?limit=5&country=ar'

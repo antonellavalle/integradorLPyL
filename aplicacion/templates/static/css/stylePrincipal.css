@@ -57,6 +57,7 @@ body a {
 }
 
 /* Define el estilo de las canciones pequeñas en general, incluido un fondo gradiente */
+/* Para que tenga el fondo gradiente usamos una pagina: https://cssgradient.io/ la cual te brinda la paleta de colores y tambien el codigo */
 .cancion-pequeña {
     background-color: #7d0b0b;
     background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(160,11,13,1) 25%, rgba(170,12,12,1) 67%, rgba(0,212,255,0) 100%);
