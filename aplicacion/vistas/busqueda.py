@@ -62,8 +62,9 @@ class DeezerAPI:
         response = requests.get(url, params=params)
         
         if response.status_code != 200:
-            print(f'Error al obtener álbumes aleatorios. Código de estado: {response.status_code}')
-            return []
+             return []
+         #   print(f'Error al obtener álbumes aleatorios. Código de estado: {response.status_code}')
+    
         
         data = response.json()
         
@@ -75,12 +76,12 @@ class DeezerAPI:
                 'url': album['link'],
                 'imagen': album['cover_medium']
             } for album in data['data']]
-            print(f'Álbumes aleatorios obtenidos correctamente: {albumes}')
+         #   print(f'Álbumes aleatorios obtenidos correctamente: {albumes}')
             return albumes
         else:
-            print('No se encontraron datos de álbumes en la respuesta.')
+         #   print('No se encontraron datos de álbumes en la respuesta.')
             return []
-        
+     
     @staticmethod
     def buscar_canciones_deezer(query):
         url = f'https://api.deezer.com/search/track?q={query}'
