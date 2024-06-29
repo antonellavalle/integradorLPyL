@@ -1,0 +1,71 @@
+{% extends 'base_inicio.html' %}
+{% load static %}
+{% block title %}Editar Perfil{% endblock %}
+
+{% block content_inicio %}
+<div id="inicio-container" class="container text-white" style="scale: 0.8;">
+    
+
+    <div class="content row mx-auto" style="padding: 10px;">
+        <!-- Columna Izquierda: Imagen de perfil -->
+        <div class="img-container p-0 col-md-6 bg-white ;left: 0px">
+            <img src="{% static 'img/auris.png' %}" alt="Imagen de Perfil" class="img-fluid">
+        </div>
+
+        
+        <!-- Columna Derecha: Formulario de actualización de perfil -->
+        <div class="form-container col-md-6">
+            <div class="mx-auto">
+                <!-- Mostrar mensajes de éxito o error -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-success">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+                
+                <!-- Formulario de actualización de perfil -->
+                <form class="pt-4 p-4" method="POST" action="" >
+                    {% csrf_token %}
+                    <h2 class="fx-animate-1">Actualizar Perfil</h2>
+                    <h5 class="fx-animate-3">Por favor actualice sus datos</h5>
+                    
+                    <!-- Campos del formulario -->
+                    <div class="input-group mb-4 fx-animate-1">
+                        <input type="text" class="form-control p-2" placeholder="Nombre de usuario" name="username" value="{{ form.username.value }}">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    </div>
+                    
+                    <div class="input-group mb-4 fx-animate-2">
+                        <input type="text" class="form-control p-2" placeholder="Nombre" name="first_name" value="{{ form.first_name.value }}">
+                        <span class="input-group-text"><i class="bi bi-person"></i></span>
+                    </div>
+                    
+                    <div class="input-group mb-4 fx-animate-3">
+                        <input type="text" class="form-control p-2" placeholder="Apellido" name="last_name" value="{{ form.last_name.value }}">
+                        <span class="input-group-text"><i class="bi bi-person-fill"></i></span>
+                    </div>
+
+                    <div class="input-group mb-4 fx-animate-4">
+                        <input type="email" class="form-control p-2" placeholder="Email" name="email" value="{{ form.email.value }}">
+                        <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                    </div>
+
+                    <div class="input-group mb-4 fx-animate-5">
+                        <input type="password" class="form-control p-2" placeholder="Nueva Contraseña" name="password">
+                        <span class="input-group-text"><i class="bi bi-key"></i></span>
+                    </div>
+
+                    <div class="mb-4 fx-animate-3">
+                        <button type="submit" class="btn btn-lg btn-outline-light">Guardar Cambios</button>
+                    </div>
+
+                    <div class="mb-4 fx-animate-5">
+                        <a class="text-white" href="{% url 'principal' %}">Volver a la página principal</a>
+                    </div>
+                    <hr>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,6 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import update_session_auth_hash
+
 
 """La clase SignUpForm es un formulario personalizado basado en UserCreationForm que se utiliza para registrar nuevos usuarios.
     Incluye campos adicionales para el correo electrónico, nombre de usuario, primer nombre y apellido. La clase define un 
@@ -39,4 +41,23 @@ class SignUpForm(UserCreationForm):
             user.save()
         return user  # Retorna la instancia del usuario
 
+
+class UserUpdateForm(forms.ModelForm):
+    password = forms.CharField(label="Nueva Contraseña", widget=forms.PasswordInput, required=False)
+
+    class Meta:
+        model = User
+        fields = ['username', 'first_name', 'last_name', 'email', 'password']
+
+    def save(self, commit=True):
+        user = super(UserUpdateForm, self).save(commit=False)
+        password = self.cleaned_data.get('password')
+        if password:
+            user.set_password(password)  # Actualizar la contraseña solo si se proporcionó una nueva
+
+        if commit:
+            user.save()
+            if password:
+                update_session_auth_hash(self.request, user)  # Actualizar la sesión con la nueva contraseña
+        return user
 

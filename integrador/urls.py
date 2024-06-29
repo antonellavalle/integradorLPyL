@@ -7,6 +7,8 @@ from aplicacion.vistas.artista import ArtistaListView, ArtistaDetailView
 from aplicacion.vistas.lista_reproduccion import ListasReproduccionView, AgregarCancionesView
 from aplicacion.vistas.busqueda import buscar_artista, obtener_canciones
 from aplicacion.vistas.principal import principal, canciones_en_tendencia, nuevos_lanzamientos_en_arg
+from aplicacion.vistas.usuario import UserUpdateView
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,5 +31,7 @@ urlpatterns = [
     path('cerrar_sesion/', cerrar_sesion, name='cerrar_sesion'),
     path('albumes/', obtener_albumes, name='albumes'),
     path('albumes/<int:album_id>/', obtener_canciones_del_album, name='canciones_del_album'),
+    path('editar_usuario/', UserUpdateView.as_view(), name='editar_usuario'),
+
 ]
 
