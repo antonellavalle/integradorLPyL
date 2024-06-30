@@ -29,10 +29,10 @@
 
                 {% if user.is_authenticated %}
                     {% if user.usuario.imagen %}
-                        <img class="rounded-circle" src="{% static 'img/auris.png' %}" style="width:40px;height:40px">
+                        <img class="rounded-circle" src="{% static 'img/auris-cuadrado.png' %}" style="width:40px;height:40px">
                     {% else %}
                         <!-- Si el usuario no tiene imagen, se muestra una imagen predeterminada -->
-                        <img class="rounded-circle" src="{% static 'img/auris.png' %}" style="width:40px;height:40px">
+                        <img class="rounded-circle" src="{% static 'img/ea69ea71-340d-48df-a62a-8a3c0b4a3321.jfif' %}" style="width:40px;height:40px">
                     {% endif %}
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{{ user.username }}</a>
