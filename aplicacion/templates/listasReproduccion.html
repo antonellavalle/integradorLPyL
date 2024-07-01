@@ -1,10 +1,7 @@
 {% extends "base.html" %}
-
 {% block title %}Listas de Reproducción{% endblock %}
-
 {% block content %}
 
-    
     <!--Comienzo lista  -->
     <div class="container mt-5 pt-5" >     <!--añadimos un container-->
         <div class="input-group mb-3">     <!--añadimos campo de entrada-->
@@ -37,7 +34,7 @@
                     <div class="lista-desplegable d-flex flex-column">
                         <div class="d-flex align-items-center">
                             <!-- Muestra el nombre de la lista -->
-                            <div class="h3">${nombreLista}</div>
+                            <div class="h3 modeloLista">${nombreLista}</div>
                             <!-- Boton para buscar canciones -->
                             <button class="btn btn-primary ms-auto" type="button" onclick="toggleBuscarCanciones(${contadorListas})">
                                 Buscar canciones

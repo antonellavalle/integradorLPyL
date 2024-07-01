@@ -22,3 +22,9 @@
     object-fit: cover; /* permite que la imagen este en un formato de "cuadro" */
     margin-right: 10px;  /* Espacio a la derecha de la imagen: 10px */
 }
+
+/*letra de la lista*/
+.modeloLista{
+    
+    margin:5px;
+}
