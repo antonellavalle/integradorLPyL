@@ -4,34 +4,7 @@
 
 {% block content %}
 
-    <!--Comienzo seccion css-->
-    <!--estilos para la lista de reproduccion  y las canciones  -->
-    <style>
-      /* Al pasar el mouse sobre .cancion-pequeña o .lista-desplegable */
-        .cancion-pequeña:hover, .lista-desplegable:hover {
-            border: solid thin grey; /* Borde delgado gris */
-            cursor: pointer; /* Cambia el cursor a puntero */
-            transform: translate(-10px); /* Desplaza el elemento 10px hacia la izquierda */
-        }
-
-        .cancion-pequeña, .lista-desplegable {
-            background-color: #7d0b0b; /* Color de fondo inicial */
-            background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(160,11,13,1) 25%, rgba(170,12,12,1) 67%, rgba(0,212,255,0) 100%);  /* Fondo gradiente de izquierda a derecha */
-            transition: all 0.3s ease;  /* Añade Transicion*/
-            color: white;
-            padding: 10px; /* Relleno interno de 10px */
-            margin-bottom: 10px; /* da espacio  */
-        }
-        /* estilo de la imagen */
-        .cancion-pequeña-img {
-            width: 50px; /* Ancho de la imagen: 50px */
-            height: 50px;  /* Altura de la imagen: 50px */
-            object-fit: cover; /* permite que la imagen este en un formato de "cuadro" */
-            margin-right: 10px;  /* Espacio a la derecha de la imagen: 10px */
-        }
-    </style>
-        <!--fin seccion css-->
-
+    
     <!--Comienzo lista  -->
     <div class="container mt-5 pt-5" >     <!--añadimos un container-->
         <div class="input-group mb-3">     <!--añadimos campo de entrada-->

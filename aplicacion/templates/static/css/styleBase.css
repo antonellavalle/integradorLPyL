@@ -1,0 +1,16 @@
+/* Estilo para asegurar que el footer se mantenga en la parte inferior */
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Se asegura de que el body ocupe al menos el 100% de la altura de la ventana */
+}
+
+main {
+    flex: 1;
+}
