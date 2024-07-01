@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 from aplicacion import views
 from aplicacion.vistas.login import RegistroView, iniciar_sesion, cerrar_sesion, inicio
-from aplicacion.vistas.album import obtener_albumes, obtener_canciones_del_album
+from aplicacion.vistas.album import ObtenerAlbumesView, ObtenerCancionesDelAlbumView
 from aplicacion.vistas.artista import ArtistaListView, ArtistaDetailView
 from aplicacion.vistas.lista_reproduccion import ListasReproduccionView, AgregarCancionesView
 from aplicacion.vistas.busqueda import buscar_artista, obtener_canciones
@@ -29,8 +29,8 @@ urlpatterns = [
     path('artistas/', ArtistaListView.as_view(), name='artistas'),
     path('artista/<int:artista_id>/', ArtistaDetailView.as_view(), name='detalle_artista'),
     path('cerrar_sesion/', cerrar_sesion, name='cerrar_sesion'),
-    path('albumes/', obtener_albumes, name='albumes'),
-    path('albumes/<int:album_id>/', obtener_canciones_del_album, name='canciones_del_album'),
+    path('albumes/', ObtenerAlbumesView.as_view(), name='albumes'),
+    path('albumes/<int:album_id>/', ObtenerCancionesDelAlbumView.as_view(), name='canciones_del_album'),
     path('editar_usuario/', UserUpdateView.as_view(), name='editar_usuario'),
 
 ]
