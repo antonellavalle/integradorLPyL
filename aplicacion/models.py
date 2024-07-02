@@ -29,7 +29,7 @@ class Album(models.Model):
 class Cancion(models.Model):
     titulo = models.CharField(max_length=100)
     artista = models.ForeignKey(Artista, on_delete=models.CASCADE)
-    album = models.ForeignKey(Album, on_delete=models.CASCADE)
+    album = models.ForeignKey(Album, on_delete=models.CASCADE, null=True, blank=True)  # Permite null
     duracion = models.DurationField()
  #archivo = models.FileField(upload_to='canciones/')
 

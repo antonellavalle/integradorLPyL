@@ -2,9 +2,10 @@ from django.views import View
 from django.shortcuts import render, redirect
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import JsonResponse
-from aplicacion.models import ListaReproduccion, Cancion, Artista
+from aplicacion.models import Album, ListaReproduccion, Cancion, Artista
 import json
 import requests
+from datetime import timedelta
 
 
 class ListasReproduccionView(LoginRequiredMixin, View):
@@ -80,11 +81,34 @@ class AgregarCancionesView(View):
         try:
             lista = ListaReproduccion.objects.get(id=lista_id, usuario=request.user)
             artista, _ = Artista.objects.get_or_create(nombre=cancion_data['artista'])
+            
+            # Convertir la duración de segundos a timedelta
+            duracion_segundos = int(cancion_data['duracion'])
+            duracion = timedelta(seconds=duracion_segundos)
+            
+            # Manejar el álbum (opcional)
+            album = None
+            if 'album' in cancion_data and cancion_data['album']:
+                album, _ = Album.objects.get_or_create(
+                    titulo=cancion_data['album'],
+                    artista=artista
+                )
+            
             cancion, created = Cancion.objects.get_or_create(
                 titulo=cancion_data['titulo'],
                 artista=artista,
-                defaults={'duracion': cancion_data['duracion']}
+                defaults={
+                    'duracion': duracion,
+                    'album': album
+                }
             )
+            
+            if not created:
+                # Si la canción ya existía, actualiza la duración y el álbum
+                cancion.duracion = duracion
+                cancion.album = album
+                cancion.save()
+            
             lista.canciones.add(cancion)
             return JsonResponse({'success': True})
         except ListaReproduccion.DoesNotExist:

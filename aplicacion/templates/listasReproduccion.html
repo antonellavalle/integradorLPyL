@@ -77,6 +77,9 @@ function agregarLista() {
 
 // Función para añadir una canción a la lista
 function añadirCancion(listaId, title, artist, cover, duration) {
+    // Asegúrate de que duration sea un número (segundos)
+    const durationSeconds = parseInt(duration);
+    
     fetch('/agregar_canciones/', {
         method: 'POST',
         headers: {
@@ -89,14 +92,15 @@ function añadirCancion(listaId, title, artist, cover, duration) {
                 titulo: title,
                 artista: artist,
                 imagen: cover,
-                duracion: duration
+                duracion: durationSeconds,
+                album: album
             }
         })
     })
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            location.reload();  // Recarga la página para mostrar la nueva canción
+            location.reload();
         } else {
             alert('Error al añadir la canción: ' + (data.error || 'Error desconocido'));
         }
@@ -219,9 +223,11 @@ function mostrarResultadosBusqueda(data, id) {
         const cover = cancion.imagen || 'default_cover.jpg';
          // Obtiene el nombre del artista de la canciin (o usa "Desconocido" si no esta disponible)
         const artist = cancion.artista || 'Desconocido';
-         // Obtiene la duracion de la canción (o establece "00:00" si no esta disponible)
-        const duration = cancion.duracion || '00:00';
-        // Crea un nuevo elemento <div> para representar la cancion
+         // Obtiene la duracion de la canción (o establece "0" si no esta disponible)
+        const duration = cancion.duracion || 0;
+         // Obtén el título del álbum si está disponible
+        const album = cancion.album ? cancion.album.title : null;
+         // Crea un nuevo elemento <div> para representar la cancion
         const cancionDiv = document.createElement('div');
         cancionDiv.classList.add('cancion-pequeña', 'd-flex', 'align-items-center');
         cancionDiv.innerHTML = `
@@ -237,7 +243,7 @@ function mostrarResultadosBusqueda(data, id) {
             <!-- muestra la duracion -->
             <div class="ms-auto">${duration} <i class="bi bi-play-fill"></i></div>
             <!-- Botón para añadir la cancion a la lista -->
-            <button class="btn btn-success ms-2" onclick="añadirCancion(${id}, '${cancion.titulo}', '${artist}', '${cover}', '${duration}')">Añadir</button>
+            <button class="btn btn-success ms-2" onclick="añadirCancion(${id}, '${cancion.titulo}', '${artist}', '${cover}', ${duration}, '${album}')">Añadir</button>
         `;
         // Agrega el elemento de la canción al contenedor de resultados
         resultadosDiv.appendChild(cancionDiv);
