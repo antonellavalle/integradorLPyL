@@ -1,207 +1,174 @@
 {% extends "base.html" %}
 {% block title %}Listas de Reproducción{% endblock %}
 {% block content %}
-
-    <!--Comienzo lista  -->
-    <div class="container mt-5 pt-5" >     <!--añadimos un container-->
-        <div class="input-group mb-3">     <!--añadimos campo de entrada-->
-            <input type="text" id="nombreLista" class="form-control" placeholder="Nombre de la nueva lista">     <!--Campo para llenar el nombre-->
-            <button id="agregarLista" class="btn btn-success">Agregar Lista</button>     <!--boton para agregar las listas-->
-        </div>
-        <div id="listas"></div>     <!--identificador de las listas-->
+<div class="container mt-5 pt-5">
+    <div class="input-group mb-3">
+        <input type="text" id="nombreLista" class="form-control" placeholder="Nombre de la nueva lista">
+        <button id="agregarLista" class="btn btn-success">Agregar Lista</button>
     </div>
-
-        <!--Comienzo js-->
-    
-        <script>
-             // Contador para asignar los numeros las listas
-            let contadorListas = 1;
-    
-            // Funcion para agregar una nueva lista
-            function agregarLista() {
-                // Obtiene el nombre de la lista ingresado por el usuario
-                const nombreLista = document.getElementById('nombreLista').value;
-                  //Si el nombre de la lista esta vacio
-                if (nombreLista.trim() === '') {
-                     // Si no se agrego nada lanza  una alerta si no se ingreso un nombre
-                    alert('Por favor, ingresa un nombre para la lista.');
-                    return; //sale de la funcion
-                }
-                 // Crea un nuevo div para la lista 
-                const lista = document.createElement('div');
-                // Define el contenido HTML de la nueva lista
-                lista.innerHTML = `
-                    <div class="lista-desplegable d-flex flex-column">
-                        <div class="d-flex align-items-center">
-                            <!-- Muestra el nombre de la lista -->
-                            <div class="h3 modeloLista">${nombreLista}</div>
-                            <!-- Boton para buscar canciones -->
-                            <button class="btn btn-primary ms-auto" type="button" onclick="toggleBuscarCanciones(${contadorListas})">
-                                Buscar canciones
-                            </button>
-                            <!-- Boton para ver/ocultar canciones -->
-                            <button class="btn btn-secondary ms-2" type="button" onclick="toggleCanciones(${contadorListas})">
-                                Ver/Ocultar canciones
-                            </button>
-                                <!-- Boton para borrar la lista -->
-                            <button class="btn btn-danger ms-2" onclick="borrarLista(this)">Borrar</button>
-                        </div>
-                        <!-- Contenedor para buscar canciones -->
-                        <div class="buscar-canciones mt-3" id="buscarCanciones${contadorListas}" style="display: none;">
-                            <div class="input-group mb-3">
-                                <!-- Campo de búsqueda de canciones -->
-                                <input type="text" id="buscarCancion${contadorListas}" class="form-control" placeholder="Buscar canción">
-                                <button class="btn btn-primary" type="button" onclick="buscarCanciones(${contadorListas})">Buscar</button>
-                            </div>
-                            <!-- Contenedor para mostrar resultados de búsqueda -->
-            
-                            <div id="resultadosBusqueda${contadorListas}"></div>
-                        </div>
-                        <!-- Contenedor para las canciones añadidas -->
-                        <div class="canciones mt-3" id="canciones${contadorListas}" style="display: none;"></div>
-                    </div>
-                `;
-                  // Agrega la nueva lista al contenedor de listas
-                document.getElementById('listas').appendChild(lista);
-                contadorListas++; //incrementa el contador
-                document.getElementById('nombreLista').value = ''; // Borra el contenido del campo de nombre de lista
-            }
-              // Función para mostrar/ocultar el area de busqueda de canciones
-            function toggleBuscarCanciones(id) {
-                const buscarCancionesDiv = document.getElementById(`buscarCanciones${id}`);
-                   // Alterna entre mostrar y ocultar las canciones añadidas
-                if (buscarCancionesDiv.style.display === "none") {
-                    buscarCancionesDiv.style.display = "block";  // Muestra las canciones añadidas
-                } else {
-                    buscarCancionesDiv.style.display = "none";  // Oculta las canciones añadidas
-                }
-            }
-                // Funcion para mostrar/ocultar las canciones añadidass
-            function toggleCanciones(id) {
-                const cancionesDiv = document.getElementById(`canciones${id}`);
-                //lo mismo que el de arriba 
-                if (cancionesDiv.style.display === "none") {
-                    cancionesDiv.style.display = "block";
-                } else {
-                    cancionesDiv.style.display = "none";
-                }
-            }
-             // Funcion para buscar canciones
-            function buscarCanciones(id) {
-                 // Obtiene el termino de busqueda ingresado por el usuario
-                const query = document.getElementById(`buscarCancion${id}`).value;
-                         // Verifica si el término de búsqueda está vacio
-                if (query.trim() === '') {
-                    // Muestra una alerta si el termino de busqueda esta vacío
-                    alert('Por favor, ingresa un término de búsqueda.');
-                    return; // Sale de la funcion
-                }
-            
-                 // Realiza una solicitud fetch al servidor (llama a la view agregar_cancion la cual busca en la api) para buscar canciones
-                fetch(`/agregar_canciones/?query=${query}`)
-                    .then(response => response.json()) // Convierte la respuesta en formato JSON
-                    //Una vez que la api responde  verifica si hay un error en los datos recibidos
-                    .then(data => {
-                        if (data.error) {
-                            alert(data.error); //error
-                            return; //sale de la funcion
-                        }
-                        if (Array.isArray(data)) {
-                              // Llama a la funcion para mostrar los resultados de la busqueda
-                            mostrarResultadosBusqueda(data, id);
-                        } else {
-                            alert('Error en los datos recibidos.');
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
-
-    // Funcion para mostrar los resultados de la busqueda de canciones
-            function mostrarResultadosBusqueda(data, id) {
-                 // Obtiene el contenedor donde se mostraran los resultados de busqueda
-                const resultadosDiv = document.getElementById(`resultadosBusqueda${id}`);
-                resultadosDiv.innerHTML = ''; // Borra cualquier contenido previo en el contenedor
-
-                 // Itera sobre cada canción en los datos recibidos
-                data.forEach((cancion, index) => {
-                    // Obtiene la URL de la imagen de la portada de la canción (o usa una por defecto) habria que definir alguna en caso de que no encuentra nada sino tira un error de imagen depende lo que devuelva 
-                    const cover = cancion.imagen || 'default_cover.jpg';
-                     // Obtiene el nombre del artista de la canciin (o usa "Desconocido" si no esta disponible)
-                    const artist = cancion.artista || 'Desconocido';
-                     // Obtiene la duracion de la canción (o establece "00:00" si no esta disponible)
-                    const duration = cancion.duracion || '00:00';
-                    // Crea un nuevo elemento <div> para representar la cancion
-                    const cancionDiv = document.createElement('div');
-                    cancionDiv.classList.add('cancion-pequeña', 'd-flex', 'align-items-center');
-                    cancionDiv.innerHTML = `
-                        <div class="h3">${index + 1}</div>
-                        <!-- Muestra la imagen de la portada de la canción -->
-                        <img class="cancion-pequeña-img rounded m-1" src="${cover}">
-                        <div class="ms-1">
-                            <!-- Muestra el titulo de la canción -->
-                            <div>${cancion.titulo}</div>
-                            <!-- Muestra el artista de la canción -->
-                            <small>${artist}</small>
-                        </div>
-                        <!-- muestra la duracion -->
-                        <div class="ms-auto">${duration} <i class="bi bi-play-fill"></i></div>
-                        <!-- Botón para añadir la cancion a la lista -->
-                        <button class="btn btn-success ms-2" onclick="añadirCancion(${id}, '${cancion.titulo}', '${artist}', '${cover}', '${duration}')">Añadir</button>
-                    `;
-                      // Agrega el elemento de la canción al contenedor de resultados
-                    resultadosDiv.appendChild(cancionDiv);
-                });
-            }
-
-            // Función para añadir una cancion a la lista seleccionada
-            function añadirCancion(listaId, title, artist, cover, duration) {
-               // Obtiene el contenedor de canciones de la lista seleccionada
-                const cancionesDiv = document.getElementById(`canciones${listaId}`);
-                // Crea un nuevo elemento <div> para representar la canción a añadir
-                const cancionDiv = document.createElement('div');
-                cancionDiv.classList.add('cancion-pequeña', 'd-flex', 'align-items-center');
-                cancionDiv.innerHTML = `
-                    <div class="h3">${cancionesDiv.children.length + 1}</div>
-                    <!-- Muestra la imagen de la portada de la canción -->
-                    <img class="cancion-pequeña-img rounded m-1" src="${cover}">
+    <div id="listas">
+        {% for lista in listas %}
+        <div class="lista-desplegable d-flex flex-column" data-lista-id="{{ lista.id }}">
+            <div class="d-flex align-items-center">
+                <div class="h3 modeloLista">{{ lista.nombre }}</div>
+                <button class="btn btn-primary ms-auto" type="button" onclick="toggleBuscarCanciones({{ lista.id }})">
+                    Buscar canciones
+                </button>
+                <button class="btn btn-secondary ms-2" type="button" onclick="toggleCanciones({{ lista.id }})">
+                    Ver/Ocultar canciones
+                </button>
+                <button class="btn btn-danger ms-2" onclick="borrarLista({{ lista.id }})">Borrar</button>
+            </div>
+            <div class="buscar-canciones mt-3" id="buscarCanciones{{ lista.id }}" style="display: none;">
+                <div class="input-group mb-3">
+                    <input type="text" id="buscarCancion{{ lista.id }}" class="form-control" placeholder="Buscar canción">
+                    <button class="btn btn-primary" type="button" onclick="buscarCanciones({{ lista.id }})">Buscar</button>
+                </div>
+                <div id="resultadosBusqueda{{ lista.id }}"></div>
+            </div>
+            <div class="canciones mt-3" id="canciones{{ lista.id }}" style="display: none;">
+                {% for cancion in lista.canciones.all %}
+                <div class="cancion-pequeña d-flex align-items-center" data-cancion-id="{{ cancion.id }}">
+                    <div class="h3">{{ forloop.counter }}</div>
+                    <img class="cancion-pequeña-img rounded m-1" src="{{ cancion.imagen }}">
                     <div class="ms-1">
-                        <div>${title}</div> <!-- Muestra el título de la canción -->
-                        <small>${artist}</small> <!-- Muestra el nombre del artista -->
+                        <div>{{ cancion.titulo }}</div>
+                        <small>{{ cancion.artista }}</small>
                     </div>
-                    <div class="ms-auto">${duration} <i class="bi bi-play-fill"></i></div> <!-- Muestra la duracion -->
-                    <button class="btn btn-danger ms-2" onclick="borrarCancion(this)">Borrar</button> 
-                    <!-- Boton para borrar la canción de la lista -->
-                `;
-                // Agrega el elemento de la cancion al contenedor de canciones
+                    <div class="ms-auto">{{ cancion.duracion }} <i class="bi bi-play-fill"></i></div>
+                    <button class="btn btn-danger ms-2" onclick="borrarCancion({{ lista.id }}, {{ cancion.id }})">Borrar</button>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
-                cancionesDiv.appendChild(cancionDiv);
-                cancionesDiv.style.display = "block"; // Muestra el contenedor de canciones
-    
-                // Ocultar el menu de busqueda despues de añadir la cancion
-                const buscarCancionesDiv = document.getElementById(`buscarCanciones${listaId}`);
-                buscarCancionesDiv.style.display = "none";
+<script>
+// Función para crear una nueva lista
+function agregarLista() {
+    const nombreLista = document.getElementById('nombreLista').value;
+    if (nombreLista.trim() === '') {
+        alert('Por favor, ingresa un nombre para la lista.');
+        return;
+    }
+
+    fetch('/listas/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            action: 'crear_lista',
+            nombre: nombreLista
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.id) {
+            location.reload();  // Recarga la página para mostrar la nueva lista
+        } else {
+            alert('Error al crear la lista');
+        }
+    });
+}
+
+// Función para añadir una canción a la lista
+function añadirCancion(listaId, title, artist, cover, duration) {
+    fetch('/listas/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            action: 'agregar_cancion',
+            lista_id: listaId,
+            cancion: {
+                titulo: title,
+                artista: artist,
+                imagen: cover,
+                duracion: duration
             }
-    
-            // Funcion para borrar una canción de la lista
-            function borrarCancion(boton) {
-                   // Obtiene el elemento padre del boton (el contenedor de la cancion)
-                const cancionDiv = boton.parentElement;
-                cancionDiv.remove(); // Elimina la cancion de la lista
-    
-                // Actualizar los numeros de las canciones restantes
-                const cancionesDiv = cancionDiv.parentElement;
-                const canciones = cancionesDiv.querySelectorAll('.cancion-pequeña');
-                canciones.forEach((cancion, index) => {
-                    cancion.querySelector('.h3').innerText = index + 1;
-                });
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();  // Recarga la página para mostrar la nueva canción
+        } else {
+            alert('Error al añadir la canción');
+        }
+    });
+}
+
+// Función para borrar una canción de la lista
+function borrarCancion(listaId, cancionId) {
+    fetch('/listas/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            action: 'eliminar_cancion',
+            lista_id: listaId,
+            cancion_id: cancionId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();  // Recarga la página para actualizar la lista
+        } else {
+            alert('Error al borrar la canción');
+        }
+    });
+}
+
+// Función para borrar una lista completa
+function borrarLista(listaId) {
+    fetch('/listas/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            action: 'eliminar_lista',
+            lista_id: listaId
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            location.reload();  // Recarga la página para eliminar la lista
+        } else {
+            alert('Error al borrar la lista');
+        }
+    });
+}
+
+// Función para obtener el token CSRF
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
             }
-    
-            // Funcion para borrar una lista completa
-            function borrarLista(boton) {
-                boton.parentElement.parentElement.parentElement.remove();
-            }
-       // Agrega un event listener al boton de "Agregar Lista" para llamar a la función agregarLista al hacer clic
-            document.getElementById('agregarLista').addEventListener('click', agregarLista);
-        
-        </script>
+        }
+    }
+    return cookieValue;
+}
+
+// ... (mantén las otras funciones como toggleBuscarCanciones, toggleCanciones, buscarCanciones, etc.)
+
+document.getElementById('agregarLista').addEventListener('click', agregarLista);
+</script>
 {% endblock %}

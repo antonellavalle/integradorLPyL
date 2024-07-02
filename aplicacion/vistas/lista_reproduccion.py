@@ -1,56 +1,47 @@
-from django.http import JsonResponse
-from django.shortcuts import render
 from django.views import View
-import requests
+from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
+from aplicacion.models import ListaReproduccion, Cancion
+import json
 
-# === Vistas para las Listas de Reproducción ===
-
-class ListasReproduccionView(View):
-    """
-    Muestra la página principal de las listas de reproducción.
-    """
-
+class ListasReproduccionView(LoginRequiredMixin, View):
     def get(self, request):
-        """
-        Renderiza la plantilla para las listas de reproducción.
-        """
-        return render(request, 'listasReproduccion.html')
+        listas = ListaReproduccion.objects.filter(usuario=request.user)
+        return render(request, 'listasReproduccion.html', {'listas': listas})
 
+    def post(self, request):
+        data = json.loads(request.body)
+        action = data.get('action')
 
-class AgregarCancionesView(View):
-    """
-    Maneja la búsqueda y el agregado de canciones desde la API de Deezer.
-    """
+        if action == 'crear_lista':
+            nombre = data.get('nombre')
+            lista = ListaReproduccion.objects.create(nombre=nombre, usuario=request.user)
+            return JsonResponse({'id': lista.id, 'nombre': lista.nombre})
 
-    def get(self, request):
-        """
-        Procesa la búsqueda de canciones usando la API de Deezer y retorna los resultados en formato JSON.
-        """
-        query = request.GET.get('query', '')
-        url = f'https://api.deezer.com/search/track?q={query}'
-        response = requests.get(url)
+        elif action == 'agregar_cancion':
+            lista_id = data.get('lista_id')
+            cancion_data = data.get('cancion')
+            lista = ListaReproduccion.objects.get(id=lista_id, usuario=request.user)
+            cancion, created = Cancion.objects.get_or_create(
+                titulo=cancion_data['titulo'],
+                artista=cancion_data['artista'],
+                defaults={'album': None, 'duracion': cancion_data['duracion']}
+            )
+            lista.canciones.add(cancion)
+            return JsonResponse({'success': True})
 
-        if response.status_code != 200:
-            return JsonResponse({'error': 'Error al consultar la API de Deezer'}, status=response.status_code)
+        elif action == 'eliminar_cancion':
+            lista_id = data.get('lista_id')
+            cancion_id = data.get('cancion_id')
+            lista = ListaReproduccion.objects.get(id=lista_id, usuario=request.user)
+            cancion = Cancion.objects.get(id=cancion_id)
+            lista.canciones.remove(cancion)
+            return JsonResponse({'success': True})
 
-        data = response.json()
+        elif action == 'eliminar_lista':
+            lista_id = data.get('lista_id')
+            ListaReproduccion.objects.filter(id=lista_id, usuario=request.user).delete()
+            return JsonResponse({'success': True})
 
-        canciones = []
-        if 'data' in data:
-            canciones = [{
-                'id': cancion.get('id', ''),
-                'titulo': cancion.get('title', 'Título no disponible'),
-                'artista': cancion.get('artist', {}).get('name', 'Artista no disponible'),
-                'imagen': cancion.get('album', {}).get('cover_medium', 'default_cover.jpg'),
-                'duracion': self.formato_duracion(cancion.get('duration', 0))
-            } for cancion in data['data']]
-
-        return JsonResponse(canciones, safe=False)
-
-    def formato_duracion(self, segundos):
-        """
-        Convierte la duración en segundos a un formato mm:ss.
-        """
-        minutos = segundos // 60
-        segundos_restantes = segundos % 60
-        return f'{minutos:02}:{segundos_restantes:02}'
+        return JsonResponse({'error': 'Acción no válida'}, status=400)
