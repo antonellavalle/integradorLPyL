@@ -4,7 +4,7 @@ from aplicacion import views
 from aplicacion.vistas.login import RegistroView, iniciar_sesion, cerrar_sesion, inicio
 from aplicacion.vistas.album import ObtenerAlbumesView, ObtenerCancionesDelAlbumView
 from aplicacion.vistas.artista import ArtistaListView, ArtistaDetailView
-from aplicacion.vistas.lista_reproduccion import ListasReproduccionView
+from aplicacion.vistas.lista_reproduccion import ListasReproduccionView, AgregarCancionesView
 from aplicacion.vistas.busqueda import buscar_artista, obtener_canciones
 from aplicacion.vistas.principal import principal, canciones_en_tendencia, nuevos_lanzamientos_en_arg
 from aplicacion.vistas.usuario import UserUpdateView
@@ -25,6 +25,7 @@ urlpatterns = [
     path('usuarios/<int:pk>/editar/', views.editar_usuario, name='editar_usuario'),
     path('usuarios/<int:pk>/eliminar/', views.eliminar_usuario, name='eliminar_usuario'),
     path('listas/', ListasReproduccionView.as_view(), name='listas_de_reproduccion'),
+    path('agregar_canciones/', AgregarCancionesView.as_view(), name='agregar_canciones'),
     path('artistas/', ArtistaListView.as_view(), name='artistas'),
     path('artista/<int:artista_id>/', ArtistaDetailView.as_view(), name='detalle_artista'),
     path('cerrar_sesion/', cerrar_sesion, name='cerrar_sesion'),

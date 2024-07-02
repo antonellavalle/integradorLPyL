@@ -77,14 +77,13 @@ function agregarLista() {
 
 // Función para añadir una canción a la lista
 function añadirCancion(listaId, title, artist, cover, duration) {
-    fetch('/listas/', {
+    fetch('/agregar_canciones/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': getCookie('csrftoken')
         },
         body: JSON.stringify({
-            action: 'agregar_cancion',
             lista_id: listaId,
             cancion: {
                 titulo: title,
@@ -99,7 +98,7 @@ function añadirCancion(listaId, title, artist, cover, duration) {
         if (data.success) {
             location.reload();  // Recarga la página para mostrar la nueva canción
         } else {
-            alert('Error al añadir la canción');
+            alert('Error al añadir la canción: ' + (data.error || 'Error desconocido'));
         }
     });
 }
@@ -167,8 +166,84 @@ function getCookie(name) {
     return cookieValue;
 }
 
-// ... (mantén las otras funciones como toggleBuscarCanciones, toggleCanciones, buscarCanciones, etc.)
+// Función para mostrar/ocultar el area de busqueda de canciones
+function toggleBuscarCanciones(id) {
+    const buscarCancionesDiv = document.getElementById(`buscarCanciones${id}`);
+       // Alterna entre mostrar y ocultar las canciones añadidas
+    if (buscarCancionesDiv.style.display === "none") {
+        buscarCancionesDiv.style.display = "block";  // Muestra las canciones añadidas
+    } else {
+        buscarCancionesDiv.style.display = "none";  // Oculta las canciones añadidas
+    }
+}
 
+// Funcion para mostrar/ocultar las canciones añadidass
+function toggleCanciones(id) {
+    const cancionesDiv = document.getElementById(`canciones${id}`);
+    //lo mismo que el de arriba 
+    if (cancionesDiv.style.display === "none") {
+        cancionesDiv.style.display = "block";
+    } else {
+        cancionesDiv.style.display = "none";
+    }
+}
+
+// Funcion para buscar canciones
+function buscarCanciones(id) {
+    const query = document.getElementById(`buscarCancion${id}`).value;
+    if (query.trim() === '') {
+        alert('Por favor, ingresa un término de búsqueda.');
+        return;
+    }
+
+    fetch(`/agregar_canciones/?query=${query}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert(data.error);
+                return;
+            }
+            mostrarResultadosBusqueda(data, id);
+        })
+        .catch(error => console.error('Error:', error));
+}
+
+// Funcion para mostrar los resultados de la busqueda de canciones
+function mostrarResultadosBusqueda(data, id) {
+    // Obtiene el contenedor donde se mostraran los resultados de busqueda
+    const resultadosDiv = document.getElementById(`resultadosBusqueda${id}`);
+    resultadosDiv.innerHTML = ''; // Borra cualquier contenido previo en el contenedor
+    // Itera sobre cada canción en los datos recibidos
+    data.forEach((cancion, index) => {
+        // Obtiene la URL de la imagen de la portada de la canción (o usa una por defecto) habria que definir alguna en caso de que no encuentra nada sino tira un error de imagen depende lo que devuelva 
+        const cover = cancion.imagen || 'default_cover.jpg';
+         // Obtiene el nombre del artista de la canciin (o usa "Desconocido" si no esta disponible)
+        const artist = cancion.artista || 'Desconocido';
+         // Obtiene la duracion de la canción (o establece "00:00" si no esta disponible)
+        const duration = cancion.duracion || '00:00';
+        // Crea un nuevo elemento <div> para representar la cancion
+        const cancionDiv = document.createElement('div');
+        cancionDiv.classList.add('cancion-pequeña', 'd-flex', 'align-items-center');
+        cancionDiv.innerHTML = `
+            <div class="h3">${index + 1}</div>
+            <!-- Muestra la imagen de la portada de la canción -->
+            <img class="cancion-pequeña-img rounded m-1" src="${cover}">
+            <div class="ms-1">
+                <!-- Muestra el titulo de la canción -->
+                <div>${cancion.titulo}</div>
+                <!-- Muestra el artista de la canción -->
+                <small>${artist}</small>
+            </div>
+            <!-- muestra la duracion -->
+            <div class="ms-auto">${duration} <i class="bi bi-play-fill"></i></div>
+            <!-- Botón para añadir la cancion a la lista -->
+            <button class="btn btn-success ms-2" onclick="añadirCancion(${id}, '${cancion.titulo}', '${artist}', '${cover}', '${duration}')">Añadir</button>
+        `;
+        // Agrega el elemento de la canción al contenedor de resultados
+        resultadosDiv.appendChild(cancionDiv);
+    });
+}
+// Agrega un event listener al boton de "Agregar Lista" para llamar a la función agregarLista al hacer clic
 document.getElementById('agregarLista').addEventListener('click', agregarLista);
 </script>
 {% endblock %}
