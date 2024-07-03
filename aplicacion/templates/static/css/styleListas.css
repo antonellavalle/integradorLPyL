@@ -7,8 +7,10 @@
 
 .cancion-pequeña, .lista-desplegable {
     background-color: #7d0b0b; /* Color de fondo inicial */
-    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(160,11,13,1) 25%, rgba(170,12,12,1) 67%, rgba(0,212,255,0) 100%);  /* Fondo gradiente de izquierda a derecha */
-    transition: all 0.3s ease;  /* Añade Transicion*/
+
+    background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(160,11,13,1) 25%, rgba(170,12,12,1) 67%, rgba(0,212,255,0) 100%); 
+ /*  background: linear-gradient(90deg, rgba(26,0,48,1) 0%, rgba(160,11,92,1) 25%, rgba(170,12,93,1) 67%, rgba(0,119,190,0) 100%) !important; */
+   transition: all 0.3s ease;  /* Añade Transicion*/
     color: white;
     padding: 10px; /* Relleno interno de 10px */
     border-radius: 10px;/*Redondeo los bordes*/
