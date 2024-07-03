@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "baseListas.html" %}
 {% load static %}
 {% block title %}Listas de Reproducción{% endblock %}
 {% block content %}
@@ -15,7 +15,7 @@
         margin: 0;
     }
     .container-bg {
-        background-color: rgba(255, 255, 255, 0.8); /* Fondo semitransparente */
+        background-color: rgba(0, 0, 0, 0.8); /* Fondo semitransparente */
         padding: 20px;
         border-radius: 10px;
         flex-grow: 1;
@@ -99,39 +99,7 @@ function agregarLista() {
 
 
 
-/*
-// Función para añadir una canción a la lista
-function añadirCancion(listaId, title, artist, cover, duration) {
-    // Asegúrate de que duration sea un número (segundos)
-    const durationSeconds = parseInt(duration);
-    
-    fetch('/agregar_canciones/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
-        },
-        body: JSON.stringify({
-            lista_id: listaId,
-            cancion: {
-                titulo: title,
-                artista: artist,
-                imagen: cover,
-                duracion: durationSeconds,
-                album: album
-            }
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            location.reload();
-        } else {
-            alert('Error al añadir la canción: ' + (data.error || 'Error desconocido'));
-        }
-    });
-}
-*/
+
 
 // Función para añadir una canción a la lista
 function añadirCancion(listaId, title, artist, cover, duration) {
@@ -175,39 +143,7 @@ function añadirCancion(listaId, title, artist, cover, duration) {
         alert('Error al añadir la canción: ' + error.message);
     });
 }
-/*
-function añadirCancion(listaId, title, artist, cover, duration,album) {
-    // Asegúrate de que duration sea un número (segundos)
-    const durationSeconds = parseInt(duration);
-    
-    // Enviar solicitud POST para añadir una canción a la lista
-    fetch('/agregar_canciones/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': getCookie('csrftoken')
-        },
-        body: JSON.stringify({
-            lista_id: listaId,
-            cancion: {
-                titulo: title,
-                artista: artist,
-                imagen: cover,
-                duracion: durationSeconds,
-                album: album
-            }
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            location.reload();
-        } else {
-            alert('Error al añadir la canción: ' + (data.error || 'Error desconocido'));
-        }
-    });
-}
-*/
+
 // Función para borrar una canción de la lista
 function borrarCancion(listaId, cancionId) {
     fetch('/listas/', {
