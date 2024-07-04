@@ -4,13 +4,14 @@ import random
 
 class DeezerAPI:
     @staticmethod
+    #una vez que se busca el artista deseado muestra las canciones dentro el artista con un limite de 10 
     def obtener_canciones_de_deezer(artista_id):
         url = f'https://api.deezer.com/artist/{artista_id}/top?limit=10'
         response = requests.get(url)
-        
+         # Convierte la respuesta JSON en un diccionario de Python
         if response.status_code != 200:
             return []
-        
+         # Realiza una solicitud GET a la API con los parámetros definidos
         data = response.json()
         
         if 'data' in data:
@@ -26,31 +27,43 @@ class DeezerAPI:
             return []
     
     @staticmethod
-    #agrego artistas aleatorios 
+    #agrego artistas aleatorios seccion medio
     def obtener_artistas_aleatorios(limite=5):
-            url = 'https://api.deezer.com/chart/0/artists'
-            params = {
-                'limit': limite,
-                'order': 'random'  # Orden aleatorio para obtener artistas aleatorios
-            }
-            response = requests.get(url, params=params)
+    # Define la URL de la API de Deezer para obtener artistas 
+        url = 'https://api.deezer.com/chart/0/artists'
+    
+        # Define los parámetros de la solicitud:
+        # - 'limit' para limitar el número de artistas devueltos (le pusimos que sean 5)
+        # - 'order' para obtener los artistas en orden aleatorio
+        params = {
+            'limit': limite,
+            'order': 'random'
+        }
+        
+        # Realiza una solicitud GET a la API con los parámetros definidos
+        response = requests.get(url, params=params)
+        
+        # Verifica si la solicitud fue exitosa (código de estado 200)
+        if response.status_code != 200:
+            return []  # Si no fue exitosa, retorna una lista vacía
+        
+        # Convierte la respuesta JSON en un diccionario de Python
+        data = response.json()
+        
+        # Verifica si la clave 'data' está en la respuesta
+        if 'data' in data:
+            # Si está, crea una lista de diccionarios con los datos de los artistas
+            artistas = [{
+                'id': artista['id'],                # ID del artista
+                'nombre': artista['name'],          # Nombre del artista
+                'imagen': artista['picture_medium'] # URL de la imagen del artista en tamaño mediano
+            } for artista in data['data']]
             
-            if response.status_code != 200:
-                return []
-            
-            data = response.json()
-            
-            if 'data' in data:
-                artistas = [{
-                    'id': artista['id'],
-                    'nombre': artista['name'],
-                   # 'url': artista['link'],
-                    'imagen': artista['picture_medium']
-                } for artista in data['data']]
-                return artistas
-            else:
-                return []
-
+            # Retorna la lista de artistas
+            return artistas
+        else:
+            # Si la clave 'data' no está en la respuesta, retorna una lista vacía
+            return []
      
     @staticmethod
     def obtener_albumes_aleatorios(limite=5):
@@ -76,13 +89,14 @@ class DeezerAPI:
                 'url': album['link'],
                 'imagen': album['cover_medium']
             } for album in data['data']]
-         #   print(f'Álbumes aleatorios obtenidos correctamente: {albumes}')
+         #   print('albumes aleatorios obtenidos correctamente: {albumes}')
             return albumes
         else:
          #   print('No se encontraron datos de álbumes en la respuesta.')
             return []
      
     @staticmethod
+    #utilizado en la barra de busqueda para buscar
     def buscar_canciones_deezer(query):
         url = f'https://api.deezer.com/search/track?q={query}'
         response = requests.get(url)

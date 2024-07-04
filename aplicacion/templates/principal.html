@@ -18,15 +18,18 @@
     {% block title %}Página Principal{% endblock %}
 
     {% block content %}
+    <!--https://storyset.com/illustration/headphone/bro-->
     <!-- Comienzo del contenido principal -->
     <!-- hero area hace referencia a la seccion llamativa de la pagina -->
+     
+        <!-- Imagen principal de fondo -->
     <div class="hero-area pt-3 mt-2" style="min-height: 400px; background-image: url('{% static 'img/03.jpg' %}'); background-position: 20% 40%; background-size: cover;">
         <!-- Espacio de navegación -->
 
-        <!-- nav spacer lo que permite es tener distintos items en una barra -->
+       <!-- Espacio entre la navegación y el contenido principal -->
         <div class="nav-spacer"></div>
-        <!-- Imagen principal de fondo -->
-         
+   
+         <!-- con el nav pills podemos ver los items de tendencia y nuevos lanzamientos-->
         <ul class="hero-nav nav m-5 nav-pills mb-3" id="pills-tab" role="tablist">
             <!-- Botones de navegación en forma de pestañas -->
             <!-- Botón "Tendencia" -->
